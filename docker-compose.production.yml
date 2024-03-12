@@ -1,0 +1,8 @@
+version: "3"
+services:
+  backend:
+    container_name: STG-nest-backend
+    build: .
+    ports:
+     - 1077:5438
+    restart: always
