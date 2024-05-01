@@ -1,6 +1,6 @@
 version: "3"
 services:
-  backend:
+  xplor_stg_backend_service:
     container_name: STG-nest-backend
     build: .
     ports:
