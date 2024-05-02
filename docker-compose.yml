@@ -8,6 +8,9 @@ services:
     restart: always
     networks:
       - xplor-network
+    environment:
+      - GRAFANA_SERVICE_URL=${GRAFANA_SERVICE_URL}
+      - MONGODB_URL=${MONGODB_URL}
 
 networks:
   xplor-network:
