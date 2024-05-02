@@ -3,9 +3,9 @@ import { Network, NetworkModel } from '../schema/network.schema'
 import { Model } from 'mongoose'
 import { InjectModel } from '@nestjs/mongoose'
 import { GetOnboardedNetworksDto } from '../dto/get-onboarded-networks.dto'
-import { HttpResponseMessage } from 'src/common/constants/http-response-message'
-import { getSuccessResponse } from 'src/utils/get-success-response'
-import { NetworkErrorMessages } from 'src/common/constants/error.messages'
+import { HttpResponseMessage } from '../../../common/constants/http-response-message'
+import { getSuccessResponse } from '../../../utils/get-success-response'
+import { NetworkErrorMessages } from '../../../common/constants/error.messages'
 
 @Injectable()
 export class NetworkReadService {
@@ -26,7 +26,7 @@ export class NetworkReadService {
       .find(query)
       .skip(skip)
       .limit(getOnboardedNetworksBody.pageSize)
-      .exec()
+      .then()
 
     return getSuccessResponse(networks, HttpResponseMessage.OK)
   }

@@ -1,5 +1,5 @@
 import { IsString, IsUrl, ArrayUnique, IsOptional, IsNotEmpty } from 'class-validator'
-import { NetworkEnum } from 'src/common/constants/network.enum'
+import { NetworkEnum } from '../../../common/constants/network.enum'
 
 export class UpdateNetworkDto {
   @IsNotEmpty({ message: 'Network id is required' })

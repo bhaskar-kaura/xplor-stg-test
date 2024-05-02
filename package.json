@@ -68,7 +68,17 @@
       "^.+\\.(t|j)s$": "ts-jest"
     },
     "collectCoverageFrom": [
-      "**/*.(t|j)s"
+      "**/*.(t|j)s",
+      "!**/*main.ts",
+      "!**/*app.module.ts",
+      "!**/*network.enum.ts",
+      "!**/*request-routes.ts",
+      "!**/*env.config.ts",
+      "!**/*logger-message.ts",
+      "!**/*logger.dto.ts",
+      "!**/*network.module.ts",
+      "!**/*grafana.service.ts",
+      "!**/*logger-interceptor.ts"
     ],
     "coverageDirectory": "../coverage",
     "testEnvironment": "node"
