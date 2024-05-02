@@ -1,8 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing'
-import { NetworkCreateService } from './network-create.service'
 import { Network, NetworkModel } from '../schema/network.schema'
 import { Model } from 'mongoose'
-import { InternalServerErrorException, NotFoundException } from '@nestjs/common'
 import { NetworkErrorMessages } from '../../../common/constants/error.messages'
 import { getModelToken } from '@nestjs/mongoose'
 import { NetworkUpdateService } from './network-update.service'
