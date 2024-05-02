@@ -22,7 +22,7 @@ export class Network extends Document {
   callback_url: string
 
   @Prop({ required: true })
-  network_url: string
+  registry_url: string
 }
 
 export const NetworkModel = Network.name

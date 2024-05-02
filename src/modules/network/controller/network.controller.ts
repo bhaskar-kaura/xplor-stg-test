@@ -1,14 +1,16 @@
-import { Controller, Get, Post } from '@nestjs/common'
+import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common'
 import { DomainReadService } from '../services/domain-read.service'
 import { OnboardNetworkDto } from '../dto/onboard-network.dto'
 import { NetworkCreateService } from '../services/network-create.service'
 import { GetOnboardedNetworksDto } from '../dto/get-onboarded-networks.dto'
+import { NetworkReadService } from '../services/network-read.service'
 
 @Controller('network')
 export class NetworkController {
   constructor(
     private readonly domainReadService: DomainReadService,
     private readonly networkCreateService: NetworkCreateService,
+    private readonly networkReadService: NetworkReadService,
   ) {}
 
   @Get('/domains')
@@ -18,16 +20,18 @@ export class NetworkController {
 
   // Creates a network with the required fields for network onboarding.
   @Post('/onboarding')
-  async onboardNetwork(onboardNetworkBody: OnboardNetworkDto) {
-    return this.networkCreateService.createNetwork(onboardNetworkBody)
+  async onboardNetwork(@Body() onboardNetworkBody: OnboardNetworkDto) {
+    return await this.networkCreateService.createNetwork(onboardNetworkBody)
   }
 
-  // Creates a network with the required fields for network onboarding.
-  @Get('')
-  async getAllNetworks(@Params() networkSearchBody: GetOnboardedNetworksDto) {
-    
+  // Returns the list of all the onboarded networks.
+  @Get()
+  async getAllNetworks(@Query() networkSearchBody: GetOnboardedNetworksDto) {
+    return await this.networkReadService.getAllNetworks(networkSearchBody)
   }
-}
-function Params(): (target: NetworkController, propertyKey: 'getAllNetworks', parameterIndex: 0) => void {
-  throw new Error('Function not implemented.')
+
+  @Get('/:id')
+  async getNetworkId(@Param('id') networkId: string) {
+    return await this.networkReadService.getNetworkById(networkId)
+  }
 }

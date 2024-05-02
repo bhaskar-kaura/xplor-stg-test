@@ -3,7 +3,9 @@ import { Network, NetworkModel } from '../schema/network.schema'
 import { Model } from 'mongoose'
 import { OnboardNetworkDto } from '../dto/onboard-network.dto'
 import { InjectModel } from '@nestjs/mongoose'
-import { NetworkErrorMessages } from 'src/common/constants/error.messages'
+import { NetworkErrorMessages } from '../../../common/constants/error.messages'
+import { HttpResponseMessage } from '../../../common/constants/http-response-message'
+import { getSuccessResponse } from '../../../utils/get-success-response'
 
 @Injectable()
 export class NetworkCreateService {
@@ -17,6 +19,6 @@ export class NetworkCreateService {
       return new InternalServerErrorException(NetworkErrorMessages.ERROR_CREATE_NETWORK)
     }
 
-    return onboardNetwork
+    return getSuccessResponse(onboardNetwork, HttpResponseMessage.OK)
   }
 }
