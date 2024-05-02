@@ -31,7 +31,8 @@ export class NetworkReadService {
     return getSuccessResponse(networks, HttpResponseMessage.OK)
   }
 
-  async getNetworkById(networkId): Promise<any> {
+  // Returns network details by it's id
+  async getNetworkById(networkId: string): Promise<any> {
     const network = await this.onboardedNetworkModel.findOne({ _id: networkId })
 
     if (!network) {
