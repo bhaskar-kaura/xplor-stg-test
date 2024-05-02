@@ -5,6 +5,7 @@ import { NetworkErrorMessages } from '../../../common/constants/error.messages'
 import { getModelToken } from '@nestjs/mongoose'
 import { NetworkUpdateService } from './network-update.service'
 import { UpdateNetworkDto } from '../dto/update-network.dto'
+import { NotFoundException } from '@nestjs/common'
 
 describe('NetworkUpdateService', () => {
   let service: NetworkUpdateService
