@@ -11,18 +11,29 @@
     "start": "nest start",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
-    "start:prod": "node dist/main",
+    "start:prod": "node dist/src/main",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
+    "lint:warnings": "eslint --max-warnings=0",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
+    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "postinstall": "husky install"
   },
   "dependencies": {
     "@nestjs/common": "^10.0.0",
+    "@nestjs/config": "^3.2.2",
     "@nestjs/core": "^10.0.0",
+    "@nestjs/mapped-types": "^2.0.5",
+    "@nestjs/mongoose": "^10.0.6",
     "@nestjs/platform-express": "^10.0.0",
+    "@nestjs/swagger": "^7.3.1",
+    "axios": "^1.6.8",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.14.1",
+    "husky": "^9.0.11",
+    "mongoose": "^8.3.3",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.8.1"
   },
@@ -61,7 +72,17 @@
       "^.+\\.(t|j)s$": "ts-jest"
     },
     "collectCoverageFrom": [
-      "**/*.(t|j)s"
+      "**/*.(t|j)s",
+      "!**/*main.ts",
+      "!**/*app.module.ts",
+      "!**/*network.enum.ts",
+      "!**/*request-routes.ts",
+      "!**/*env.config.ts",
+      "!**/*logger-message.ts",
+      "!**/*logger.dto.ts",
+      "!**/*network.module.ts",
+      "!**/*grafana.service.ts",
+      "!**/*logger-interceptor.ts"
     ],
     "coverageDirectory": "../coverage",
     "testEnvironment": "node"

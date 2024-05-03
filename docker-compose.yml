@@ -1,11 +1,17 @@
 version: "3"
 services:
-  backend:
+  xplor_stg_backend_service:
     container_name: STG-nest-backend
     build: .
     ports:
-     - 1077:3000
+     - 1105:3000
     restart: always
+    networks:
+      - xplor-network
+    environment:
+      - GRAFANA_SERVICE_URL=${GRAFANA_SERVICE_URL}
+      - MONGODB_URL=${MONGODB_URL}
 
-
-    
+networks:
+  xplor-network:
+    external: true
