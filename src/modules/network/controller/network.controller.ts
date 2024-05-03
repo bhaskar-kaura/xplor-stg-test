@@ -24,6 +24,12 @@ export class NetworkController {
     return this.domainReadService.getDomainsList()
   }
 
+  // Returns the list of network options that Xplor currently supports
+  @Get('/options')
+  async getNetworkOptions() {
+    return this.networkReadService.getNetworkOptions()
+  }
+
   // Creates a network with the required fields for network onboarding.
   @Post('/onboarding')
   async onboardNetwork(@Body() onboardNetworkBody: OnboardNetworkDto) {

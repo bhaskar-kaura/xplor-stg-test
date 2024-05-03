@@ -1,10 +1,9 @@
 import { IsString, IsArray, IsUrl, IsNotEmpty, ArrayNotEmpty, ArrayUnique, IsOptional } from 'class-validator'
-import { NetworkEnum } from '../../../common/constants/network.enum'
 
 export class OnboardNetworkDto {
   @IsNotEmpty({ message: 'Name is required' })
   @IsString({ message: 'Name must be a string' })
-  name: string | NetworkEnum
+  name: string
 
   @IsOptional()
   @IsArray({ message: 'Domains must be an array' })

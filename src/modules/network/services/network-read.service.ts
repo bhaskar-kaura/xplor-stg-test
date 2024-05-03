@@ -6,11 +6,16 @@ import { GetOnboardedNetworksDto } from '../dto/get-onboarded-networks.dto'
 import { HttpResponseMessage } from '../../../common/constants/http-response-message'
 import { getSuccessResponse } from '../../../utils/get-success-response'
 import { NetworkErrorMessages } from '../../../common/constants/error.messages'
+import { NetworksList } from 'src/common/constants/network.enum'
 
 @Injectable()
 export class NetworkReadService {
   constructor(@InjectModel(NetworkModel) private readonly onboardedNetworkModel: Model<Network>) {}
 
+  // Returns the options to choose the network.
+  async getNetworkOptions() {
+    return getSuccessResponse(NetworksList, HttpResponseMessage.OK)
+  }
   // Returns all the onboarded networks
   async getAllNetworks(getOnboardedNetworksBody: GetOnboardedNetworksDto): Promise<any> {
     const query: any = {}

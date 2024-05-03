@@ -1,4 +1,8 @@
-export enum NetworkEnum {
-  ONEST_NETWORK = 'ONEST_NETWORK',
-  ONDC_NETWORK = 'ONDC_NETWORK',
-}
+export const NetworksList = [
+  {
+    network_name: 'ONEST_NETWORK',
+  },
+  {
+    network_name: 'ONDC_NETWORK',
+  },
+]
