@@ -1,10 +1,10 @@
 version: "3"
 services:
-  xplor_stg_backend_service:
-    container_name: STG-nest-backend
-    build: .
-    ports:
-      - 1105:3000
+  onboarding_service:
+    container_name: xplor-onboarding-stg-service
+    build: ./onboarding
+    # ports:
+    #   - 1105:3000
     restart: always
     networks:
       - xplor-network
@@ -19,12 +19,14 @@ services:
     ports:
       - "1105:8080"
     depends_on:
-      - buyer-backend
-      - buyer-protocol
+      - onboarding_service
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf
       - ./log:/etc/nginx/log/
       - ./api_json_errors.conf:/etc/nginx/api_json_errors.conf
+    networks:
+      - xplor-network
+
 networks:
   xplor-network:
     external: true

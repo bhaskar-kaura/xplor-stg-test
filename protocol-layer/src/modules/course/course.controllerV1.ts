@@ -1,9 +1,17 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { CourseService } from './course.service';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
+import { CourseService } from './course.serviceV1';
 import { CreateCourseDto } from './dto/create-course.dto';
 import { UpdateCourseDto } from './dto/update-course.dto';
 
-@Controller('course')
+@Controller({ version: '1', path: 'course' })
 export class CourseController {
   constructor(private readonly courseService: CourseService) {}
 

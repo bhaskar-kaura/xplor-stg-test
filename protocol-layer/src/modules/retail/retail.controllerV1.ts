@@ -1,9 +1,17 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { RetailService } from './retail.service';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
+import { RetailService } from './retail.serviceV1';
 import { CreateRetailDto } from './dto/create-retail.dto';
 import { UpdateRetailDto } from './dto/update-retail.dto';
 
-@Controller('retail')
+@Controller({ version: '1', path: 'retail' })
 export class RetailController {
   constructor(private readonly retailService: RetailService) {}
 

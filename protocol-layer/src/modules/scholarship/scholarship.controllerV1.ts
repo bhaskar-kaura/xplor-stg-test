@@ -1,9 +1,17 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
-import { ScholarshipService } from './scholarship.service';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
+import { ScholarshipService } from './scholarship.serviceV1';
 import { CreateScholarshipDto } from './dto/create-scholarship.dto';
 import { UpdateScholarshipDto } from './dto/update-scholarship.dto';
 
-@Controller('scholarship')
+@Controller({ version: '1', path: 'scholarship' })
 export class ScholarshipController {
   constructor(private readonly scholarshipService: ScholarshipService) {}
 
@@ -23,7 +31,10 @@ export class ScholarshipController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateScholarshipDto: UpdateScholarshipDto) {
+  update(
+    @Param('id') id: string,
+    @Body() updateScholarshipDto: UpdateScholarshipDto,
+  ) {
     return this.scholarshipService.update(+id, updateScholarshipDto);
   }
 

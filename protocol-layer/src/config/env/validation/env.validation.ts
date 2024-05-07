@@ -7,8 +7,8 @@ export default () => ({
     .required()
     .valid('development', 'production', 'test', 'provision')
     .default('development'),
-  PORT: Joi.number().port().required().default(6000),
-  DATABASE_URL: Joi.string()
+  PROTOCOL_APP_PORT: Joi.number().port().required().default(6000),
+  PROTOCOL_DATABASE_URL: Joi.string()
     .required()
     .default('mongodb://localhost:27017/Xplore_User'),
 });
