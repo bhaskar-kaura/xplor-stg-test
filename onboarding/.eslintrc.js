@@ -32,7 +32,7 @@ module.exports = {
         next: ['const', 'let', 'var'],
       },
     ],
-    'no-unused-vars':'off',
+    'no-unused-vars': 'off',
     'id-match': 0,
 
     // Turn on prettier rules
