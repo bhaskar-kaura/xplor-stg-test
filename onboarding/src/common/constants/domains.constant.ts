@@ -10,8 +10,8 @@ export const DomainsList = [
     icon: 'https://cdn-icons-png.flaticon.com/512/942/942749.png',
   },
   {
-    title: 'Finance',
-    description: 'Network that offers various Financial Services to Seekers.',
+    title: 'Scholarship',
+    description: 'Network that offers various Scholarships to Seekers.',
     icon: 'https://cdn.iconscout.com/icon/free/png-256/free-finance-1642821-1393906.png?f=webp',
   },
   {

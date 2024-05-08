@@ -4,4 +4,5 @@
 export default () => ({
   nodeEnv: process.env.NODE_ENV,
   port: parseInt(process.env.PROTOCOL_APP_PORT, 10),
+  GRAFANA_SERVICE_URL: process.env.GRAFANA_SERVICE_URL,
 });

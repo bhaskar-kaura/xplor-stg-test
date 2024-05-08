@@ -1,6 +1,6 @@
 import { IsNotEmpty, IsOptional } from 'class-validator';
 
-export class SearchScholarshipDto {
+export class SearchCourseDto {
   @IsNotEmpty()
   context: any;
 
