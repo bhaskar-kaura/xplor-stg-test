@@ -13,18 +13,27 @@ export class AxiosService {
   async post(url: string, data: any, headers?: any) {
     try {
       return await this.httpService.axiosRef.post(url, data, { headers });
-    } catch (error) {}
+    } catch (error) {
+      console.log('error', error);
+      return error;
+    }
   }
 
   async put(url: string, data: any, headers?: any) {
     try {
       return await this.httpService.axiosRef.put(url, data, { headers });
-    } catch (error) {}
+    } catch (error) {
+      console.log('error', error);
+      return error;
+    }
   }
 
   async delete(url: string, params?: any, headers?: any) {
     try {
       return await this.httpService.axiosRef.delete(url, { params, headers });
-    } catch (error) {}
+    } catch (error) {
+      console.log('error', error);
+      return error;
+    }
   }
 }
