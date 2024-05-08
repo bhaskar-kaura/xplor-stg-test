@@ -5,6 +5,7 @@ import { searchSchema } from '../schema/search.schema';
 import { SearchScholarshipDto } from '../dto/search-scholarship.dto';
 import { AxiosService } from '../../../common/axios/axios.service';
 import { HttpService } from '@nestjs/axios';
+import { onSearchSchema } from '../schema/onSearch.schema';
 
 @Injectable()
 export class ScholarshipService {
@@ -23,6 +24,7 @@ export class ScholarshipService {
       this.sendSearchRequest(searchScholarshipDto);
       return isValid;
     } catch (error) {
+      console.log('error', error);
       throw error;
     }
   }
@@ -38,28 +40,28 @@ export class ScholarshipService {
         'searchScholarshipDto.gatwayUrl ',
         searchScholarshipDto.gatwayUrl + '/search',
       );
-      await this.httpService.axiosRef.post(
-        searchScholarshipDto.gatwayUrl + '/search',
+      await this.axiosService.post(
+        'http://localhost:5005' + '/search',
         searchPayload,
       );
     } catch (error) {
-      console.log('error', error);
+      console.log('error===', error);
       throw error;
     }
   }
-  findAll() {
-    return `This action returns all scholarship`;
-  }
 
-  findOne(id: number) {
-    return `This action returns a #${id} scholarship`;
-  }
-
-  update(id: number, updateScholarshipDto: UpdateScholarshipDto) {
-    return `This action updates a #${id} scholarship`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} scholarship`;
+  on_search(searchScholarshipDto: SearchScholarshipDto) {
+    try {
+      console.log('searchScholarshipDto', searchScholarshipDto);
+      const isValid = validateJson(onSearchSchema, {
+        context: searchScholarshipDto.context,
+        message: searchScholarshipDto.message,
+      });
+      console.log('isValid', isValid);
+      if (isValid !== true) throw new BadRequestException(isValid);
+      return isValid;
+    } catch (error) {
+      throw error;
+    }
   }
 }
