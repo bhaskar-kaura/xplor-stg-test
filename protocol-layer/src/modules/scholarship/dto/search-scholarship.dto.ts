@@ -8,5 +8,5 @@ export class SearchScholarshipDto {
   message: any;
 
   @IsOptional()
-  gatwayUrl: string;
+  gatewayUrl: string;
 }

@@ -19,4 +19,8 @@ export class ScholarshipController {
   search(@Body() searchScholarshipDto: SearchScholarshipDto) {
     return this.scholarshipService.search(searchScholarshipDto);
   }
+  @Post('on_search')
+  on_search(@Body() searchScholarshipDto: SearchScholarshipDto) {
+    return this.scholarshipService.on_search(searchScholarshipDto);
+  }
 }

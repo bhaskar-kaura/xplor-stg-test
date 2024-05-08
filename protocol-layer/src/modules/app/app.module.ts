@@ -1,6 +1,5 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { HttpModule } from '@nestjs/axios';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -17,7 +16,6 @@ import { CommonModule } from '../../common/common.module';
       isGlobal: true,
       load: [configuration],
     }),
-    { module: HttpModule, global: true },
     CommonModule,
     CourseModule,
     JobModule,

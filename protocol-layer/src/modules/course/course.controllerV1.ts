@@ -1,42 +1,18 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-} from '@nestjs/common';
-import { CourseService } from './course.serviceV1';
-import { CreateCourseDto } from './dto/create-course.dto';
-import { UpdateCourseDto } from './dto/update-course.dto';
+import { Controller, Post, Body } from '@nestjs/common';
+import { CourseService } from './services/course.serviceV1';
+import { SearchCourseDto } from './dto/search-course.dto';
 
 @Controller({ version: '1', path: 'course' })
 export class CourseController {
   constructor(private readonly courseService: CourseService) {}
 
-  @Post()
-  create(@Body() createCourseDto: CreateCourseDto) {
-    return this.courseService.create(createCourseDto);
+  @Post('search')
+  search(@Body() searchCourseDto: SearchCourseDto) {
+    return this.courseService.search(searchCourseDto);
   }
 
-  @Get()
-  findAll() {
-    return this.courseService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.courseService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateCourseDto: UpdateCourseDto) {
-    return this.courseService.update(+id, updateCourseDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.courseService.remove(+id);
+  @Post('on_search')
+  onSearch(@Body() searchCourseDto: SearchCourseDto) {
+    return this.courseService.onSearch(searchCourseDto);
   }
 }
