@@ -4,7 +4,7 @@ services:
     container_name: STG-nest-backend
     build: .
     ports:
-     - 1105:3000
+      - 1105:3000
     restart: always
     networks:
       - xplor-network
@@ -12,6 +12,19 @@ services:
       - GRAFANA_SERVICE_URL=${GRAFANA_SERVICE_URL}
       - MONGODB_URL=${MONGODB_URL}
 
+  nginx:
+    image: nginx:alpine
+    container_name: bharat-portal-nginx-container
+    restart: always
+    ports:
+      - "1105:8080"
+    depends_on:
+      - buyer-backend
+      - buyer-protocol
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+      - ./log:/etc/nginx/log/
+      - ./api_json_errors.conf:/etc/nginx/api_json_errors.conf
 networks:
   xplor-network:
     external: true
