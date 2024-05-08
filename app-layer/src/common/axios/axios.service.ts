@@ -17,13 +17,14 @@ export class AxiosService {
 
   async post(url: string, data: any, headers?: any) {
     try {
-      return await this.httpService.axiosRef.post(url, data, { headers });
+      return (await this.httpService.axiosRef.post(url, data, { headers }))
+        ?.data;
     } catch (error) {
       this.loggerService.sendDebug({
         message: `${InternalMessages.POST_REQUEST} ${error}`,
         methodName: this.post.name,
       });
-      return error;
+      throw error;
     }
   }
 

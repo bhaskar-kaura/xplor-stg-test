@@ -6,9 +6,11 @@ import { searchSchema } from '../schema/search.schema';
 import { SearchCourseDto } from '../dto/search-course.dto';
 import validateJson from 'src/utils/validator';
 import { AckNackResponse } from 'src/utils/ack-nack';
+import { ConfigService } from '@nestjs/config';
 @Injectable()
 export class CourseService {
   constructor(
+    private readonly configService: ConfigService,
     private readonly axiosService: AxiosService,
     private readonly httpService: HttpService,
   ) {}
@@ -37,16 +39,26 @@ export class CourseService {
         context: searchCourseDto.context,
         message: searchCourseDto.message,
       });
-      if (!isValid) 
-      {
-        const message= new AckNackResponse("NACK","CONTEXT_ERROR","625519",isValid as unknown as string)
-        return message
+      if (!isValid) {
+        const message = new AckNackResponse(
+          'NACK',
+          'CONTEXT_ERROR',
+          '625519',
+          isValid as unknown as string,
+        );
+        return message;
+      } else {
+        console.log(
+          'this.configService.get(',
+          this.configService.get('APP_SERVICE_URL'),
+        );
+        const message = new AckNackResponse('ACK');
+        await this.axiosService.post(
+          this.configService.get('APP_SERVICE_URL') + '/on_search',
+          searchCourseDto,
+        );
+        return message;
       }
-      else {
-        const message= new AckNackResponse("ACK")
-        return message
-      }
-     
     } catch (error) {
       throw error;
     }
@@ -61,6 +73,7 @@ export class CourseService {
       searchCourseDto.gatewayUrl + '/search',
       searchPayload,
     );
+    console.log('result', result);
     return result;
   }
 }

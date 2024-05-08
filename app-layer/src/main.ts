@@ -3,6 +3,7 @@ import { AppModule } from './modules/app/app.module';
 import { ValidationPipe, VersioningType } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import helmet from 'helmet';
+import { json } from 'express';
 
 async function bootstrap() {
   // Create a Nest application instance
@@ -21,6 +22,11 @@ async function bootstrap() {
   // Retrieve the ConfigService to access configuration values
   const configService = app.get(ConfigService);
 
+  app.use(
+    json({
+      limit: '10mb',
+    }),
+  );
   // Enable Versioning
   app.enableVersioning({
     type: VersioningType.URI,

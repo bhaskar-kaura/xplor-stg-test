@@ -16,7 +16,7 @@ interface CourseRequestBody {
 
 export function CreateSearchRequestBody(
   bap_id: string,
-  bap_url: string,
+  bap_uri: string,
   transaction_id: string,
   message_id: string,
   searchQuery: string,
@@ -30,7 +30,7 @@ export function CreateSearchRequestBody(
       message_id,
       Action.search,
       bap_id,
-      bap_url,
+      bap_uri,
       country,
       city,
     ),

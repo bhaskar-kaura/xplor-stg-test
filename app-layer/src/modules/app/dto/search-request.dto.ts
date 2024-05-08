@@ -5,9 +5,9 @@ class ContextDto {
   @IsObject({ message: 'Context must be a object' })
   bap_id: string;
 
-  @IsNotEmpty({ message: 'Bap Url is required' })
-  @IsString({ message: 'Bap Url must be a String' })
-  bap_url: string;
+  @IsNotEmpty({ message: 'Bap Uri is required' })
+  @IsString({ message: 'Bap Uri must be a String' })
+  bap_uri: string;
 
   @IsNotEmpty({ message: 'Country is required' })
   @IsString({ message: 'Country must be a String' })

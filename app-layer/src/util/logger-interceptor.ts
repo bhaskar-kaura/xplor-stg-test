@@ -77,15 +77,16 @@ export const defaultResponseHandler: ResponseHandler = (
   logger: GrafanaLoggerService,
 ) => {
   // Log response details
+  try {
+    const message = `RESPONSE: ${request.method} ${request.url} => ${_body}`;
 
-  const message = `RESPONSE: ${request.method} ${
-    request.url
-  } => ${JSON.stringify(_body)}`;
-
-  logger.sendLog({
-    message,
-    methodName: LoggerMessage.responseInterceptorName,
-  });
+    logger.sendLog({
+      message,
+      methodName: LoggerMessage.responseInterceptorName,
+    });
+  } catch (error) {
+    console.log('error', error);
+  }
 };
 
 // Default error handler function

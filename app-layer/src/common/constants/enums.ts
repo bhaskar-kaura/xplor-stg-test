@@ -15,3 +15,7 @@ export enum Action {
   status = 'status',
   on_status = 'on_status',
 }
+
+export enum Gateway {
+  course = 'https://le-ps-bap-client.onest.network',
+}
