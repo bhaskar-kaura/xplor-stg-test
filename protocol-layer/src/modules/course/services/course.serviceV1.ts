@@ -52,11 +52,6 @@ export class CourseService {
       context: searchCourseDto.context,
       message: searchCourseDto.message,
     };
-    console.log('searchCourseDto', searchCourseDto);
-    console.log(
-      'searchCourseDto.gatewayUrl ',
-      searchCourseDto.gatewayUrl + '/search',
-    );
     const result = await this.axiosService.post(
       searchCourseDto.gatewayUrl + '/search',
       searchPayload,
