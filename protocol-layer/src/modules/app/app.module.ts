@@ -18,7 +18,7 @@ import { CommonModule } from '../../common/common.module';
       load: [configuration],
     }),
     { module: HttpModule, global: true },
-    // CommonModule,
+    CommonModule,
     CourseModule,
     JobModule,
     ScholarshipModule,

@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { UpdateScholarshipDto } from '../dto/update-scholarship.dto';
-import validateJson from '../../../utils/validater';
+import validateJson from '../../../utils/validator';
 import { searchSchema } from '../schema/search.schema';
 import { SearchScholarshipDto } from '../dto/search-scholarship.dto';
 import { AxiosService } from '../../../common/axios/axios.service';

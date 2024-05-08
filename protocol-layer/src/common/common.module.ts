@@ -6,7 +6,7 @@ import { HttpModule, HttpService } from '@nestjs/axios';
 @Global()
 @Module({
   imports: [{ module: HttpModule, global: true }],
-  providers: [AxiosService, HttpService],
+  providers: [AxiosService],
   exports: [AxiosService],
 })
 // Define the CommonModule class.
