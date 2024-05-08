@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
+import { HttpModule } from '@nestjs/axios';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -8,6 +9,7 @@ import { JobModule } from '../job/job.module';
 import { ScholarshipModule } from '../scholarship/scholarship.module';
 import { CourseModule } from '../course/course.module';
 import { RetailModule } from '../retail/retail.module';
+import { CommonModule } from '../../common/common.module';
 
 @Module({
   imports: [
@@ -15,6 +17,8 @@ import { RetailModule } from '../retail/retail.module';
       isGlobal: true,
       load: [configuration],
     }),
+    { module: HttpModule, global: true },
+    // CommonModule,
     CourseModule,
     JobModule,
     ScholarshipModule,
