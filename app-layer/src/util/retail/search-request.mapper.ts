@@ -1,8 +1,8 @@
 import { Action, DomainsEnum } from 'src/common/constants/enums';
-import { CreateOnestContext, OnestContext } from '../context.builder';
+import { CreateOndcContext, OndcContext } from '../context.builder';
 
 interface CourseRequestBody {
-  context: OnestContext;
+  context: OndcContext;
   message: {
     intent: {
       item: {
@@ -24,8 +24,8 @@ export function CreateSearchRequestBody(
   city: string,
 ): CourseRequestBody {
   const searchObject = {
-    context: CreateOnestContext(
-      DomainsEnum.COURSE_DOMAIN,
+    context: CreateOndcContext(
+      DomainsEnum.RETAIL_DOMAIN,
       transaction_id,
       message_id,
       Action.search,

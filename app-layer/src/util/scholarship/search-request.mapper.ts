@@ -25,7 +25,7 @@ export function CreateSearchRequestBody(
 ): CourseRequestBody {
   const searchObject = {
     context: CreateOnestContext(
-      DomainsEnum.COURSE_DOMAIN,
+      DomainsEnum.SCHOLARSHIP_DOMAIN,
       transaction_id,
       message_id,
       Action.search,

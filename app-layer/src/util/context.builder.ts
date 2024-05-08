@@ -1,5 +1,4 @@
 import { Action, DomainsEnum } from 'src/common/constants/enums';
-import { v4 as uuidv4 } from 'uuid';
 
 export interface OnestContext {
   domain: string;
@@ -32,21 +31,24 @@ export interface OndcContext {
 export function CreateOnestContext(
   domain: DomainsEnum,
   transaction_id: string,
+  message_id: string,
   action: Action,
   bap_id: string,
   bap_url: string,
+  country: string,
+  city: string,
 ): OnestContext {
   const context: Partial<OnestContext> = {
     domain: domain,
     action: action,
-    country: 'IND',
-    city: 'std:080',
+    country: country,
+    city: city,
     timestamp: new Date(),
     version: '1.1.0',
     bap_id: bap_id,
     bap_uri: bap_url,
     transaction_id: transaction_id,
-    message_id: uuidv4(),
+    message_id: message_id,
     ttl: 'PT10M',
   };
 
@@ -56,21 +58,24 @@ export function CreateOnestContext(
 export function CreateOndcContext(
   domain: DomainsEnum,
   transaction_id: string,
+  message_id: string,
   action: Action,
   bap_id: string,
   bap_url: string,
+  country: string,
+  city: string,
 ): OndcContext {
   const context: Partial<OndcContext> = {
     domain: domain,
     action: action,
-    country: 'IND',
-    city: 'std:080',
+    country: country,
+    city: city,
     timestamp: new Date(),
     core_version: '1.1.0',
     bap_id: bap_id,
     bap_uri: bap_url,
     transaction_id: transaction_id,
-    message_id: uuidv4(),
+    message_id: message_id,
     ttl: 'PT10M',
   };
 
