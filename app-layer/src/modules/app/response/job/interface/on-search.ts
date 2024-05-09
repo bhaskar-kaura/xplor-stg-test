@@ -33,11 +33,11 @@ export interface Catalog {
   
   interface Location {
     id: string;
-    city: {
+    city?: {
       name: string;
       code: string;
     };
-    state: {
+    state?: {
       name: string;
       code: string;
     };
@@ -46,8 +46,8 @@ export interface Catalog {
   interface Fulfillment {
     id: string;
     type: string;
-    tracking: boolean;
-    contact: {
+    tracking?: boolean;
+    contact?: {
       phone: string;
       email: string;
     };
@@ -63,6 +63,14 @@ export interface Catalog {
       currency: string;
       value: string;
     };
+    quantity?: {
+      maximum?: {
+        count:string,
+      },
+      minimum?: {
+        count: string,
+      },
+    }
     rating: string;
     rateable: boolean;
     time: {
@@ -94,4 +102,9 @@ export interface Catalog {
       name: string;
     };
     value: string;
+  }
+  export interface MessageResponse{
+  message: {
+     catalog: Catalog
+   }
   }

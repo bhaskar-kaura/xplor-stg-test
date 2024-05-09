@@ -5,9 +5,12 @@ import { OndcContext, OnestContext } from 'src/util/context.builder';
 import { GlobalActionService } from 'src/common/action/global-action';
 import { AckNackResponse } from 'src/common/action/ack-nack.entity';
 
+import { JobResponseService } from './response/job/job-response.service';
+import { DomainsEnum } from 'src/common/constants/enums';
+
 @Injectable()
 export class AppService {
-  constructor(private readonly globalActionService: GlobalActionService) {}
+  constructor(private readonly globalActionService: GlobalActionService, private  createPayload:JobResponseService) {}
   getHello(): string {
     return 'Hello World!';
   }
@@ -26,9 +29,35 @@ export class AppService {
     }
   }
   async onSearch(response: OnestContext | OndcContext | any) {
-    console.log(
-      `response ${response?.context?.domain}`,
-      JSON.stringify(response),
-    );
+   
+      await this.sendSearch(response)
+    
   }
+  
+  async sendSearch(response: SearchRequestDto)
+  {
+    let job:object|string="", course:object|string="", scholarship:object|string=""
+    switch (response.context.domain)
+    {
+      case DomainsEnum.JOB_DOMAIN:
+        job = response.message ? this.createPayload.createPayload(response.message) : ""
+        break;
+      case DomainsEnum.COURSE_DOMAIN:
+        course = response.message ? this.createPayload.createPayload(response.message) : ""
+        break;
+      case DomainsEnum.SCHOLARSHIP_DOMAIN:
+        scholarship = response.message ? this.createPayload.createPayload(response.message) : ""
+        break;
+      default:
+        break
+      
+    }
+    const payload = {
+      job: job,
+      course: course,
+      scholarship:scholarship
+    }
+    console.log(JSON.stringify(payload.course))
+  }
+  
 }
