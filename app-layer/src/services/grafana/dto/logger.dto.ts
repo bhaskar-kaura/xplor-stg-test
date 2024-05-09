@@ -1,9 +1,9 @@
-import { IsString, IsOptional, IsNotEmpty } from 'class-validator'
+import { IsString, IsOptional, IsNotEmpty } from 'class-validator';
 
 export class LoggerPayloadDto {
   @IsNotEmpty()
-  message: any
+  message: any;
   @IsOptional()
   @IsString()
-  methodName?: string
+  methodName?: string;
 }

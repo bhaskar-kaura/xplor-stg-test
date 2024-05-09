@@ -19,6 +19,7 @@ export class AppController {
 
   @Post('on_search')
   onSearch(@Body() searchResponse: OndcContext | OnestContext | any) {
+    console.log(searchResponse, 'line22');
     return this.appService.onSearch(searchResponse);
   }
 }

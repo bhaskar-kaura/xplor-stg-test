@@ -1,19 +1,22 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
-import { HttpService } from '@nestjs/axios';
+import { Injectable } from '@nestjs/common';
+
 
 import { SearchJobDto } from '../../dto/search-job.dto';
 import { searchSchema } from '../../schema/v1/search.schema';
-import { AxiosService } from 'src/common/axios/axios.service';
-import validateJson from 'src/utils/validator';
-import { AckNackResponse } from 'src/utils/ack-nack';
+import { AxiosService } from '../../../../common/axios/axios.service';
+import validateJson from '../../../../utils/validator';
+import { AckNackResponse } from '../../../../utils/ack-nack';
+import { ConfigService } from '@nestjs/config';
+import { ACK, Action, CONTEXT_ERROR, ERROR_CODE_CONTEXT, NACK } from '../../../../common/constants/action';
 
 @Injectable()
 export class JobService {
   constructor(
     private readonly axiosService: AxiosService,
+    private readonly configService:ConfigService
   ) {}
 
-  search(searchJobDto: SearchJobDto) {
+  async search(searchJobDto: SearchJobDto) {
     try {
    
       const isValid = validateJson(searchSchema, {
@@ -21,9 +24,20 @@ export class JobService {
         message: searchJobDto.message,
       });
       console.log('isValid', isValid);
-      if (isValid !== true) throw new BadRequestException(isValid);
-      this.sendSearchRequest(searchJobDto);
-      return isValid;
+      if (isValid !== true) {
+        const message= new AckNackResponse("NACK","CONTEXT_ERROR","625519",isValid as unknown as string)
+        return {
+          message
+        }
+      }
+      else {
+        const message= new AckNackResponse("ACK")
+        const searchResponse = await this.sendSearchRequest(searchJobDto);
+        console.log(searchResponse)
+        return {
+       message
+        }
+      }
     } catch (error) {
       throw error;
     }
@@ -37,38 +51,42 @@ export class JobService {
       };
  
    
-      await this.axiosService.post(
+      const searchResponse=await this.axiosService.post(
         searchJobDto.gatewayUrl + '/search',
         searchPayload
       );
+      console.log('searchResponse=======', searchResponse)
+      return searchResponse
     } catch (error) {
       console.log('error===============', error);
       throw error?.response
     }
   }
 
-  onSearch(searchJobDto: SearchJobDto) {
+  async onSearch(searchJobDto: SearchJobDto) {
     try {
-   
       const isValid = validateJson(searchSchema, {
         context: searchJobDto.context,
         message: searchJobDto.message,
       });
-      if (isValid !== true) {
-        const message= new AckNackResponse("NACK","CONTEXT_ERROR","625519",isValid as unknown as string)
-        return {
-          message
-        }
+      if (!isValid) {
+        const message = new AckNackResponse(
+         NACK,
+          CONTEXT_ERROR,
+          ERROR_CODE_CONTEXT,
+          isValid as unknown as string,
+        );
+        return message;
+      } else {
+        const message = new AckNackResponse(ACK);
+        await this.axiosService.post(
+          this.configService.get('APP_SERVICE_URL') + `/${Action.on_search}`,
+          searchJobDto,
+        );
+        return message;
       }
-      else {
-        const message= new AckNackResponse("ACK")
-        return {
-          message
-        }
-      }
-    
     } catch (error) {
-      throw error
+      throw error;
     }
   }
 }

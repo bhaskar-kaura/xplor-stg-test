@@ -5,6 +5,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import configuration from '../../config/env/env.config';
 import { CommonModule } from 'src/common/common.module';
+import { JobSearchService } from './request/job/services/searchv1.service';
 
 @Module({
   imports: [
@@ -15,6 +16,6 @@ import { CommonModule } from 'src/common/common.module';
     CommonModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, JobSearchService],
 })
 export class AppModule {}

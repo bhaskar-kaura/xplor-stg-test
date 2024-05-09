@@ -1,12 +1,19 @@
 import { HttpService } from '@nestjs/axios';
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { AxiosService } from 'src/common/axios/axios.service';
+import { AxiosService } from '../.../../../../common/axios/axios.service';
 
 import { searchSchema } from '../schema/search.schema';
 import { SearchCourseDto } from '../dto/search-course.dto';
-import validateJson from 'src/utils/validator';
-import { AckNackResponse } from 'src/utils/ack-nack';
+import validateJson from '../.../../../../utils/validator';
+import { AckNackResponse } from '../.../../../../utils/ack-nack';
 import { ConfigService } from '@nestjs/config';
+import {
+  ACK,
+  Action,
+  CONTEXT_ERROR,
+  ERROR_CODE_CONTEXT,
+  NACK,
+} from '../.../../../../common/constants/action';
 @Injectable()
 export class CourseService {
   constructor(
@@ -41,20 +48,16 @@ export class CourseService {
       });
       if (!isValid) {
         const message = new AckNackResponse(
-          'NACK',
-          'CONTEXT_ERROR',
-          '625519',
+          NACK,
+          CONTEXT_ERROR,
+          ERROR_CODE_CONTEXT,
           isValid as unknown as string,
         );
         return message;
       } else {
-        console.log(
-          'this.configService.get(',
-          this.configService.get('APP_SERVICE_URL'),
-        );
-        const message = new AckNackResponse('ACK');
+        const message = new AckNackResponse(ACK);
         await this.axiosService.post(
-          this.configService.get('APP_SERVICE_URL') + '/on_search',
+          this.configService.get('APP_SERVICE_URL') + `/${Action.on_search}`,
           searchCourseDto,
         );
         return message;
@@ -73,7 +76,6 @@ export class CourseService {
       searchCourseDto.gatewayUrl + '/search',
       searchPayload,
     );
-    console.log('result', result);
     return result;
   }
 }

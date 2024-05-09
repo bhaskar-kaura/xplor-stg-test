@@ -1,36 +1,61 @@
-import { IsNotEmpty, IsObject, IsString } from 'class-validator';
+import { IsArray, IsNotEmpty, IsObject, IsString } from 'class-validator';
 
-class ContextDto {
-  @IsNotEmpty({ message: 'Context is required' })
-  @IsObject({ message: 'Context must be a object' })
+export class ContextDto {
+  @IsNotEmpty({ message: 'Domain is required' })
+  @IsString({ message: 'Domain must be a string' })
+  domain: string;
+
+  @IsNotEmpty({ message: 'Action is required' })
+  @IsString({ message: 'Action must be a string' })
+  action: string;
+
+  @IsNotEmpty({ message: 'Version is required' })
+  @IsString({ message: 'Version must be a string' })
+  version: string;
+
+  @IsNotEmpty({ message: 'BAP ID is required' })
+  @IsString({ message: 'BAP ID must be a string' })
   bap_id: string;
 
-  @IsNotEmpty({ message: 'Bap Uri is required' })
-  @IsString({ message: 'Bap Uri must be a String' })
+  @IsNotEmpty({ message: 'BAP URI is required' })
+  @IsString({ message: 'BAP URI must be a string' })
   bap_uri: string;
 
-  @IsNotEmpty({ message: 'Country is required' })
-  @IsString({ message: 'Country must be a String' })
-  country: string;
-
-  @IsNotEmpty({ message: 'City is required' })
-  @IsString({ message: 'City must be a String' })
-  city: string;
-
-  @IsNotEmpty({ message: 'Message id is required' })
-  @IsString({ message: 'Message id must be a String' })
-  message_id: string;
-
-  @IsNotEmpty({ message: 'Transaction id is required' })
-  @IsString({ message: 'Transaction id must be a String' })
+  @IsNotEmpty({ message: 'Transaction ID is required' })
+  @IsString({ message: 'Transaction ID must be a string' })
   transaction_id: string;
 
-  @IsNotEmpty({ message: 'Search query is required' })
-  @IsString({ message: 'Search query must be a String' })
-  search_query: string;
+  @IsNotEmpty({ message: 'Message ID is required' })
+  @IsString({ message: 'Message ID must be a string' })
+  message_id: string;
+
+  @IsNotEmpty({ message: 'Timestamp is required' })
+  @IsString({ message: 'Timestamp must be a string' })
+  timestamp: string;
+
+  @IsNotEmpty({ message: 'TTL is required' })
+  @IsString({ message: 'TTL must be a string' })
+  ttl: string;
 }
+
+export class MessageDto {
+  intent: {
+    item: {
+      descriptor: {
+        name: string;
+      };
+    };
+  };
+}
+
 export class SearchRequestDto {
+  @IsNotEmpty({ message: 'Domain should not be empty' })
+  @IsArray({ message: ' Domain must be string' })
+  domain: Array<string>;
   @IsNotEmpty({ message: 'Context is required' })
   @IsObject({ message: 'Context must be a object' })
   context: ContextDto;
+  @IsNotEmpty({ message: 'Message is required' })
+  @IsObject({ message: 'Message must be a object' })
+  message: MessageDto;
 }

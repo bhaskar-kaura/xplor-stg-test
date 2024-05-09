@@ -1,5 +1,7 @@
 import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
+import * as https from 'https';
+
 import { GrafanaLoggerService } from 'src/services/grafana/service/grafana.service';
 import { InternalMessages } from '../constants/logger-message';
 
@@ -11,13 +13,21 @@ export class AxiosService {
   ) {}
   async get(url: string, params?: any, headers?: any) {
     try {
-      return await this.httpService.axiosRef.get(url, { params, headers });
+      return (await this.httpService.axiosRef.get(url, { params, headers }))
+        ?.data;
     } catch (error) {}
   }
 
   async post(url: string, data: any, headers?: any) {
     try {
-      return await this.httpService.axiosRef.post(url, data, { headers });
+      return (
+        await this.httpService.axiosRef.post(url, data, {
+          headers,
+          httpsAgent: new https.Agent({
+            rejectUnauthorized: false,
+          }),
+        })
+      )?.data;
     } catch (error) {
       this.loggerService.sendDebug({
         message: `${InternalMessages.POST_REQUEST} ${error}`,
@@ -29,7 +39,14 @@ export class AxiosService {
 
   async put(url: string, data: any, headers?: any) {
     try {
-      return await this.httpService.axiosRef.put(url, data, { headers });
+      return (
+        await this.httpService.axiosRef.put(url, data, {
+          headers,
+          httpsAgent: new https.Agent({
+            rejectUnauthorized: false,
+          }),
+        })
+      )?.data;
     } catch (error) {
       this.loggerService.sendDebug({
         message: `${InternalMessages.PUT_REQUEST} ${error}`,
@@ -41,7 +58,8 @@ export class AxiosService {
 
   async delete(url: string, params?: any, headers?: any) {
     try {
-      return await this.httpService.axiosRef.delete(url, { params, headers });
+      return (await this.httpService.axiosRef.delete(url, { params, headers }))
+        ?.data;
     } catch (error) {
       this.loggerService.sendDebug({
         message: `${InternalMessages.DELETE_REQUEST} ${error}`,

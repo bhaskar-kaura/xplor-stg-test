@@ -4,6 +4,11 @@ export enum DomainsEnum {
   SCHOLARSHIP_DOMAIN = 'onest:financial-support',
   RETAIL_DOMAIN = 'ONDC:RET10',
 }
+export const xplorDomain = {
+  course: 'course',
+  job: 'job',
+  scholarship: 'scholarship',
+};
 
 export enum Action {
   search = 'search',
@@ -17,5 +22,7 @@ export enum Action {
 }
 
 export enum Gateway {
-  course = 'https://le-ps-bap-client.onest.network',
+  job = 'https://wo-ps-bap-client.onest.network',
+  course = 'https://fs-ps-bap-client.onest.network',
+  scholarship = 'https://fs-ps-bap-client.onest.network',
 }
