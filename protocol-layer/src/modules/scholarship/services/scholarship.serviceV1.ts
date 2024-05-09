@@ -1,5 +1,5 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { UpdateScholarshipDto } from '../dto/update-scholarship.dto';
+
 import { searchSchema } from '../schema/search.schema';
 import { SearchScholarshipDto } from '../dto/search-scholarship.dto';
 import { AxiosService } from '../../../common/axios/axios.service';
@@ -20,9 +20,17 @@ export class ScholarshipService {
         context: searchScholarshipDto.context,
         message: searchScholarshipDto.message,
       });
-      if (isValid !== true) throw new BadRequestException(isValid);
+      if (!isValid) {
+        const message = new AckNackResponse(
+          'NACK',
+          'CONTEXT_ERROR',
+          '625519',
+          isValid as unknown as string,
+        );
+        throw new BadRequestException(message);
+      }
       this.sendSearchRequest(searchScholarshipDto);
-      return isValid;
+      return new AckNackResponse('ACK');
     } catch (error) {
       this.loggerService.sendDebug({
         message: error,
@@ -57,16 +65,18 @@ export class ScholarshipService {
         context: searchScholarshipDto.context,
         message: searchScholarshipDto.message,
       });
-      if (!isValid) 
-        {
-          const message= new AckNackResponse("NACK","CONTEXT_ERROR","625519",isValid as unknown as string)
-          return message
-        }
-        else {
-          const message= new AckNackResponse("ACK")
-          return message
-        }
-       
+      if (!isValid) {
+        const message = new AckNackResponse(
+          'NACK',
+          'CONTEXT_ERROR',
+          '625519',
+          isValid as unknown as string,
+        );
+        return message;
+      } else {
+        const message = new AckNackResponse('ACK');
+        return message;
+      }
     } catch (error) {
       this.loggerService.sendDebug({
         message: error,

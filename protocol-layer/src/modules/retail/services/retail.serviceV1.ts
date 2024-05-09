@@ -1,24 +1,23 @@
-import { HttpService } from '@nestjs/axios';
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { AxiosService } from 'src/common/axios/axios.service';
-
+import { SearchRetailDto } from '../dto/search-retail.dto';
 import { searchSchema } from '../schema/search.schema';
-import { SearchCourseDto } from '../dto/search-course.dto';
-import validateJson from 'src/utils/validator';
 import { AckNackResponse } from 'src/utils/ack-nack';
+import validateJson from 'src/utils/validator';
 import { ConfigService } from '@nestjs/config';
+import { AxiosService } from 'src/common/axios/axios.service';
+import { onSearchSchema } from '../schema/onSearch.schema';
+
 @Injectable()
-export class CourseService {
+export class RetailService {
   constructor(
     private readonly configService: ConfigService,
     private readonly axiosService: AxiosService,
-    private readonly httpService: HttpService,
   ) {}
-  search(searchCourseDto: SearchCourseDto) {
+  search(searchRetailDto: SearchRetailDto) {
     try {
       const isValid = validateJson(searchSchema, {
-        context: searchCourseDto.context,
-        message: searchCourseDto.message,
+        context: searchRetailDto.context,
+        message: searchRetailDto.message,
       });
       if (!isValid) {
         const message = new AckNackResponse(
@@ -29,18 +28,18 @@ export class CourseService {
         );
         throw new BadRequestException(message);
       }
-      this.sendSearchRequest(searchCourseDto);
+      this.sendSearchRequest(searchRetailDto);
       return new AckNackResponse('ACK');
     } catch (error) {
       throw error;
     }
   }
 
-  async onSearch(searchCourseDto: SearchCourseDto) {
+  async onSearch(searchRetailDto: SearchRetailDto) {
     try {
-      const isValid = validateJson(searchSchema, {
-        context: searchCourseDto.context,
-        message: searchCourseDto.message,
+      const isValid = validateJson(onSearchSchema, {
+        context: searchRetailDto.context,
+        message: searchRetailDto.message,
       });
       if (!isValid) {
         const message = new AckNackResponse(
@@ -58,7 +57,7 @@ export class CourseService {
         const message = new AckNackResponse('ACK');
         await this.axiosService.post(
           this.configService.get('APP_SERVICE_URL') + '/on_search',
-          searchCourseDto,
+          searchRetailDto,
         );
         return message;
       }
@@ -67,13 +66,13 @@ export class CourseService {
     }
   }
 
-  private async sendSearchRequest(searchCourseDto: SearchCourseDto) {
+  private async sendSearchRequest(searchRetailDto: SearchRetailDto) {
     const searchPayload = {
-      context: searchCourseDto.context,
-      message: searchCourseDto.message,
+      context: searchRetailDto.context,
+      message: searchRetailDto.message,
     };
     const result = await this.axiosService.post(
-      searchCourseDto.gatewayUrl + '/search',
+      searchRetailDto.gatewayUrl + '/search',
       searchPayload,
     );
     console.log('result', result);
