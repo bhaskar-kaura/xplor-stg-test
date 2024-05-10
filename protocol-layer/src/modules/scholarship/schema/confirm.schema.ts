@@ -1,79 +1,79 @@
-import { contextSchema } from "./context.schema";
+import { contextSchema } from './context.schema';
 
 export const confirmSchema = {
-  type: "object",
+  type: 'object',
   properties: {
     context: contextSchema,
     message: {
-      type: "object",
+      type: 'object',
       properties: {
         order: {
-          type: "object",
+          type: 'object',
           properties: {
             items: {
-              type: "array",
+              type: 'array',
               items: {
-                type: "object",
+                type: 'object',
                 properties: {
-                  id: { type: "string" },
+                  id: { type: 'string' },
                 },
               },
             },
             provider: {
-              type: "object",
+              type: 'object',
               properties: {
-                id: { type: "string" },
+                id: { type: 'string' },
               },
             },
             billing: {
-              type: "object",
+              type: 'object',
               properties: {
-                name: { type: "string" },
+                name: { type: 'string' },
                 organization: {
-                  type: "object",
+                  type: 'object',
                   properties: {
                     descriptor: {
-                      type: "object",
+                      type: 'object',
                       properties: {
-                        name: { type: "string" },
-                        code: { type: "string" },
+                        name: { type: 'string' },
+                        code: { type: 'string' },
                       },
                     },
                     contact: {
-                      type: "object",
+                      type: 'object',
                       properties: {
-                        phone: { type: "string" },
-                        email: { type: "string" },
+                        phone: { type: 'string' },
+                        email: { type: 'string' },
                       },
                     },
                   },
                 },
-                address: { type: "string" },
-                phone: { type: "string" },
+                address: { type: 'string' },
+                phone: { type: 'string' },
               },
             },
             fulfillments: {
-              type: "array",
+              type: 'array',
               items: {
-                type: "object",
+                type: 'object',
                 properties: {
                   customer: {
-                    type: "object",
+                    type: 'object',
                     properties: {
-                      id: { type: "string" },
+                      id: { type: 'string' },
                       person: {
-                        type: "object",
+                        type: 'object',
                         properties: {
-                          name: { type: "string" },
-                          age: { type: "string" },
-                          gender: { type: "string" },
+                          name: { type: 'string' },
+                          age: { type: 'string' },
+                          gender: { type: 'string' },
                         },
                       },
                       contact: {
-                        type: "object",
+                        type: 'object',
                         properties: {
-                          phone: { type: "string" },
-                          email: { type: "string" },
+                          phone: { type: 'string' },
+                          email: { type: 'string' },
                         },
                       },
                     },
@@ -82,16 +82,16 @@ export const confirmSchema = {
               },
             },
             payment: {
-              type: "array",
+              type: 'array',
               items: {
-                type: "object",
+                type: 'object',
                 properties: {
                   params: {
-                    type: "object",
+                    type: 'object',
                     properties: {
-                      bank_code: { type: "string" },
-                      bank_account_number: { type: "string" },
-                      bank_account_name: { type: "string" },
+                      bank_code: { type: 'string' },
+                      bank_account_number: { type: 'string' },
+                      bank_account_name: { type: 'string' },
                     },
                   },
                 },
@@ -100,8 +100,8 @@ export const confirmSchema = {
           },
         },
       },
-      required: ["order"],
+      required: ['order'],
     },
   },
-  required: ["context", "message"],
+  required: ['context', 'message'],
 };

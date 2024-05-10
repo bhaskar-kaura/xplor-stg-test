@@ -1,6 +1,11 @@
 import { Test, TestingModule } from '@nestjs/testing';
+
 import { CourseService } from './course.serviceV1';
 
+/**
+ * This suite tests the CourseService to ensure it is properly defined and functional.
+ * It includes a test to check if the service is defined.
+ */
 describe('CourseService', () => {
   let service: CourseService;
 

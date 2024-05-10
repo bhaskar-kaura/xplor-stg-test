@@ -1,5 +1,15 @@
 import { searchContextSchema } from './context.schema';
-
+/**
+ * This schema defines the structure for the initialization message of the course module.
+ * It includes the context and message properties, which are required for the application
+ * to process and route messages correctly during the initialization phase.
+ *
+ * The `context` property is an object that adheres to the `searchContextSchema`, providing
+ * necessary context information for the initialization process.
+ *
+ * The `message` property is an object that contains details about the order, including
+ * provider, items, billing, and fulfillments information.
+ */
 export const initSchema = {
   type: 'object',
   properties: {

@@ -1,130 +1,130 @@
-import { contextSchema } from "./context.schema";
+import { contextSchema } from './context.schema';
 
 export const initSchema = {
-  type: "object",
+  type: 'object',
   properties: {
     context: contextSchema,
     message: {
-      type: "object",
+      type: 'object',
       properties: {
         order: {
-          type: "object",
+          type: 'object',
           properties: {
             items: {
-              type: "array",
+              type: 'array',
               items: {
-                type: "object",
+                type: 'object',
                 properties: {
-                  id: { type: "string" },
+                  id: { type: 'string' },
                 },
-                required: ["id"],
+                required: ['id'],
               },
             },
             provider: {
-              type: "object",
+              type: 'object',
               properties: {
-                id: { type: "string" },
+                id: { type: 'string' },
               },
-              required: ["id"],
+              required: ['id'],
             },
             billing: {
-              type: "object",
+              type: 'object',
               properties: {
-                name: { type: "string" },
+                name: { type: 'string' },
                 organization: {
-                  type: "object",
+                  type: 'object',
                   properties: {
                     descriptor: {
-                      type: "object",
+                      type: 'object',
                       properties: {
-                        name: { type: "string" },
-                        code: { type: "string" },
+                        name: { type: 'string' },
+                        code: { type: 'string' },
                       },
-                      required: ["name", "code"],
+                      required: ['name', 'code'],
                     },
                     contact: {
-                      type: "object",
+                      type: 'object',
                       properties: {
-                        phone: { type: "string" },
-                        email: { type: "string", format: "email" },
+                        phone: { type: 'string' },
+                        email: { type: 'string', format: 'email' },
                       },
-                      required: ["phone", "email"],
+                      required: ['phone', 'email'],
                     },
                   },
-                  required: ["descriptor", "contact"],
+                  required: ['descriptor', 'contact'],
                 },
-                address: { type: "string" },
-                phone: { type: "string" },
+                address: { type: 'string' },
+                phone: { type: 'string' },
               },
-              required: ["name", "organization", "address", "phone"],
+              required: ['name', 'organization', 'address', 'phone'],
             },
             fulfillments: {
-              type: "array",
+              type: 'array',
               items: {
-                type: "object",
+                type: 'object',
                 properties: {
                   customer: {
-                    type: "object",
+                    type: 'object',
                     properties: {
-                      id: { type: "string" },
+                      id: { type: 'string' },
                       person: {
-                        type: "object",
+                        type: 'object',
                         properties: {
-                          name: { type: "string" },
-                          age: { type: "string" },
-                          gender: { type: "string" },
+                          name: { type: 'string' },
+                          age: { type: 'string' },
+                          gender: { type: 'string' },
                         },
-                        required: ["name", "age", "gender"],
+                        required: ['name', 'age', 'gender'],
                       },
                       contact: {
-                        type: "object",
+                        type: 'object',
                         properties: {
-                          phone: { type: "string" },
-                          email: { type: "string", format: "email" },
+                          phone: { type: 'string' },
+                          email: { type: 'string', format: 'email' },
                         },
-                        required: ["phone", "email"],
+                        required: ['phone', 'email'],
                       },
                     },
-                    required: ["id", "person", "contact"],
+                    required: ['id', 'person', 'contact'],
                   },
                 },
-                required: ["customer"],
+                required: ['customer'],
               },
             },
             payments: {
-              type: "array",
+              type: 'array',
               items: {
-                type: "object",
+                type: 'object',
                 properties: {
                   params: {
-                    type: "object",
+                    type: 'object',
                     properties: {
-                      bank_code: { type: "string" },
-                      bank_account_number: { type: "string" },
-                      bank_account_name: { type: "string" },
+                      bank_code: { type: 'string' },
+                      bank_account_number: { type: 'string' },
+                      bank_account_name: { type: 'string' },
                     },
                     required: [
-                      "bank_code",
-                      "bank_account_number",
-                      "bank_account_name",
+                      'bank_code',
+                      'bank_account_number',
+                      'bank_account_name',
                     ],
                   },
                 },
-                required: ["params"],
+                required: ['params'],
               },
             },
           },
           required: [
-            "items",
-            "provider",
-            "billing",
-            "fulfillments",
-            "payments",
+            'items',
+            'provider',
+            'billing',
+            'fulfillments',
+            'payments',
           ],
         },
       },
-      required: ["order"],
+      required: ['order'],
     },
   },
-  required: ["context", "message"],
+  required: ['context', 'message'],
 };

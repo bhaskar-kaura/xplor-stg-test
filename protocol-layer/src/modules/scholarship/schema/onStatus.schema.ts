@@ -1,193 +1,193 @@
-import { contextSchema } from "./context.schema";
+import { contextSchema } from './context.schema';
 
 export const onStatusSchema = {
-  type: "object",
+  type: 'object',
   properties: {
     context: contextSchema,
     message: {
-      type: "object",
+      type: 'object',
       properties: {
         order: {
-          type: "object",
+          type: 'object',
           properties: {
-            id: { type: "string" },
+            id: { type: 'string' },
             provider: {
-              type: "object",
+              type: 'object',
               properties: {
-                id: { type: "string" },
+                id: { type: 'string' },
                 descriptor: {
-                  type: "object",
+                  type: 'object',
                   properties: {
-                    name: { type: "string" },
-                    short_desc: { type: "string" },
+                    name: { type: 'string' },
+                    short_desc: { type: 'string' },
                     images: {
-                      type: "array",
+                      type: 'array',
                       items: {
-                        type: "object",
+                        type: 'object',
                         properties: {
-                          url: { type: "string" },
+                          url: { type: 'string' },
                         },
                       },
                     },
                   },
                 },
-                rateable: { type: "boolean" },
+                rateable: { type: 'boolean' },
               },
             },
             items: {
-              type: "array",
+              type: 'array',
               items: {
-                type: "object",
+                type: 'object',
                 properties: {
-                  id: { type: "string" },
+                  id: { type: 'string' },
                   descriptor: {
-                    type: "object",
+                    type: 'object',
                     properties: {
-                      name: { type: "string" },
-                      long_desc: { type: "string" },
+                      name: { type: 'string' },
+                      long_desc: { type: 'string' },
                     },
                   },
                   price: {
-                    type: "object",
+                    type: 'object',
                     properties: {
-                      currency: { type: "string" },
-                      value: { type: "string" },
+                      currency: { type: 'string' },
+                      value: { type: 'string' },
                     },
                   },
-                  rateable: { type: "boolean" },
+                  rateable: { type: 'boolean' },
                   tags: {
-                    type: "array",
+                    type: 'array',
                     items: {
-                      type: "object",
+                      type: 'object',
                       properties: {
-                        display: { type: "boolean" },
+                        display: { type: 'boolean' },
                         descriptor: {
-                          type: "object",
+                          type: 'object',
                           properties: {
-                            code: { type: "string" },
-                            name: { type: "string" },
+                            code: { type: 'string' },
+                            name: { type: 'string' },
                           },
                         },
                         list: {
-                          type: "array",
+                          type: 'array',
                           items: {
-                            type: "object",
+                            type: 'object',
                             properties: {
                               descriptor: {
-                                type: "object",
+                                type: 'object',
                                 properties: {
-                                  code: { type: "string" },
-                                  name: { type: "string" },
+                                  code: { type: 'string' },
+                                  name: { type: 'string' },
                                 },
                               },
-                              value: { type: "string" },
-                              display: { type: "boolean" },
+                              value: { type: 'string' },
+                              display: { type: 'boolean' },
                             },
                           },
                         },
                       },
                     },
                   },
-                  fulfillment_ids: { type: "array", items: { type: "string" } },
+                  fulfillment_ids: { type: 'array', items: { type: 'string' } },
                 },
               },
             },
             billing: {
-              type: "object",
+              type: 'object',
               properties: {
-                name: { type: "string" },
+                name: { type: 'string' },
                 organization: {
-                  type: "object",
+                  type: 'object',
                   properties: {
                     descriptor: {
-                      type: "object",
+                      type: 'object',
                       properties: {
-                        name: { type: "string" },
-                        code: { type: "string" },
+                        name: { type: 'string' },
+                        code: { type: 'string' },
                       },
                     },
                     contact: {
-                      type: "object",
+                      type: 'object',
                       properties: {
-                        phone: { type: "string" },
-                        email: { type: "string" },
+                        phone: { type: 'string' },
+                        email: { type: 'string' },
                       },
                     },
                   },
                 },
-                address: { type: "string" },
-                phone: { type: "string" },
+                address: { type: 'string' },
+                phone: { type: 'string' },
               },
             },
             fulfillments: {
-              type: "array",
+              type: 'array',
               items: {
-                type: "object",
+                type: 'object',
                 properties: {
                   state: {
-                    type: "object",
+                    type: 'object',
                     properties: {
                       descriptor: {
-                        type: "object",
+                        type: 'object',
                         properties: {
-                          code: { type: "string" },
-                          name: { type: "string" },
+                          code: { type: 'string' },
+                          name: { type: 'string' },
                         },
                       },
-                      updated_at: { type: "string" },
+                      updated_at: { type: 'string' },
                     },
                   },
-                  id: { type: "string" },
-                  type: { type: "string" },
-                  tracking: { type: "boolean" },
+                  id: { type: 'string' },
+                  type: { type: 'string' },
+                  tracking: { type: 'boolean' },
                   agent: {
-                    type: "object",
+                    type: 'object',
                     properties: {
                       person: {
-                        type: "object",
+                        type: 'object',
                         properties: {
-                          name: { type: "string" },
+                          name: { type: 'string' },
                         },
                       },
                       contact: {
-                        type: "object",
+                        type: 'object',
                         properties: {
-                          email: { type: "string" },
+                          email: { type: 'string' },
                         },
                       },
                     },
                   },
                   customer: {
-                    type: "object",
+                    type: 'object',
                     properties: {
-                      id: { type: "string" },
+                      id: { type: 'string' },
                       person: {
-                        type: "object",
+                        type: 'object',
                         properties: {
-                          name: { type: "string" },
-                          age: { type: "string" },
-                          gender: { type: "string" },
+                          name: { type: 'string' },
+                          age: { type: 'string' },
+                          gender: { type: 'string' },
                         },
                       },
                       contact: {
-                        type: "object",
+                        type: 'object',
                         properties: {
-                          phone: { type: "string" },
-                          email: { type: "string" },
+                          phone: { type: 'string' },
+                          email: { type: 'string' },
                         },
                       },
                     },
                   },
                   stops: {
-                    type: "array",
+                    type: 'array',
                     items: {
-                      type: "object",
+                      type: 'object',
                       properties: {
-                        type: { type: "string" },
+                        type: { type: 'string' },
                         time: {
-                          type: "object",
+                          type: 'object',
                           properties: {
-                            timestamp: { type: "string" },
+                            timestamp: { type: 'string' },
                           },
                         },
                       },
@@ -197,18 +197,18 @@ export const onStatusSchema = {
               },
             },
             cancellation_terms: {
-              type: "array",
+              type: 'array',
               items: {
-                type: "object",
+                type: 'object',
                 properties: {
                   cancellation_fee: {
-                    type: "object",
+                    type: 'object',
                     properties: {
                       amount: {
-                        type: "object",
+                        type: 'object',
                         properties: {
-                          currency: { type: "string" },
-                          value: { type: "string" },
+                          currency: { type: 'string' },
+                          value: { type: 'string' },
                         },
                       },
                     },
@@ -217,59 +217,59 @@ export const onStatusSchema = {
               },
             },
             docs: {
-              type: "array",
+              type: 'array',
               items: {
-                type: "object",
+                type: 'object',
                 properties: {
                   descriptor: {
-                    type: "object",
+                    type: 'object',
                     properties: {
-                      name: { type: "string" },
-                      short_desc: { type: "string" },
+                      name: { type: 'string' },
+                      short_desc: { type: 'string' },
                     },
                   },
-                  url: { type: "string" },
-                  mime_type: { type: "string" },
+                  url: { type: 'string' },
+                  mime_type: { type: 'string' },
                 },
               },
             },
             payments: {
-              type: "array",
+              type: 'array',
               items: {
-                type: "object",
+                type: 'object',
                 properties: {
                   params: {
-                    type: "object",
+                    type: 'object',
                     properties: {
-                      bank_code: { type: "string" },
-                      bank_account_number: { type: "string" },
-                      bank_account_name: { type: "string" },
+                      bank_code: { type: 'string' },
+                      bank_account_number: { type: 'string' },
+                      bank_account_name: { type: 'string' },
                     },
                   },
                 },
               },
             },
             quote: {
-              type: "object",
+              type: 'object',
               properties: {
                 price: {
-                  type: "object",
+                  type: 'object',
                   properties: {
-                    currency: { type: "string" },
-                    value: { type: "string" },
+                    currency: { type: 'string' },
+                    value: { type: 'string' },
                   },
                 },
                 breakup: {
-                  type: "array",
+                  type: 'array',
                   items: {
-                    type: "object",
+                    type: 'object',
                     properties: {
-                      title: { type: "string" },
+                      title: { type: 'string' },
                       price: {
-                        type: "object",
+                        type: 'object',
                         properties: {
-                          currency: { type: "string" },
-                          value: { type: "string" },
+                          currency: { type: 'string' },
+                          value: { type: 'string' },
                         },
                       },
                     },
@@ -278,11 +278,11 @@ export const onStatusSchema = {
               },
             },
           },
-          required: ["id", "provider", "items"],
+          required: ['id', 'provider', 'items'],
         },
       },
-      required: ["order"],
+      required: ['order'],
     },
   },
-  required: ["context", "message"],
+  required: ['context', 'message'],
 };

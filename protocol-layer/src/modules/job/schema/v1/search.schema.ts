@@ -1,4 +1,4 @@
-import { searchContextSchema } from "./context.schema";
+import { searchContextSchema } from './context.schema';
 
 export const searchSchema = {
   type: 'object',

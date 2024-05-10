@@ -2,12 +2,15 @@
 // It takes the data to be returned and a message from the HttpResponseMessge enum.
 // It returns an object with a success flag, the provided message, and the data.
 
-import { HttpResponseMessage } from '../common/constants/http-response-message'
+import { HttpResponseMessage } from '../common/constants/http-response-message';
 
-export const getSuccessResponse = (data: any, message: HttpResponseMessage): any => {
+export const getSuccessResponse = (
+  data: any,
+  message: HttpResponseMessage,
+): any => {
   return {
     success: true,
     message,
     data,
-  }
-}
+  };
+};

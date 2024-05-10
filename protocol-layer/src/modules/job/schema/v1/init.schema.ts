@@ -1,121 +1,128 @@
-import { contextSchema } from "src/modules/scholarship/schema/context.schema";
+import { contextSchema } from 'src/modules/scholarship/schema/context.schema';
 
 export const initSchema = {
- "$schema": "http://json-schema.org/draft-07/schema#",
- "type": "object",
- "properties": {
-    "context": contextSchema,
-    "message": {
-      "type": "object",
-      "properties": {
-        "order": {
-          "type": "object",
-          "properties": {
-            "provider": {
-              "type": "object",
-              "properties": {
-                "id": { "type": "string" }
+  $schema: 'http://json-schema.org/draft-07/schema#',
+  type: 'object',
+  properties: {
+    context: contextSchema,
+    message: {
+      type: 'object',
+      properties: {
+        order: {
+          type: 'object',
+          properties: {
+            provider: {
+              type: 'object',
+              properties: {
+                id: { type: 'string' },
               },
-              "required": ["id"]
+              required: ['id'],
             },
-            "items": {
-              "type": "array",
-              "items": {
-                "type": "object",
-                "properties": {
-                 "id": { "type": "string" }
+            items: {
+              type: 'array',
+              items: {
+                type: 'object',
+                properties: {
+                  id: { type: 'string' },
                 },
-                "required": ["id"]
-              }
+                required: ['id'],
+              },
             },
-            "fulfillments": {
-              "type": "array",
-              "items": {
-                "type": "object",
-                "properties": {
-                 "id": { "type": "string" },
-                 "customer": {
-                    "type": "object",
-                    "properties": {
-                      "person": {
-                        "type": "object",
-                        "properties": {
-                          "name": { "type": "string" },
-                          "gender": { "type": "string" },
-                          "age": { "type": "string" },
-                          "skills": {
-                            "type": "array",
-                            "items": {
-                              "type": "object",
-                              "properties": {
-                                "name": { "type": "string" }
+            fulfillments: {
+              type: 'array',
+              items: {
+                type: 'object',
+                properties: {
+                  id: { type: 'string' },
+                  customer: {
+                    type: 'object',
+                    properties: {
+                      person: {
+                        type: 'object',
+                        properties: {
+                          name: { type: 'string' },
+                          gender: { type: 'string' },
+                          age: { type: 'string' },
+                          skills: {
+                            type: 'array',
+                            items: {
+                              type: 'object',
+                              properties: {
+                                name: { type: 'string' },
                               },
-                              "required": ["name"]
-                            }
+                              required: ['name'],
+                            },
                           },
-                          "languages": {
-                            "type": "array",
-                            "items": {
-                              "type": "object",
-                              "properties": {
-                                "code": { "type": "string" },
-                                "name": { "type": "string" }
+                          languages: {
+                            type: 'array',
+                            items: {
+                              type: 'object',
+                              properties: {
+                                code: { type: 'string' },
+                                name: { type: 'string' },
                               },
-                              "required": ["code", "name"]
-                            }
+                              required: ['code', 'name'],
+                            },
                           },
-                          "tags": {
-                            "type": "array",
-                            "items": {
-                              "type": "object",
-                              "properties": {
-                                "code": { "type": "string" },
-                                "list": {
-                                 "type": "array",
-                                 "items": {
-                                    "type": "object",
-                                    "properties": {
-                                      "descriptor": {
-                                        "type": "object",
-                                        "properties": {
-                                          "code": { "type": "string" },
-                                          "name": { "type": "string" }
+                          tags: {
+                            type: 'array',
+                            items: {
+                              type: 'object',
+                              properties: {
+                                code: { type: 'string' },
+                                list: {
+                                  type: 'array',
+                                  items: {
+                                    type: 'object',
+                                    properties: {
+                                      descriptor: {
+                                        type: 'object',
+                                        properties: {
+                                          code: { type: 'string' },
+                                          name: { type: 'string' },
                                         },
-                                        "required": ["code", "name"]
+                                        required: ['code', 'name'],
                                       },
-                                      "value": { "type": "string" }
+                                      value: { type: 'string' },
                                     },
-                                    "required": ["descriptor", "value"]
-                                 }
-                                }
+                                    required: ['descriptor', 'value'],
+                                  },
+                                },
                               },
-                              "required": ["code", "list"]
-                            }
-                          }
+                              required: ['code', 'list'],
+                            },
+                          },
                         },
-                        "required": ["name", "gender", "age", "skills", "languages", "tags"]
+                        required: [
+                          'name',
+                          'gender',
+                          'age',
+                          'skills',
+                          'languages',
+                          'tags',
+                        ],
                       },
-                      "contact": {
-                        "type": "object",
-                        "properties": {
-                          "phone": { "type": "string" },
-                          "email": { "type": "string", "format": "email" }
+                      contact: {
+                        type: 'object',
+                        properties: {
+                          phone: { type: 'string' },
+                          email: { type: 'string', format: 'email' },
                         },
-                        "required": ["phone", "email"]
-                      }
+                        required: ['phone', 'email'],
+                      },
                     },
-                    "required": ["person", "contact"]
-                 }
+                    required: ['person', 'contact'],
+                  },
                 },
-                "required": ["id", "customer"]
-              }
-            }
+                required: ['id', 'customer'],
+              },
+            },
           },
-          "required": ["provider", "items", "fulfillments"]
-        }
+          required: ['provider', 'items', 'fulfillments'],
+        },
       },
-      "required": ["order"]
-    }
- },
- "required": ["context", "message"]
-}
+      required: ['order'],
+    },
+  },
+  required: ['context', 'message'],
+};

@@ -4,7 +4,6 @@ import { ConfigService } from '@nestjs/config';
 import { ValidationPipe, VersioningType } from '@nestjs/common';
 import { json } from 'body-parser';
 import { AppModule } from './modules/app/app.module';
-import express from 'express';
 
 async function bootstrap() {
   // Create a Nest application instance

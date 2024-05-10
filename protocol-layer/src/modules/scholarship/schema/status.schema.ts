@@ -1,17 +1,16 @@
-import { contextSchema } from "./context.schema";
+import { contextSchema } from './context.schema';
 
 export const statusSchema = {
-  type: "object",
+  type: 'object',
   properties: {
     context: contextSchema,
     message: {
-      type: "object",
+      type: 'object',
       properties: {
-        order_id: { type: "string" }
+        order_id: { type: 'string' },
       },
-      required: ["order_id"]
-    }
-
+      required: ['order_id'],
+    },
   },
-  required: ["context", "message"],
-}
+  required: ['context', 'message'],
+};
