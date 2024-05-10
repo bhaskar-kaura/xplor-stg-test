@@ -4,7 +4,6 @@ import { SearchRequestDto } from './dto/search-request.dto';
 import { OndcContext, OnestContext } from 'src/util/context.builder';
 import { GlobalActionService } from 'src/common/action/global-action';
 
-
 import { JobResponseService } from './response/job/job-response.service';
 import { DomainsEnum } from 'src/common/constants/enums';
 import { AxiosService } from 'src/common/axios/axios.service';
@@ -33,20 +32,28 @@ export class AppService {
         searchRequest.context,
         searchRequest.message,
       );
-      return getResponse(true, coreResponseMessage.searchSuccessResponse, null, null);
+      return getResponse(
+        true,
+        coreResponseMessage.searchSuccessResponse,
+        null,
+        null,
+      );
     } catch (error) {
       console.log(JSON.stringify(error?.response?.data));
-      throw  new BadGatewayException(getResponse(false,error?.message,null,error?.response?.data))
+      throw new BadGatewayException(
+        getResponse(false, error?.message, null, error?.response?.data),
+      );
     }
   }
   async onSearch(response: OnestContext | OndcContext | any) {
     try {
       await this.sendSearch(response);
     } catch (error) {
-      console.log(error?.response)
-      throw  new BadGatewayException(getResponse(false,error?.message,null,error?.response?.data))
+      console.log(error?.response);
+      throw new BadGatewayException(
+        getResponse(false, error?.message, null, error?.response?.data),
+      );
     }
-    
   }
 
   async sendSearch(response: SearchRequestDto) {
@@ -83,7 +90,9 @@ export class AppService {
       console.log('resp', resp);
     } catch (error) {
       console.log(error?.message);
-      throw  new BadGatewayException(getResponse(false,error?.message,null,error?.response?.data))
+      throw new BadGatewayException(
+        getResponse(false, error?.message, null, error?.response?.data),
+      );
     }
   }
 }

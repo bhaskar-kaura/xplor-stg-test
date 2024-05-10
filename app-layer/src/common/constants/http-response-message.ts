@@ -9,6 +9,6 @@ export enum HttpResponseMessage {
   INTERNAL_SERVER_ERROR = 'Internal Server Error',
 }
 
-export const coreResponseMessage= {
- searchSuccessResponse: 'Search event subscribed',
-}
+export const coreResponseMessage = {
+  searchSuccessResponse: 'Search event subscribed',
+};

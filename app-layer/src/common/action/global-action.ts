@@ -51,8 +51,8 @@ export class GlobalActionService {
         }
       });
     } catch (error) {
-      console.error("error:::::",error);
-      throw error
+      console.error('error:::::', error);
+      throw error;
       // Handle error or return it as needed
     }
   }
