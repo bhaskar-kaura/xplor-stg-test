@@ -1,3 +1,5 @@
+import { Context } from "src/modules/app/request/course/interface/context";
+
 export interface Catalog {
   descriptor: {
     name: string;

@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 
 import { Catalog, MessageResponse, Provider } from './interface/on-search';
+import { Context } from '../../request/course/interface/context';
 
 @Injectable()
 export class JobResponseService {
@@ -34,7 +35,7 @@ export class JobResponseService {
         const resp: MessageResponse = {
           message: {
             catalog: catalog,
-          },
+          }
         };
         return resp;
       }

@@ -38,8 +38,7 @@ export class JobService {
         throw new BadRequestException(message);
       } else {
         const message = new AckNackResponse('ACK');
-        const searchResponse = await this.sendSearchRequest(searchJobDto);
-        console.log(searchResponse);
+        await this.sendSearchRequest(searchJobDto);
         return {
           message,
         };
@@ -60,7 +59,7 @@ export class JobService {
         searchJobDto.gatewayUrl + '/search',
         searchPayload,
       );
-      console.log('searchResponse=======', searchResponse);
+      console.log('searchRequest=======', searchResponse);
       return searchResponse;
     } catch (error) {
       console.log('error===============', error);
@@ -70,6 +69,7 @@ export class JobService {
 
   async onSearch(searchJobDto: SearchJobDto) {
     try {
+      console.log('onSearch', searchJobDto);
       const isValid = validateJson(searchSchema, {
         context: searchJobDto.context,
         message: searchJobDto.message,

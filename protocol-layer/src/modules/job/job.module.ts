@@ -7,6 +7,6 @@ import { CommonModule } from 'src/common/common.module';
 @Module({
   imports: [CommonModule],
   controllers: [JobController],
-  providers: [JobService,AxiosService],
+  providers: [JobService, AxiosService],
 })
 export class JobModule {}
