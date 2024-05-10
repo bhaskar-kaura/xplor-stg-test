@@ -27,6 +27,7 @@ export class CourseService {
         context: searchCourseDto.context,
         message: searchCourseDto.message,
       });
+      console.log('searchCourseDto', searchCourseDto);
       if (!isValid) {
         const message = new AckNackResponse(
           'NACK',
@@ -49,6 +50,7 @@ export class CourseService {
         context: searchCourseDto.context,
         message: searchCourseDto.message,
       });
+      console.log(isValid);
       if (!isValid) {
         const message = new AckNackResponse(
           NACK,
@@ -59,10 +61,14 @@ export class CourseService {
         return message;
       } else {
         const message = new AckNackResponse(ACK);
-        await this.axiosService.post(
+        console.log(
+          this.configService.get('APP_SERVICE_URL') + `/${Action.on_search}`,
+        );
+        const response = await this.axiosService.post(
           this.configService.get('APP_SERVICE_URL') + `/${Action.on_search}`,
           searchCourseDto,
         );
+        console.log('courseOnSearchResponse', response);
         return message;
       }
     } catch (error) {

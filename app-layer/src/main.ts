@@ -6,7 +6,6 @@ import { json } from 'express';
 
 import { AppModule } from './modules/app/app.module';
 
-
 async function bootstrap() {
   // Create a Nest application instance
   const app = await NestFactory.create(AppModule, { cors: true });

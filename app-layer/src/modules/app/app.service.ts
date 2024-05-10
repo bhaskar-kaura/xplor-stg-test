@@ -111,7 +111,7 @@ export class AppService {
     } catch (error) {
       // Log the error and throw a BadGatewayException with a formatted error response
       console.log(error?.message);
-      throw new BadGatewayException(
+      return new BadGatewayException(
         getResponse(false, error?.message, null, error?.response?.data),
       );
     }

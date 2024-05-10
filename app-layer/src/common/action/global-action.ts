@@ -53,7 +53,7 @@ export class GlobalActionService {
                 message,
               );
             // Log the search response for the course domain
-            console.log(`Course: ${searchResponseCourse}`);
+            console.log(`Course: ${JSON.stringify(searchResponseCourse)}`);
             break;
           case xplorDomain.scholarship:
             // Logic for SCHOLARSHIP_DOMAIN

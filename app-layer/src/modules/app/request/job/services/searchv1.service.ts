@@ -37,8 +37,10 @@ export class JobSearchService {
       const contextPayload: Context = {
         ...context,
         bap_id: contextConstant.bap_id,
-        bap_uri: contextConstant.bap_uri + `/${xplorDomain.job}`,
-        domain: DomainsEnum.COURSE_DOMAIN,
+        bap_uri:
+          this.configService.get('PROTOCOL_SERVICE_URL') +
+          `/${xplorDomain.job}`,
+        domain: DomainsEnum.JOB_DOMAIN,
       };
       const message: Message = query;
       const payload = new JobSearchPayload(contextPayload, message);
@@ -64,6 +66,8 @@ export class JobSearchService {
       const url =
         this.configService.get('PROTOCOL_SERVICE_URL') +
         `/${xplorDomain.job}/${Action.search}`;
+      console.log(url);
+
       const response = await this.httpService.post(url, searchPayload);
       return response;
     } catch (error) {

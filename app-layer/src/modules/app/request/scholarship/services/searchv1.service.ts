@@ -37,7 +37,9 @@ export class ScholarshipSearchService {
       const contextPayload: Context = {
         ...context,
         bap_id: contextConstant.bap_id,
-        bap_uri: contextConstant.bap_uri + `/${xplorDomain.scholarship}`,
+        bap_uri:
+          this.configService.get('PROTOCOL_SERVICE_URL') +
+          `/${xplorDomain.scholarship}`,
         domain: DomainsEnum.SCHOLARSHIP_DOMAIN,
       };
       const message: Message = query;

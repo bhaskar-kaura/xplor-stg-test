@@ -36,7 +36,9 @@ export class CourseSearchService {
       const contextPayload: Context = {
         ...context,
         bap_id: contextConstant.bap_id,
-        bap_uri: contextConstant.bap_uri + `/${xplorDomain.course}`,
+        bap_uri:
+          this.configService.get('PROTOCOL_SERVICE_URL') +
+          `/${xplorDomain.course}`,
         domain: DomainsEnum.COURSE_DOMAIN,
       };
       const message: Message = query;
@@ -60,13 +62,16 @@ export class CourseSearchService {
   async sendSearchPayload(context: Context, query: Message) {
     try {
       const searchPayload: ICourseSearch = this.createPayload(context, query);
+
       const url =
         this.configService.get('PROTOCOL_SERVICE_URL') +
         `/${xplorDomain.course}/${Action.search}`;
+      console.log(url);
+
       const response = await this.httpService.post(url, searchPayload);
       return response;
     } catch (error) {
-      console.log(error?.message);
+      console.log(error);
       return error?.message;
     }
   }
