@@ -27,14 +27,17 @@ export class CourseService {
         context: searchCourseDto.context,
         message: searchCourseDto.message,
       });
-      if (!isValid) throw new BadRequestException(isValid);
+      if (!isValid) {
+        const message = new AckNackResponse(
+          'NACK',
+          'CONTEXT_ERROR',
+          '625519',
+          isValid as unknown as string,
+        );
+        throw new BadRequestException(message);
+      }
       this.sendSearchRequest(searchCourseDto);
-      return {
-        success: true,
-        data: {
-          status: 'ACK',
-        },
-      };
+      return new AckNackResponse('ACK');
     } catch (error) {
       throw error;
     }
