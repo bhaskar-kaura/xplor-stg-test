@@ -86,7 +86,7 @@ export class AppService {
           scholarship: scholarship != null ? scholarship : {},
         },
       };
-      console.log(payload);
+      console.log(JSON.stringify(payload.data.course));
       const url = this.configService.get('CORE_SERVICE_URL') + '/stg/on_search';
       const resp = await this.httpService.post(url, payload);
       console.log('resp', resp);

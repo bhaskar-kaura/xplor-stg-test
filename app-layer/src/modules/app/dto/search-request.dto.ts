@@ -1,5 +1,9 @@
 import { IsArray, IsNotEmpty, IsObject, IsString } from 'class-validator';
 
+/**
+ * Data Transfer Object (DTO) for the context of a search request.
+ * Validates the context information required for a search operation.
+ */
 export class ContextDto {
   @IsNotEmpty({ message: 'Domain is required' })
   @IsString({ message: 'Domain must be a string' })
@@ -38,6 +42,10 @@ export class ContextDto {
   ttl: string;
 }
 
+/**
+ * Data Transfer Object (DTO) for a message within a search request.
+ * Validates the message information required for a search operation.
+ */
 export class MessageDto {
   intent: {
     item: {
@@ -48,13 +56,19 @@ export class MessageDto {
   };
 }
 
+/**
+ * Data Transfer Object (DTO) for a search request.
+ * Validates the search request information required for a search operation.
+ */
 export class SearchRequestDto {
   @IsNotEmpty({ message: 'Domain should not be empty' })
   @IsArray({ message: ' Domain must be string' })
   domain: Array<string>;
+
   @IsNotEmpty({ message: 'Context is required' })
   @IsObject({ message: 'Context must be a object' })
   context: ContextDto;
+
   @IsNotEmpty({ message: 'Message is required' })
   @IsObject({ message: 'Message must be a object' })
   message: MessageDto;

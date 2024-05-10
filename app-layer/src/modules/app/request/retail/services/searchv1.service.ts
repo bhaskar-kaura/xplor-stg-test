@@ -3,22 +3,22 @@ import { Injectable } from '@nestjs/common';
 import { CourseSearchPayload } from '../entity/search.entity';
 import { Context } from '../interface/context';
 import { ICourseSearch, Message } from '../interface/request/search';
-import { contextConstant } from 'src/common/constants/context.constant';
-import { AxiosService } from 'src/common/axios/axios.service';
+import { contextConstant } from '../../../../../common/constants/context.constant';
+import { AxiosService } from '../../../../../common/axios/axios.service';
 import { ConfigService } from '@nestjs/config';
 import {
   Action,
   DomainsEnum,
   Gateway,
   xplorDomain,
-} from 'src/common/constants/enums';
+} from '../../../../../common/constants/enums';
 
 /**
  * Service for handling course search operations.
  * This service is responsible for creating and sending search payloads for course-related queries.
  */
 @Injectable()
-export class CourseSearchService {
+export class RetailSearchService {
   constructor(
     private readonly configService: ConfigService,
     private readonly httpService: AxiosService,
@@ -36,14 +36,14 @@ export class CourseSearchService {
       const contextPayload: Context = {
         ...context,
         bap_id: contextConstant.bap_id,
-        bap_uri: contextConstant.bap_uri + `/${xplorDomain.course}`,
-        domain: DomainsEnum.COURSE_DOMAIN,
+        bap_uri: contextConstant.bap_uri + `/${xplorDomain.retail}`,
+        domain: DomainsEnum.RETAIL_DOMAIN,
       };
       const message: Message = query;
       const payload = new CourseSearchPayload(contextPayload, message);
       return {
         ...payload,
-        gatewayUrl: Gateway.course,
+        gatewayUrl: Gateway.retail,
       };
     } catch (error) {
       return error?.message;
@@ -62,7 +62,7 @@ export class CourseSearchService {
       const searchPayload: ICourseSearch = this.createPayload(context, query);
       const url =
         this.configService.get('PROTOCOL_SERVICE_URL') +
-        `/${xplorDomain.course}/${Action.search}`;
+        `/${xplorDomain.retail}/${Action.search}`;
       const response = await this.httpService.post(url, searchPayload);
       return response;
     } catch (error) {
