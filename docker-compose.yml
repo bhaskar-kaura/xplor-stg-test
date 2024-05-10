@@ -12,6 +12,39 @@ services:
       - GRAFANA_SERVICE_URL=${GRAFANA_SERVICE_URL}
       - MONGODB_URL=${MONGODB_URL}
 
+  app_service:
+    container_name: xplor-app-stg-service
+    build: ./app-layer
+    # ports:
+    #   - 1105:3000
+    restart: always
+    networks:
+      - xplor-network
+    environment:
+      - GRAFANA_SERVICE_URL=${GRAFANA_SERVICE_URL}
+      - MONGODB_URL=${MONGODB_URL}  
+      - NODE_Env=${NODE_ENV}
+      - APP_PORT=${APP_PORT}
+      - PROTOCOL_DATABASE_URL=${PROTOCOL_DATABASE_URL}
+      - PROTOCOL_SERVICE_URL=${PROTOCOL_SERVICE_URL}
+      - CORE_SERVICE_URL=${CORE_SERVICE_URL}
+
+  protocol_service:
+    container_name: xplor-protocol-stg-service
+    build: ./protocol-layer
+    # ports:
+    #   - 1105:3000
+    restart: always
+    networks:
+      - xplor-network
+    environment:
+      - GRAFANA_SERVICE_URL=${GRAFANA_SERVICE_URL}
+      - MONGODB_URL=${MONGODB_URL} 
+      - PROTOCOL_APP_PORT=${PROTOCOL_APP_PORT}
+      - NODE_ENV=${NODE_ENV}
+      - PROTOCOL_DATABASE_URL=${PROTOCOL_DATABASE_URL}
+      - APP_SERVICE_URL=${APP_SERVICE_URL}
+
   nginx:
     image: nginx:alpine
     container_name: bharat-portal-nginx-container
