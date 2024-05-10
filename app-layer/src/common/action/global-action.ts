@@ -12,7 +12,7 @@ export class GlobalActionService {
   constructor(
     private readonly jobSearchService: JobSearchService,
     private readonly courseSearchService: CourseSearchService,
-    private readonly scholarshipService: ScholarshipSearchService
+    private readonly scholarshipService: ScholarshipSearchService,
   ) {}
   // Assuming Context and Message are interfaces you've defined elsewhere
   // If they are not used, you might want to remove them from the function parameters
@@ -50,18 +50,15 @@ export class GlobalActionService {
           }
           break;
         case xplorDomain.scholarship:
-            try {
-                const searchResponse =
-                  await this.scholarshipService.sendSearchPayload(
-                    context,
-                    message,
-                  );
-                console.log(`Scholarship: ${searchResponse}`);
-              } catch (error) {
-                console.error(error);
-                // Handle error or return it as needed
-              }
-              break;
+          try {
+            const searchResponse =
+              await this.scholarshipService.sendSearchPayload(context, message);
+            console.log(`Scholarship: ${searchResponse}`);
+          } catch (error) {
+            console.error(error);
+            // Handle error or return it as needed
+          }
+          break;
         default:
           // Default logic
           break;

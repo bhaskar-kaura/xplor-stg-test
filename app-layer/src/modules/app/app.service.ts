@@ -16,9 +16,9 @@ export class AppService {
     private readonly globalActionService: GlobalActionService,
     private createPayload: JobResponseService,
     private readonly httpService: AxiosService,
-    private readonly configService: ConfigService
+    private readonly configService: ConfigService,
   ) {
-    this.configService= new ConfigService();
+    this.configService = new ConfigService();
   }
   getHello(): string {
     return 'Hello World!';
@@ -44,40 +44,39 @@ export class AppService {
   async sendSearch(response: SearchRequestDto) {
     try {
       let job: object | string = '',
-      course: object | string = '',
-      scholarship: object | string = '';
-    switch (response.context.domain) {
-      case DomainsEnum.JOB_DOMAIN:
-        job = response.message
-          ? this.createPayload.createPayload(response.message)
-          : '';
-        break;
-      case DomainsEnum.COURSE_DOMAIN:
-        course = response.message
-          ? this.createPayload.createPayload(response.message)
-          : '';
-        break;
-      case DomainsEnum.SCHOLARSHIP_DOMAIN:
-        scholarship = response.message
-          ? this.createPayload.createPayload(response.message)
-          : '';
-        break;
-      default:
-        break;
-    }
-    const payload = {
-      job: job,
-      course: course,
-      scholarship: scholarship,
-    };
-      const url = (this.configService.get('CORE_SERVICE_URL') + '/stg/on_search')
-      console.log("url",url)
+        course: object | string = '',
+        scholarship: object | string = '';
+      switch (response.context.domain) {
+        case DomainsEnum.JOB_DOMAIN:
+          job = response.message
+            ? this.createPayload.createPayload(response.message)
+            : '';
+          break;
+        case DomainsEnum.COURSE_DOMAIN:
+          course = response.message
+            ? this.createPayload.createPayload(response.message)
+            : '';
+          break;
+        case DomainsEnum.SCHOLARSHIP_DOMAIN:
+          scholarship = response.message
+            ? this.createPayload.createPayload(response.message)
+            : '';
+          break;
+        default:
+          break;
+      }
+      const payload = {
+        job: job,
+        course: course,
+        scholarship: scholarship,
+      };
+      const url = this.configService.get('CORE_SERVICE_URL') + '/stg/on_search';
+      console.log('url', url);
       const resp = await this.httpService.post(url, payload);
-      console.log('resp', resp)
+      console.log('resp', resp);
     } catch (error) {
-      console.log(error?.message)
-      return error?.message
+      console.log(error?.message);
+      return error?.message;
     }
-
   }
 }

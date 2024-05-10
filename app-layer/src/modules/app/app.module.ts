@@ -17,6 +17,6 @@ import { JobResponseService } from './response/job/job-response.service';
     CommonModule,
   ],
   controllers: [AppController],
-  providers: [AppService, JobSearchService,JobResponseService],
+  providers: [AppService, JobSearchService, JobResponseService],
 })
 export class AppModule {}

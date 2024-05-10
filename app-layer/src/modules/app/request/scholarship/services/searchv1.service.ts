@@ -40,7 +40,10 @@ export class ScholarshipSearchService {
 
   async sendSearchPayload(context: Context, query: Message) {
     try {
-      const searchPayload: IScholarshipSearch= this.createPayload(context, query);
+      const searchPayload: IScholarshipSearch = this.createPayload(
+        context,
+        query,
+      );
       const url =
         this.configService.get('PROTOCOL_SERVICE_URL') +
         `/${xplorDomain.scholarship}/${Action.search}`;

@@ -7,7 +7,6 @@ import { LoggingInterceptor } from 'src/util/logger-interceptor';
 import { GlobalActionService } from './action/global-action';
 import { JobSearchService } from 'src/modules/app/request/job/services/searchv1.service';
 import { CourseSearchService } from 'src/modules/app/request/course/services/searchv1.service';
-import { AckNackResponse } from './action/ack-nack.entity';
 import { ScholarshipSearchService } from 'src/modules/app/request/scholarship/services/searchv1.service';
 // Decorate the class with @Global() to make it a global module.
 @Global()
@@ -23,8 +22,7 @@ import { ScholarshipSearchService } from 'src/modules/app/request/scholarship/se
     GlobalActionService,
     JobSearchService,
     CourseSearchService,
-    ScholarshipSearchService
-
+    ScholarshipSearchService,
   ],
   exports: [
     AxiosService,
@@ -32,8 +30,7 @@ import { ScholarshipSearchService } from 'src/modules/app/request/scholarship/se
     GlobalActionService,
     JobSearchService,
     CourseSearchService,
-    ScholarshipSearchService
- 
+    ScholarshipSearchService,
   ],
 })
 // Define the CommonModule class.
