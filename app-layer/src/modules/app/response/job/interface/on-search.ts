@@ -1,3 +1,6 @@
+/**
+ * Interface for a catalog, which includes a descriptor and a list of providers.
+ */
 export interface Catalog {
   descriptor: {
     name: string;
@@ -6,6 +9,9 @@ export interface Catalog {
   providers: Provider[];
 }
 
+/**
+ * Interface for a provider, which includes an ID, a descriptor, optional categories, locations, fulfillments, and a list of items.
+ */
 export interface Provider {
   id: string;
   descriptor: {
@@ -19,10 +25,16 @@ export interface Provider {
   items: Item[];
 }
 
+/**
+ * Interface for an image, which includes a URL.
+ */
 interface Image {
   url: string;
 }
 
+/**
+ * Interface for a category, which includes an ID and a descriptor.
+ */
 interface Category {
   id: string;
   descriptor: {
@@ -31,6 +43,9 @@ interface Category {
   };
 }
 
+/**
+ * Interface for a location, which includes an ID, an optional city, and an optional state.
+ */
 interface Location {
   id: string;
   city?: {
@@ -43,6 +58,9 @@ interface Location {
   };
 }
 
+/**
+ * Interface for a fulfillment, which includes an ID, a type, optional tracking, and optional contact information.
+ */
 interface Fulfillment {
   id: string;
   type: string;
@@ -53,6 +71,9 @@ interface Fulfillment {
   };
 }
 
+/**
+ * Interface for an item, which includes an ID, a descriptor, price details, optional quantity, a rating, rateability, time details, fulfillments, tags, category IDs, fulfillment IDs, and location IDs.
+ */
 interface Item {
   id: string;
   descriptor: {
@@ -87,6 +108,9 @@ interface Item {
   location_ids: string[];
 }
 
+/**
+ * Interface for a tag, which includes a display flag, a descriptor, and a list of lists.
+ */
 interface Tag {
   display: boolean;
   descriptor: {
@@ -96,6 +120,9 @@ interface Tag {
   list: List[];
 }
 
+/**
+ * Interface for a list, which includes a descriptor and a value.
+ */
 interface List {
   descriptor: {
     code?: string;
@@ -103,6 +130,10 @@ interface List {
   };
   value: string;
 }
+
+/**
+ * Interface for a message response, which includes a catalog.
+ */
 export interface MessageResponse {
   message: {
     catalog: Catalog;

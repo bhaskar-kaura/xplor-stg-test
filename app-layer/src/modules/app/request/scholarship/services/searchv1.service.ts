@@ -3,15 +3,20 @@ import { Injectable } from '@nestjs/common';
 import { ScholarshipSearchPayload } from '../entity/search.entity';
 import { Context } from '../interface/context';
 import { IScholarshipSearch, Message } from '../interface/request/search';
-import { contextConstant } from 'src/common/constants/context.constant';
-import { AxiosService } from 'src/common/axios/axios.service';
+import { contextConstant } from '../../../../../common/constants/context.constant';
+import { AxiosService } from '../../../../../common/axios/axios.service';
 import { ConfigService } from '@nestjs/config';
 import {
   Action,
   DomainsEnum,
   Gateway,
   xplorDomain,
-} from 'src/common/constants/enums';
+} from '../../../../../common/constants/enums';
+
+/**
+ * Service for handling scholarship search operations.
+ * This service is responsible for creating and sending search payloads for scholarship-related queries.
+ */
 @Injectable()
 export class ScholarshipSearchService {
   constructor(
@@ -19,6 +24,13 @@ export class ScholarshipSearchService {
     private readonly httpService: AxiosService,
   ) {}
 
+  /**
+   * Creates a payload for a scholarship search operation.
+   * This method constructs a ScholarshipSearchPayload object with the necessary context and query information.
+   * @param context The context in which the search is performed.
+   * @param query The query parameters for the search.
+   * @returns The constructed payload.
+   */
   createPayload(context: Context, query: Message) {
     try {
       const contextPayload: Context = {
@@ -38,6 +50,13 @@ export class ScholarshipSearchService {
     }
   }
 
+  /**
+   * Sends a search payload to the appropriate service.
+   * This method sends the constructed payload to the service endpoint and returns the response.
+   * @param context The context in which the search is performed.
+   * @param query The query parameters for the search.
+   * @returns The response from the service.
+   */
   async sendSearchPayload(context: Context, query: Message) {
     try {
       const searchPayload: IScholarshipSearch = this.createPayload(
