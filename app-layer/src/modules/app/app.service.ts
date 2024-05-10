@@ -58,33 +58,35 @@ export class AppService {
 
   async sendSearch(response: SearchRequestDto) {
     try {
-      let job: object | string = '',
-        course: object | string = '',
-        scholarship: object | string = '';
+      let job: object, course: object, scholarship: object;
       switch (response.context.domain) {
         case DomainsEnum.JOB_DOMAIN:
           job = response.message
             ? this.createPayload.createPayload(response.message)
-            : '';
+            : {};
           break;
         case DomainsEnum.COURSE_DOMAIN:
           course = response.message
             ? this.createPayload.createPayload(response.message)
-            : '';
+            : {};
           break;
         case DomainsEnum.SCHOLARSHIP_DOMAIN:
           scholarship = response.message
             ? this.createPayload.createPayload(response.message)
-            : '';
+            : {};
           break;
         default:
           break;
       }
       const payload = {
-        job: job,
-        course: course,
-        scholarship: scholarship,
+        context: response.context,
+        data: {
+          job: job != null ? job : {},
+          course: course != null ? course : {},
+          scholarship: scholarship != null ? scholarship : {},
+        },
       };
+      console.log(payload);
       const url = this.configService.get('CORE_SERVICE_URL') + '/stg/on_search';
       const resp = await this.httpService.post(url, payload);
       console.log('resp', resp);

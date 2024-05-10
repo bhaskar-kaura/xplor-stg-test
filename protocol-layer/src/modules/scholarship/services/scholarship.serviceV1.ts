@@ -1,13 +1,18 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { UpdateScholarshipDto } from '../dto/update-scholarship.dto';
+
 import { searchSchema } from '../schema/search.schema';
 import { SearchScholarshipDto } from '../dto/search-scholarship.dto';
 import { AxiosService } from '../../../common/axios/axios.service';
-import { onSearchSchema } from '../schema/onSearch.schema';
 import { GrafanaLoggerService } from 'src/services/grafana/service/grafana.service';
 import validateJson from 'src/utils/validator';
 import { AckNackResponse } from 'src/utils/ack-nack';
-import { ACK, Action, CONTEXT_ERROR, ERROR_CODE_CONTEXT, NACK } from 'src/common/constants/action';
+import {
+  ACK,
+  Action,
+  CONTEXT_ERROR,
+  ERROR_CODE_CONTEXT,
+  NACK,
+} from 'src/common/constants/action';
 import { ConfigService } from '@nestjs/config';
 
 @Injectable()
@@ -15,30 +20,25 @@ export class ScholarshipService {
   constructor(
     private readonly axiosService: AxiosService,
     private readonly loggerService: GrafanaLoggerService,
-    private readonly configService: ConfigService
+    private readonly configService: ConfigService,
   ) {}
   async search(searchScholarshipDto: SearchScholarshipDto) {
     try {
-   
       const isValid = validateJson(searchSchema, {
         context: searchScholarshipDto.context,
         message: searchScholarshipDto.message,
       });
-      console.log('isValid', isValid);
-      if (isValid !== true) {
-        const message= new AckNackResponse("NACK","CONTEXT_ERROR","625519",isValid as unknown as string)
-        return {
-          message
-        }
+      if (!isValid) {
+        const message = new AckNackResponse(
+          'NACK',
+          'CONTEXT_ERROR',
+          '625519',
+          isValid as unknown as string,
+        );
+        throw new BadRequestException(message);
       }
-      else {
-        const message= new AckNackResponse("ACK")
-        const searchResponse = await this.sendSearchRequest(searchScholarshipDto);
-        console.log(searchResponse)
-        return {
-       message
-        }
-      }
+      this.sendSearchRequest(searchScholarshipDto);
+      return new AckNackResponse('ACK');
     } catch (error) {
       throw error;
     }
@@ -71,7 +71,7 @@ export class ScholarshipService {
       });
       if (!isValid) {
         const message = new AckNackResponse(
-         NACK,
+          NACK,
           CONTEXT_ERROR,
           ERROR_CODE_CONTEXT,
           isValid as unknown as string,
@@ -91,6 +91,6 @@ export class ScholarshipService {
         methodName: this.on_search.name,
       });
       throw error;
-    } 
+    }
   }
 }
