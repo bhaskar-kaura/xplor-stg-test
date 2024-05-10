@@ -3,6 +3,7 @@
 import { BadGatewayException, Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import axios, { AxiosInstance } from 'axios';
+
 import {
   LoggerEndpoints,
   LoggerMessage,

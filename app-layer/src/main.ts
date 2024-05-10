@@ -1,9 +1,11 @@
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from './modules/app/app.module';
 import { ValidationPipe, VersioningType } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import helmet from 'helmet';
 import { json } from 'express';
+
+import { AppModule } from './modules/app/app.module';
+
 
 async function bootstrap() {
   // Create a Nest application instance

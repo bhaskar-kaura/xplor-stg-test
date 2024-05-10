@@ -1,11 +1,12 @@
 import { Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 
 import { ScholarshipSearchPayload } from '../entity/search.entity';
 import { Context } from '../interface/context';
 import { IScholarshipSearch, Message } from '../interface/request/search';
 import { contextConstant } from '../../../../../common/constants/context.constant';
 import { AxiosService } from '../../../../../common/axios/axios.service';
-import { ConfigService } from '@nestjs/config';
+
 import {
   Action,
   DomainsEnum,
