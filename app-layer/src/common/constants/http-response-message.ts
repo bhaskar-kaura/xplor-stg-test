@@ -8,3 +8,7 @@ export enum HttpResponseMessage {
   NOT_FOUND = 'Not Found',
   INTERNAL_SERVER_ERROR = 'Internal Server Error',
 }
+
+export const coreResponseMessage= {
+ searchSuccessResponse: 'Search event subscribed',
+}

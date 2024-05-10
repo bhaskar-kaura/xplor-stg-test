@@ -22,47 +22,38 @@ export class GlobalActionService {
     context: Context,
     message: Message,
   ) {
-    domain.forEach(async (currentDomain) => {
-      switch (currentDomain) {
-        case xplorDomain.job:
-          // Logic for JOB_DOMAIN
-          try {
+    try {
+      domain.forEach(async (currentDomain) => {
+        switch (currentDomain) {
+          case xplorDomain.job:
+            // Logic for JOB_DOMAIN
             const searchResponse =
               await this.jobSearchService.sendSearchPayload(context, message);
             console.log(`Job: ${searchResponse}`);
-          } catch (error) {
-            console.error(error);
-            // Handle error or return it as needed
-          }
-          break;
-        case xplorDomain.course:
-          // Logic for COURSE_DOMAIN
-          try {
-            const searchResponse =
+            break;
+          case xplorDomain.course:
+            // Logic for COURSE_DOMAIN
+            const searchResponseCourse =
               await this.courseSearchService.sendSearchPayload(
                 context,
                 message,
               );
-            console.log(`Course: ${searchResponse}`);
-          } catch (error) {
-            console.error(error);
-            // Handle error or return it as needed
-          }
-          break;
-        case xplorDomain.scholarship:
-          try {
-            const searchResponse =
+            console.log(`Course: ${searchResponseCourse}`);
+            break;
+          case xplorDomain.scholarship:
+            const searchResponseScholarship =
               await this.scholarshipService.sendSearchPayload(context, message);
-            console.log(`Scholarship: ${searchResponse}`);
-          } catch (error) {
-            console.error(error);
-            // Handle error or return it as needed
-          }
-          break;
-        default:
-          // Default logic
-          break;
-      }
-    });
+            console.log(`Scholarship: ${searchResponseScholarship}`);
+            break;
+          default:
+            // Default logic
+            break;
+        }
+      });
+    } catch (error) {
+      console.error("error:::::",error);
+      throw error
+      // Handle error or return it as needed
+    }
   }
 }

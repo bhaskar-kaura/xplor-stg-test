@@ -1,14 +1,16 @@
-import { Injectable } from '@nestjs/common';
+import { BadGatewayException, Injectable } from '@nestjs/common';
 import { SearchRequestDto } from './dto/search-request.dto';
 
 import { OndcContext, OnestContext } from 'src/util/context.builder';
 import { GlobalActionService } from 'src/common/action/global-action';
-import { AckNackResponse } from 'src/common/action/ack-nack.entity';
+
 
 import { JobResponseService } from './response/job/job-response.service';
 import { DomainsEnum } from 'src/common/constants/enums';
 import { AxiosService } from 'src/common/axios/axios.service';
 import { ConfigService } from '@nestjs/config';
+import { getResponse } from 'src/util/response';
+import { coreResponseMessage } from 'src/common/constants/http-response-message';
 
 @Injectable()
 export class AppService {
@@ -31,14 +33,20 @@ export class AppService {
         searchRequest.context,
         searchRequest.message,
       );
-      return new AckNackResponse('ACK');
+      return getResponse(true, coreResponseMessage.searchSuccessResponse, null, null);
     } catch (error) {
       console.log(JSON.stringify(error?.response?.data));
-      throw error?.response;
+      throw  new BadGatewayException(getResponse(false,error?.message,null,error?.response?.data))
     }
   }
   async onSearch(response: OnestContext | OndcContext | any) {
-    await this.sendSearch(response);
+    try {
+      await this.sendSearch(response);
+    } catch (error) {
+      console.log(error?.response)
+      throw  new BadGatewayException(getResponse(false,error?.message,null,error?.response?.data))
+    }
+    
   }
 
   async sendSearch(response: SearchRequestDto) {
@@ -71,12 +79,11 @@ export class AppService {
         scholarship: scholarship,
       };
       const url = this.configService.get('CORE_SERVICE_URL') + '/stg/on_search';
-      console.log('url', url);
       const resp = await this.httpService.post(url, payload);
       console.log('resp', resp);
     } catch (error) {
       console.log(error?.message);
-      return error?.message;
+      throw  new BadGatewayException(getResponse(false,error?.message,null,error?.response?.data))
     }
   }
 }
