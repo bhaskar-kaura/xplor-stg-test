@@ -55,8 +55,10 @@ export class JobService {
         message: searchJobDto.message,
       };
 
+      const url = searchJobDto.gatewayUrl + '/search'
+      console.log(url)
       const searchResponse = await this.axiosService.post(
-        searchJobDto.gatewayUrl + '/search',
+        url,
         searchPayload,
       );
       console.log('searchRequest=======', searchResponse);

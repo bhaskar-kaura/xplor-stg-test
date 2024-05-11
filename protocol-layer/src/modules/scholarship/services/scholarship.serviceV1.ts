@@ -28,6 +28,7 @@ export class ScholarshipService {
         context: searchScholarshipDto.context,
         message: searchScholarshipDto.message,
       });
+      console.log(isValid)
       if (!isValid) {
         const message = new AckNackResponse(
           'NACK',
@@ -44,23 +45,17 @@ export class ScholarshipService {
     }
   }
 
-  async sendSearchRequest(searchScholarshipDto: SearchScholarshipDto) {
-    try {
-      const searchPayload = {
-        context: searchScholarshipDto.context,
-        message: searchScholarshipDto.message,
-      };
-      await this.axiosService.post(
-        searchScholarshipDto.gatewayUrl + '/search',
-        searchPayload,
-      );
-    } catch (error) {
-      this.loggerService.sendDebug({
-        message: error,
-        methodName: this.sendSearchRequest.name,
-      });
-      throw error;
-    }
+  private async sendSearchRequest(searchScholarshipDto: SearchScholarshipDto) {
+    const searchPayload = {
+      context: searchScholarshipDto.context,
+      message: searchScholarshipDto.message,
+    };
+    console.log(searchScholarshipDto.gatewayUrl + '/search',"abhishek",JSON.stringify(searchPayload))
+    const result = await this.axiosService.post(
+      searchScholarshipDto.gatewayUrl + '/search',
+      searchPayload,
+    );
+    return result;
   }
 
   async on_search(searchScholarshipDto: SearchScholarshipDto) {

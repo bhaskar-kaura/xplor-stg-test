@@ -1,3 +1,5 @@
+import { timeStamp } from "console";
+
 export const contextConstant = {
   /**
    * The Base Application Protocol ID, which uniquely identifies the application.
@@ -12,4 +14,8 @@ export const contextConstant = {
    * It is crucial for routing and accessing the application's resources.
    */
   bap_uri: 'https://71de-115-245-207-90.ngrok-free.app/protocol/v1',
+
+  action: "search",
+  version: "1.1.0",
+  ttl:"PT2M"
 };

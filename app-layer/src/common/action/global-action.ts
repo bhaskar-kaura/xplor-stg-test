@@ -7,6 +7,8 @@ import { Message } from '../../modules/app/request/job/interface/request/search'
 import { JobSearchService } from '../../modules/app/request/job/services/searchv1.service';
 import { ScholarshipSearchService } from 'src/modules/app/request/scholarship/services/searchv1.service';
 import { RetailSearchService } from 'src/modules/app/request/retail/services/searchv1.service';
+import { contextConstant } from '../constants/context.constant';
+
 
 @Injectable()
 export class GlobalActionService {
@@ -32,6 +34,13 @@ export class GlobalActionService {
     message: Message,
   ) {
     try {
+      const contexts= {
+        ...context,
+        action: contextConstant.action,
+        version: contextConstant.version,
+        timestamp: new Date().toISOString(),
+        ttl: contextConstant.ttl
+      }
       // Iterate over each domain in the provided array
       domain.forEach(async (currentDomain) => {
         // Switch statement to handle different domains
@@ -40,7 +49,7 @@ export class GlobalActionService {
             // Logic for JOB_DOMAIN
             // Perform the search operation using the JobSearchService
             const searchResponse =
-              await this.jobSearchService.sendSearchPayload(context, message);
+              await this.jobSearchService.sendSearchPayload(contexts, message);
             // Log the search response for the job domain
             console.log(`Job: ${searchResponse}`);
             break;
@@ -59,7 +68,7 @@ export class GlobalActionService {
             // Logic for SCHOLARSHIP_DOMAIN
             // Perform the search operation using the ScholarshipSearchService
             const searchResponseScholarship =
-              await this.scholarshipService.sendSearchPayload(context, message);
+              await this.scholarshipService.sendSearchPayload(contexts, message);
             // Log the search response for the scholarship domain
             console.log(`Scholarship: ${searchResponseScholarship}`);
             break;
@@ -67,7 +76,7 @@ export class GlobalActionService {
             // Logic for SCHOLARSHIP_DOMAIN
             // Perform the search operation using the RetailService
             const searchResponseRetail =
-              await this.retailService.sendSearchPayload(context, message);
+              await this.retailService.sendSearchPayload(contexts, message);
             // Log the search response for the retail domain
             console.log(`Retail: ${searchResponseRetail}`);
             break;
