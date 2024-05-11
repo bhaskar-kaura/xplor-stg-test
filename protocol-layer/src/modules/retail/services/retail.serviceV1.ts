@@ -6,6 +6,7 @@ import validateJson from 'src/utils/validator';
 import { ConfigService } from '@nestjs/config';
 import { AxiosService } from 'src/common/axios/axios.service';
 import { onSearchSchema } from '../schema/onSearch.schema';
+import { createOndcNetworkHeader } from 'src/utils/ondc.authentication';
 
 @Injectable()
 export class RetailService {
@@ -72,9 +73,22 @@ export class RetailService {
       context: searchRetailDto.context,
       message: searchRetailDto.message,
     };
+
+    // Preparing a signed key to send to network for authorization
+    const signedKey = createOndcNetworkHeader(
+      searchPayload,
+      this.configService.get('ONDC_PRIVATE_KEY'),
+      this.configService.get('ONDC_SUBSCRIBER_ID'),
+      this.configService.get('ONDC_SUBSCRIBER_UNIQUE_KEY_ID'),
+    );
+    const headers = {
+      Authorization: `Bearer ${signedKey}`,
+    };
+
     const result = await this.axiosService.post(
       searchRetailDto.gatewayUrl + '/search',
       searchPayload,
+      { headers },
     );
     console.log('result', result);
     return result;

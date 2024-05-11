@@ -6,4 +6,7 @@ export default () => ({
   port: parseInt(process.env.PROTOCOL_APP_PORT, 10),
   GRAFANA_SERVICE_URL: process.env.GRAFANA_SERVICE_URL,
   APP_SERVICE_URL: process.env.APP_SERVICE_URL,
+  ONDC_PRIVATE_KEY: process.env.ONDC_PRIVATE_KEY,
+  ONDC_SUBSCRIBER_ID: process.env.ONDC_SUBSCRIBER_ID,
+  ONDC_SUBSCRIBER_UNIQUE_KEY_ID: process.env.ONDC_SUBSCRIBER_UNIQUE_KEY_ID,
 });
