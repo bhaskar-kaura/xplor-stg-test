@@ -15,6 +15,7 @@ export class RetailService {
   ) {}
   search(searchRetailDto: SearchRetailDto) {
     try {
+      console.log('searchRetailDto', searchRetailDto);
       const isValid = validateJson(searchSchema, {
         context: searchRetailDto.context,
         message: searchRetailDto.message,
