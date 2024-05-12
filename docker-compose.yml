@@ -45,7 +45,9 @@ services:
       - NODE_ENV=${NODE_ENV}
       - PROTOCOL_DATABASE_URL=${PROTOCOL_DATABASE_URL}
       - APP_SERVICE_URL=${APP_SERVICE_URL}
-
+      - ONDC_PRIVATE_KEY=${ONDC_PRIVATE_KEY}
+      - ONDC_SUBSCRIBER_ID=${ONDC_SUBSCRIBER_ID}
+      - ONDC_SUBSCRIBER_UNIQUE_KEY_ID=${ONDC_SUBSCRIBER_UNIQUE_KEY_ID}
   xplor_stg_nginx:
     image: nginx:alpine
     container_name: xplor_stg_nginx

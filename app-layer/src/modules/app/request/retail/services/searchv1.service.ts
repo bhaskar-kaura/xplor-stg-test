@@ -11,7 +11,10 @@ import {
   Gateway,
   xplorDomain,
 } from '../../../../../common/constants/enums';
-import { OndcContextConstants, OnestContextConstants } from 'src/common/constants/context.constant';
+import {
+  OndcContextConstants,
+  OnestContextConstants,
+} from 'src/common/constants/context.constant';
 
 /**
  * Service for handling course search operations.
