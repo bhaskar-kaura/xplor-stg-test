@@ -11,7 +11,7 @@ import {
   Gateway,
   xplorDomain,
 } from '../../../../../common/constants/enums';
-import { OnestContextConstants } from 'src/common/constants/context.constant';
+import { OndcContextConstants, OnestContextConstants } from 'src/common/constants/context.constant';
 
 /**
  * Service for handling course search operations.
@@ -36,7 +36,7 @@ export class RetailSearchService {
       const contextPayload: Context = {
         ...context,
         bap_id: OnestContextConstants.bap_id,
-        bap_uri: OnestContextConstants.bap_uri + `/${xplorDomain.retail}`,
+        bap_uri: OndcContextConstants.bap_uri + `/${xplorDomain.retail}`,
         domain: DomainsEnum.RETAIL_DOMAIN,
       };
       const message: Message = query;
