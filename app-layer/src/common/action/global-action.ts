@@ -80,6 +80,7 @@ export class GlobalActionService {
             break;
           case xplorDomain.retail:
             const retailContext = {
+              domain: null,
               bap_id: OndcContextConstants.bap_id,
               bap_uri: OndcContextConstants.bap_uri,
               action: searchContextConstants.action,
@@ -88,7 +89,6 @@ export class GlobalActionService {
               ttl: searchContextConstants.ttl,
               message_id: context.message_id,
               transaction_id: context.transaction_id,
-              domain: null,
             };
             // Logic for RETAIL_DOMAIN
             // Perform the search operation using the RetailService

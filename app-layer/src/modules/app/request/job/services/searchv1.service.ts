@@ -37,7 +37,9 @@ export class JobSearchService {
       const contextPayload: Context = {
         ...context,
         bap_id: OnestContextConstants.bap_id,
-        bap_uri: OnestContextConstants.bap_uri + `/${xplorDomain.job}`,
+        bap_uri:
+          this.configService.get('PROTOCOL_SERVICE_URL') +
+          `/${xplorDomain.job}`,
         domain: DomainsEnum.JOB_DOMAIN,
       };
       const message: Message = query;

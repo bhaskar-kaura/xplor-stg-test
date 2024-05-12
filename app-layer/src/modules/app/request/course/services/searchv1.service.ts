@@ -36,7 +36,9 @@ export class CourseSearchService {
       const contextPayload: Context = {
         ...context,
         bap_id: OnestContextConstants.bap_id,
-        bap_uri: OnestContextConstants.bap_uri + `/${xplorDomain.course}`,
+        bap_uri:
+          this.configService.get('PROTOCOL_SERVICE_URL') +
+          `/${xplorDomain.course}`,
         domain: DomainsEnum.COURSE_DOMAIN,
       };
       const message: Message = query;
