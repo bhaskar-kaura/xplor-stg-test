@@ -14,7 +14,7 @@ export class RetailService {
     private readonly configService: ConfigService,
     private readonly axiosService: AxiosService,
   ) {}
-  search(searchRetailDto: SearchRetailDto) {
+  async search(searchRetailDto: SearchRetailDto) {
     try {
       console.log('searchRetailDto', searchRetailDto);
       const isValid = validateJson(searchSchema, {
@@ -30,7 +30,7 @@ export class RetailService {
         );
         throw new BadRequestException(message);
       }
-      this.sendSearchRequest(searchRetailDto);
+      await this.sendSearchRequest(searchRetailDto);
       return new AckNackResponse('ACK');
     } catch (error) {
       throw error;
@@ -52,10 +52,6 @@ export class RetailService {
         );
         return message;
       } else {
-        console.log(
-          'this.configService.get(',
-          this.configService.get('APP_SERVICE_URL'),
-        );
         const message = new AckNackResponse('ACK');
         await this.axiosService.post(
           this.configService.get('APP_SERVICE_URL') + '/on_search',
@@ -75,22 +71,21 @@ export class RetailService {
     };
 
     // Preparing a signed key to send to network for authorization
-    const signedKey = createOndcNetworkHeader(
+    const signedKey = await createOndcNetworkHeader(
       searchPayload,
       this.configService.get('ONDC_PRIVATE_KEY'),
       this.configService.get('ONDC_SUBSCRIBER_ID'),
       this.configService.get('ONDC_SUBSCRIBER_UNIQUE_KEY_ID'),
     );
     const headers = {
-      Authorization: `Bearer ${signedKey}`,
+      Authorization: signedKey,
     };
 
     const result = await this.axiosService.post(
       searchRetailDto.gatewayUrl + '/search',
       searchPayload,
-      { headers },
+      headers,
     );
-    console.log('result', result);
     return result;
   }
 }

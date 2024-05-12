@@ -12,4 +12,7 @@ export default () => ({
   PROTOCOL_DATABASE_URL: Joi.string()
     .required()
     .default('mongodb://localhost:27017/Xplore_User'),
+  ONDC_PRIVATE_KEY: Joi.string().required(),
+  ONDC_SUBSCRIBER_ID: Joi.string().required(),
+  ONDC_SUBSCRIBER_UNIQUE_KEY_ID: Joi.string().required(),
 });

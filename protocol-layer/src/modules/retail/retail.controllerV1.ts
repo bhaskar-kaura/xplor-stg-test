@@ -7,7 +7,7 @@ export class RetailController {
 
   @Post('search')
   search(@Body() searchRetailDto: SearchRetailDto) {
-    this.retailService.search(searchRetailDto);
+    return this.retailService.search(searchRetailDto);
   }
 
   @Post('on_search')
