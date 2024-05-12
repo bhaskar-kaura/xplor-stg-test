@@ -11,7 +11,7 @@ export const OnestContextConstants = {
    * This URI is used as the starting point for constructing URLs for specific API endpoints.
    * It is crucial for routing and accessing the application's resources.
    */
-  bap_uri: 'https://xplor-core-nest-dev.thewitslab.com/protocol/v1',
+  bap_uri: 'https://xplor-stg-nest-dev.thewitslab.com/protocol/v1',
   version: '1.1.0',
 };
 
