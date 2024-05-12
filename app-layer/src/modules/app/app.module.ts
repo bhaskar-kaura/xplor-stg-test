@@ -7,6 +7,7 @@ import configuration from '../../config/env/env.config';
 import { CommonModule } from '../../common/common.module';
 import { JobSearchService } from './request/job/services/searchv1.service';
 import { JobResponseService } from './response/job/job-response.service';
+import { RetailResponseService } from './response/retail/retail-response.service';
 
 /**
  * Module decorator for defining the module's metadata.
@@ -38,6 +39,11 @@ import { JobResponseService } from './response/job/job-response.service';
    * Providers can be services, factories, values, or other types of providers.
    * This module includes AppService, JobSearchService, and JobResponseService among its providers.
    */
-  providers: [AppService, JobSearchService, JobResponseService],
+  providers: [
+    AppService,
+    JobSearchService,
+    JobResponseService,
+    RetailResponseService,
+  ],
 })
 export class AppModule {}

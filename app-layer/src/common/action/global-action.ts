@@ -7,8 +7,11 @@ import { Message } from '../../modules/app/request/job/interface/request/search'
 import { JobSearchService } from '../../modules/app/request/job/services/searchv1.service';
 import { ScholarshipSearchService } from 'src/modules/app/request/scholarship/services/searchv1.service';
 import { RetailSearchService } from 'src/modules/app/request/retail/services/searchv1.service';
-import { contextConstant } from '../constants/context.constant';
-
+import {
+  OndcContextConstants,
+  OnestContextConstants,
+  searchContextConstants,
+} from '../constants/context.constant';
 
 @Injectable()
 export class GlobalActionService {
@@ -34,13 +37,13 @@ export class GlobalActionService {
     message: Message,
   ) {
     try {
-      const contexts= {
+      const contexts = {
         ...context,
-        action: contextConstant.action,
-        version: contextConstant.version,
+        action: searchContextConstants.action,
+        version: OnestContextConstants.version,
         timestamp: new Date().toISOString(),
-        ttl: contextConstant.ttl
-      }
+        ttl: searchContextConstants.ttl,
+      };
       // Iterate over each domain in the provided array
       domain.forEach(async (currentDomain) => {
         // Switch statement to handle different domains
@@ -68,15 +71,32 @@ export class GlobalActionService {
             // Logic for SCHOLARSHIP_DOMAIN
             // Perform the search operation using the ScholarshipSearchService
             const searchResponseScholarship =
-              await this.scholarshipService.sendSearchPayload(contexts, message);
+              await this.scholarshipService.sendSearchPayload(
+                contexts,
+                message,
+              );
             // Log the search response for the scholarship domain
             console.log(`Scholarship: ${searchResponseScholarship}`);
             break;
           case xplorDomain.retail:
-            // Logic for SCHOLARSHIP_DOMAIN
+            const retailContext = {
+              bap_id: OndcContextConstants.bap_id,
+              bap_uri: OndcContextConstants.bap_uri,
+              action: searchContextConstants.action,
+              core_version: OndcContextConstants.version,
+              timestamp: new Date().toISOString(),
+              ttl: searchContextConstants.ttl,
+              message_id: context.message_id,
+              transaction_id: context.transaction_id,
+              domain: null,
+            };
+            // Logic for RETAIL_DOMAIN
             // Perform the search operation using the RetailService
             const searchResponseRetail =
-              await this.retailService.sendSearchPayload(contexts, message);
+              await this.retailService.sendSearchPayload(
+                retailContext,
+                message,
+              );
             // Log the search response for the retail domain
             console.log(`Retail: ${searchResponseRetail}`);
             break;

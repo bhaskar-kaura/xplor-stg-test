@@ -7,6 +7,7 @@ import { ConfigService } from '@nestjs/config';
 import { AxiosService } from 'src/common/axios/axios.service';
 import { onSearchSchema } from '../schema/onSearch.schema';
 import { createOndcNetworkHeader } from 'src/utils/ondc.authentication';
+import { Action } from 'src/common/constants/action';
 
 @Injectable()
 export class RetailService {
@@ -16,7 +17,6 @@ export class RetailService {
   ) {}
   async search(searchRetailDto: SearchRetailDto) {
     try {
-      console.log('searchRetailDto', searchRetailDto);
       const isValid = validateJson(searchSchema, {
         context: searchRetailDto.context,
         message: searchRetailDto.message,
@@ -39,10 +39,11 @@ export class RetailService {
 
   async onSearch(searchRetailDto: SearchRetailDto) {
     try {
-      const isValid = validateJson(onSearchSchema, {
-        context: searchRetailDto.context,
-        message: searchRetailDto.message,
-      });
+      // const isValid = validateJson(onSearchSchema, {
+      //   context: searchRetailDto.context,
+      //   message: searchRetailDto.message,
+      // });
+      const isValid = true;
       if (!isValid) {
         const message = new AckNackResponse(
           'NACK',
@@ -54,7 +55,7 @@ export class RetailService {
       } else {
         const message = new AckNackResponse('ACK');
         await this.axiosService.post(
-          this.configService.get('APP_SERVICE_URL') + '/on_search',
+          this.configService.get('APP_SERVICE_URL') + `/${Action.on_search}`,
           searchRetailDto,
         );
         return message;

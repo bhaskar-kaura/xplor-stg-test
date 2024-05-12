@@ -3,15 +3,15 @@ services:
   onboarding_service:
     container_name: xplor-onboarding-stg-service
     build: ./onboarding
-    # ports:
-    #   - 1105:3000
+    ports:
+      - 5006:5006
     restart: always
     networks:
       - xplor-network
     environment:
       - GRAFANA_SERVICE_URL=${GRAFANA_SERVICE_URL}
       - MONGODB_URL=${MONGODB_URL}
-
+      - OBOARDING_LAYER_PORT={{OBOARDING_LAYER_PORT}}
   app_service:
     container_name: xplor-app-stg-service
     build: ./app-layer

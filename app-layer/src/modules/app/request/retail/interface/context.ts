@@ -5,7 +5,8 @@
 export interface Context {
   domain: string;
   action: string;
-  version: string;
+  version?: string;
+  core_version?: string;
   country?: string;
   city?: string;
   bap_id: string;

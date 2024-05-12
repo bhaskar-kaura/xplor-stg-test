@@ -4,7 +4,7 @@ import { ConfigService } from '@nestjs/config';
 import { JobSearchPayload } from '../entity/search.entity';
 import { Context } from '../interface/context';
 import { IJobSearch, Message } from '../interface/request/search';
-import { contextConstant } from '../../../../../common/constants/context.constant';
+import { OnestContextConstants } from '../../../../../common/constants/context.constant';
 import { AxiosService } from '../../../../../common/axios/axios.service';
 
 import {
@@ -36,10 +36,8 @@ export class JobSearchService {
     try {
       const contextPayload: Context = {
         ...context,
-        bap_id: contextConstant.bap_id,
-        bap_uri:
-          this.configService.get('PROTOCOL_SERVICE_URL') +
-          `/${xplorDomain.job}`,
+        bap_id: OnestContextConstants.bap_id,
+        bap_uri: OnestContextConstants.bap_uri + `/${xplorDomain.job}`,
         domain: DomainsEnum.JOB_DOMAIN,
       };
       const message: Message = query;

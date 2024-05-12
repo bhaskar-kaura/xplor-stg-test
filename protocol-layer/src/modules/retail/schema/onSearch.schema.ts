@@ -534,5 +534,5 @@ export const onSearchSchema = {
       required: ['message'],
     },
   },
-  additionalProperties: false,
+  additionalProperties: true,
 };

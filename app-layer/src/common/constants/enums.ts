@@ -44,5 +44,5 @@ export enum Gateway {
   job = 'https://wo-ps-bap-client.onest.network', // Base URL for job-related services
   course = 'https://fs-ps-bap-client.onest.network', // Base URL for course-related services
   scholarship = 'https://fs-ps-bap-client.onest.network', // Base URL for scholarship-related services
-  retail = '', // Base URL for retail-related services
+  retail = 'https://staging.gateway.proteantech.in', // Base URL for retail-related services
 }

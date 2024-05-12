@@ -3,7 +3,7 @@ import { Injectable } from '@nestjs/common';
 import { CourseSearchPayload } from '../entity/search.entity';
 import { Context } from '../interface/context';
 import { ICourseSearch, Message } from '../interface/request/search';
-import { contextConstant } from 'src/common/constants/context.constant';
+import { OnestContextConstants } from 'src/common/constants/context.constant';
 import { AxiosService } from 'src/common/axios/axios.service';
 import { ConfigService } from '@nestjs/config';
 import {
@@ -35,10 +35,8 @@ export class CourseSearchService {
     try {
       const contextPayload: Context = {
         ...context,
-        bap_id: contextConstant.bap_id,
-        bap_uri:
-          this.configService.get('PROTOCOL_SERVICE_URL') +
-          `/${xplorDomain.course}`,
+        bap_id: OnestContextConstants.bap_id,
+        bap_uri: OnestContextConstants.bap_uri + `/${xplorDomain.course}`,
         domain: DomainsEnum.COURSE_DOMAIN,
       };
       const message: Message = query;
@@ -66,7 +64,6 @@ export class CourseSearchService {
       const url =
         this.configService.get('PROTOCOL_SERVICE_URL') +
         `/${xplorDomain.course}/${Action.search}`;
-      console.log(url);
 
       const response = await this.httpService.post(url, searchPayload);
       return response;

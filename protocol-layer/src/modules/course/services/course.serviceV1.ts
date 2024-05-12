@@ -23,6 +23,7 @@ export class CourseService {
   ) {}
   search(searchCourseDto: SearchCourseDto) {
     try {
+      console.log('searchCourseDto', searchCourseDto);
       const isValid = validateJson(searchSchema, {
         context: searchCourseDto.context,
         message: searchCourseDto.message,
@@ -46,6 +47,7 @@ export class CourseService {
 
   async onSearch(searchCourseDto: SearchCourseDto) {
     try {
+      console.log('courseOnSearchResponse', searchCourseDto);
       const isValid = validateJson(searchSchema, {
         context: searchCourseDto.context,
         message: searchCourseDto.message,
@@ -61,14 +63,10 @@ export class CourseService {
         return message;
       } else {
         const message = new AckNackResponse(ACK);
-        console.log(
-          this.configService.get('APP_SERVICE_URL') + `/${Action.on_search}`,
-        );
-        const response = await this.axiosService.post(
+        await this.axiosService.post(
           this.configService.get('APP_SERVICE_URL') + `/${Action.on_search}`,
           searchCourseDto,
         );
-        console.log('courseOnSearchResponse', response);
         return message;
       }
     } catch (error) {

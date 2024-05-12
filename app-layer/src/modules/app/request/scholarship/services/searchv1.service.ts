@@ -4,7 +4,6 @@ import { ConfigService } from '@nestjs/config';
 import { ScholarshipSearchPayload } from '../entity/search.entity';
 import { Context } from '../interface/context';
 import { IScholarshipSearch, Message } from '../interface/request/search';
-import { contextConstant } from '../../../../../common/constants/context.constant';
 import { AxiosService } from '../../../../../common/axios/axios.service';
 
 import {
@@ -13,6 +12,7 @@ import {
   Gateway,
   xplorDomain,
 } from '../../../../../common/constants/enums';
+import { OnestContextConstants } from 'src/common/constants/context.constant';
 
 /**
  * Service for handling scholarship search operations.
@@ -36,10 +36,8 @@ export class ScholarshipSearchService {
     try {
       const contextPayload: Context = {
         ...context,
-        bap_id: contextConstant.bap_id,
-        bap_uri:
-          this.configService.get('PROTOCOL_SERVICE_URL') +
-          `/${xplorDomain.scholarship}`,
+        bap_id: OnestContextConstants.bap_id,
+        bap_uri: OnestContextConstants.bap_uri + `/${xplorDomain.scholarship}`,
         domain: DomainsEnum.SCHOLARSHIP_DOMAIN,
       };
       const message: Message = query;

@@ -3,7 +3,6 @@ import { Injectable } from '@nestjs/common';
 import { CourseSearchPayload } from '../entity/search.entity';
 import { Context } from '../interface/context';
 import { ICourseSearch, Message } from '../interface/request/search';
-import { contextConstant } from '../../../../../common/constants/context.constant';
 import { AxiosService } from '../../../../../common/axios/axios.service';
 import { ConfigService } from '@nestjs/config';
 import {
@@ -35,8 +34,8 @@ export class RetailSearchService {
     try {
       const contextPayload: Context = {
         ...context,
-        bap_id: contextConstant.bap_id,
-        bap_uri: contextConstant.bap_uri + `/${xplorDomain.retail}`,
+        bap_id: context.bap_id,
+        bap_uri: context.bap_uri + `/${xplorDomain.retail}`,
         domain: DomainsEnum.RETAIL_DOMAIN,
       };
       const message: Message = query;

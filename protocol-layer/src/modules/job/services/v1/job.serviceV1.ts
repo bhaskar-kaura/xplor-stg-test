@@ -55,12 +55,9 @@ export class JobService {
         message: searchJobDto.message,
       };
 
-      const url = searchJobDto.gatewayUrl + '/search'
-      console.log(url)
-      const searchResponse = await this.axiosService.post(
-        url,
-        searchPayload,
-      );
+      const url = searchJobDto.gatewayUrl + '/search';
+      console.log(url);
+      const searchResponse = await this.axiosService.post(url, searchPayload);
       console.log('searchRequest=======', searchResponse);
       return searchResponse;
     } catch (error) {
@@ -71,7 +68,6 @@ export class JobService {
 
   async onSearch(searchJobDto: SearchJobDto) {
     try {
-      console.log('onSearch', searchJobDto);
       const isValid = validateJson(searchSchema, {
         context: searchJobDto.context,
         message: searchJobDto.message,

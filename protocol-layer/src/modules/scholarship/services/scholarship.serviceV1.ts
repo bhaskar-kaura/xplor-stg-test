@@ -28,7 +28,7 @@ export class ScholarshipService {
         context: searchScholarshipDto.context,
         message: searchScholarshipDto.message,
       });
-      console.log(isValid)
+      console.log(isValid);
       if (!isValid) {
         const message = new AckNackResponse(
           'NACK',
@@ -50,7 +50,6 @@ export class ScholarshipService {
       context: searchScholarshipDto.context,
       message: searchScholarshipDto.message,
     };
-    console.log(searchScholarshipDto.gatewayUrl + '/search',"abhishek",JSON.stringify(searchPayload))
     const result = await this.axiosService.post(
       searchScholarshipDto.gatewayUrl + '/search',
       searchPayload,

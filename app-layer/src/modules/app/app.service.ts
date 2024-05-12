@@ -10,6 +10,7 @@ import { DomainsEnum } from '../../common/constants/enums';
 import { AxiosService } from '../../common/axios/axios.service';
 import { getResponse } from '../../util/response';
 import { coreResponseMessage } from '../../common/constants/http-response-message';
+import { RetailResponseService } from './response/retail/retail-response.service';
 
 // Decorator to mark this class as a provider that can be injected into other classes
 @Injectable()
@@ -17,7 +18,8 @@ export class AppService {
   // Constructor to inject dependencies
   constructor(
     private readonly globalActionService: GlobalActionService, // Service for global actions
-    private createPayload: JobResponseService, // Service to create job response payloads
+    private onestCreatePayload: JobResponseService, // Service to create job response payloads
+    private ondcCreatePayload: RetailResponseService, // Service to create job response payloads
     private readonly httpService: AxiosService, // Service for making HTTP requests
     private readonly configService: ConfigService, // Service for accessing configuration values
   ) {
@@ -73,22 +75,27 @@ export class AppService {
   async sendSearch(response: SearchRequestDto) {
     try {
       // Initialize variables for job, course, and scholarship payloads
-      let job: object, course: object, scholarship: object;
+      let job: object, course: object, scholarship: object, retail: object;
       // Determine which type of payload to create based on the domain
       switch (response.context.domain) {
         case DomainsEnum.JOB_DOMAIN:
           job = response.message
-            ? this.createPayload.createPayload(response.message)
+            ? this.onestCreatePayload.createPayload(response.message)
             : {};
           break;
         case DomainsEnum.COURSE_DOMAIN:
           course = response.message
-            ? this.createPayload.createPayload(response.message)
+            ? this.onestCreatePayload.createPayload(response.message)
             : {};
           break;
         case DomainsEnum.SCHOLARSHIP_DOMAIN:
           scholarship = response.message
-            ? this.createPayload.createPayload(response.message)
+            ? this.onestCreatePayload.createPayload(response.message)
+            : {};
+        case DomainsEnum.RETAIL_DOMAIN:
+          console.log('retailData', response.message);
+          retail = response.message
+            ? this.ondcCreatePayload.createPayload(response.message)
             : {};
           break;
         default:
@@ -101,6 +108,7 @@ export class AppService {
           job: job != null ? job : {},
           course: course != null ? course : {},
           scholarship: scholarship != null ? scholarship : {},
+          retail: retail != null ? retail : {},
         },
       };
       // Construct the URL for the search request
