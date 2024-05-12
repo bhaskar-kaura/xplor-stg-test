@@ -31,7 +31,7 @@ async function run() {
     defaultVersion: '1',
   })
   // Start the application and listen on the configured port
-  await app.listen(configService.get<string>('OBOARDING_LAYER_PORT'))
+  await app.listen(configService.get<string>('ONBOARDING_LAYER_PORT'))
 }
 
 run()
