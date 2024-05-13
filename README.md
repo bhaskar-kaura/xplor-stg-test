@@ -42,7 +42,7 @@ The Protocol Layer establishes connections between the App Layer and different n
 
 ## Diagram
 
-![Alt text](https://drive.google.com/file/d/1Cu-E05FOZUovb6VsCacDoIJVvN67K7wb/view?usp=sharing)
+![image](/uploads/408cf094d0d0f02488496b6f25f0982d/image.png)
 
 This diagram illustrates the flow of transactions through the three layers of the Singular Transaction Gateway, depicting their interactions and responsibilities.
 
