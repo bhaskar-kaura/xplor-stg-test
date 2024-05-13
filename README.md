@@ -1,73 +1,53 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# Singular Transaction Gateway (STG)
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+Singular Transaction Gateway (STG) is a gateway service designed for implementing transactions across various networks. It operates through three layers, each serving distinct purposes in the transaction process:
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+1. **Onboarding Layer**
+2. **App Layer**
+3. **Protocol Layer**
 
-## Description
+## Onboarding Layer
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+The Onboarding Layer is responsible for the initial integration of participants from different networks, particularly those adhering to the BECKN protocol. This layer captures essential information such as `bap_id`, `bap_url`, and the domain of the network the user previously participated in. Additionally, it collects further details required for onboarding users to our platform, Xplor. 
 
-## Installation
+**Explanation:**
+- The Onboarding Layer gathers necessary participant information, including identifiers and network domains.
+- It ensures compatibility with the BECKN protocol, facilitating seamless integration with various networks.
+- Further details collected during onboarding enable a smooth transition of users to the Xplor platform.
 
-```bash
-$ npm install
-```
+## App Layer
 
-## Running the app
+The App Layer functions as an intermediary between the Onboarding Layer and the Protocol Layer, facilitating communication with the implementation layer. It handles requests such as `/search`, `/select`, `/init`, `/confirm`, and `/status`, providing immediate acknowledgment of acceptance or rejection to the implementation layer. Following successful response emission to the implementation layer, the App Layer communicates with the Protocol Layer to collect actual responses.
 
-```bash
-# development
-$ npm run start
+**Explanation:**
+- Handles incoming requests from the implementation layer and provides immediate acknowledgment.
+- Utilizes endpoints such as `/on_search`, `/on_select`, `/on_init`, `/on_confirm`, and `/on_status` for communication with the Protocol Layer.
+- Segregates requests based on domain and forwards them to the appropriate Protocol Layer.
 
-# watch mode
-$ npm run start:dev
+## Protocol Layer
 
-# production mode
-$ npm run start:prod
-```
+The Protocol Layer establishes connections between the App Layer and different networks, such as ONEST and ONDC. It validates request payloads for all listed domains within different networks and validates responses coming from these networks with their respective domains. Each domain has its own module with controllers handling requests and responses.
 
-## Test
+**Explanation:**
+- Establishes connections between the App Layer and various networks.
+- Validates request payloads and responses across different network domains.
+- Utilizes modules corresponding to domain names (e.g., retail, scholarship, course, job) with controllers handling requests and responses.
 
-```bash
-# unit tests
-$ npm run test
+## Technologies Used
 
-# e2e tests
-$ npm run test:e2e
+- **Backend Framework:** NestJS
+- **Containerization:** Docker
+- **Proxy Server:** NGINX
+- **Database:** MongoDB
 
-# test coverage
-$ npm run test:cov
-```
+## Diagram
 
-## Support
+![Alt text](https://drive.google.com/file/d/1Cu-E05FOZUovb6VsCacDoIJVvN67K7wb/view?usp=sharing)
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+This diagram illustrates the flow of transactions through the three layers of the Singular Transaction Gateway, depicting their interactions and responsibilities.
 
-## Stay in touch
+## Conclusion
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+Singular Transaction Gateway (STG) provides a robust framework for implementing transactions across various networks, ensuring seamless communication, validation, and integration. With clearly defined layers and functionalities, STG streamlines the process of onboarding participants, handling requests, and managing protocol interactions.
 
-## License
 
-Nest is [MIT licensed](LICENSE).
