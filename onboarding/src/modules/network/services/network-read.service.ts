@@ -6,7 +6,7 @@ import { GetOnboardedNetworksDto } from '../dto/get-onboarded-networks.dto'
 import { HttpResponseMessage } from '../../../common/constants/http-response-message'
 import { getSuccessResponse } from '../../../utils/get-success-response'
 import { NetworkErrorMessages } from '../../../common/constants/error.messages'
-import { NetworksList } from '../../../common/constants/network.enum'
+import { NetworksList } from '../../../common/constants/network'
 
 @Injectable()
 export class NetworkReadService {
