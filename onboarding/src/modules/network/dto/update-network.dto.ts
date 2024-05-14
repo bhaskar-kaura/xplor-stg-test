@@ -15,7 +15,7 @@ export class UpdateNetworkDto {
 
   @IsOptional()
   @IsUrl({}, { message: 'BAP URL must be a valid URL' })
-  bap_url: string
+  bap_uri: string
 
   @IsOptional()
   @IsString({ message: 'BAP ID must be a string' })

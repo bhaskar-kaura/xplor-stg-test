@@ -8,7 +8,7 @@ Singular Transaction Gateway (STG) is a gateway service designed for implementin
 
 ## Onboarding Layer
 
-The Onboarding Layer is responsible for the initial integration of participants from different networks, particularly those adhering to the BECKN protocol. This layer captures essential information such as `bap_id`, `bap_url`, and the domain of the network the user previously participated in. Additionally, it collects further details required for onboarding users to our platform, Xplor. 
+The Onboarding Layer is responsible for the initial integration of participants from different networks, particularly those adhering to the BECKN protocol. This layer captures essential information such as `bap_id`, `bap_uri`, and the domain of the network the user previously participated in. Additionally, it collects further details required for onboarding users to our platform, Xplor. 
 
 **Explanation:**
 - The Onboarding Layer gathers necessary participant information, including identifiers and network domains.

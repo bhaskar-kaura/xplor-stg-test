@@ -13,7 +13,7 @@ export class OnboardNetworkDto {
 
   @IsUrl({}, { message: 'BAP URL must be a valid URL' })
   @IsNotEmpty({ message: 'BAP URL is required' })
-  bap_url: string
+  bap_uri: string
 
   @IsNotEmpty({ message: 'BAP ID is required' })
   @IsString({ message: 'BAP ID must be a string' })
