@@ -39,11 +39,10 @@ export class RetailService {
 
   async onSearch(searchRetailDto: SearchRetailDto) {
     try {
-      // const isValid = validateJson(onSearchSchema, {
-      //   context: searchRetailDto.context,
-      //   message: searchRetailDto.message,
-      // });
-      const isValid = true;
+      const isValid = validateJson(onSearchSchema, {
+        context: searchRetailDto.context,
+        message: searchRetailDto.message,
+      });
       if (!isValid) {
         const message = new AckNackResponse(
           'NACK',
