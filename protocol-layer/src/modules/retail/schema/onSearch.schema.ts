@@ -99,7 +99,6 @@ export const onSearchSchema = {
                       },
                       timestamp: {
                         type: 'string',
-                        format: 'date-time',
                       },
                     },
                     required: ['label', 'timestamp'],
