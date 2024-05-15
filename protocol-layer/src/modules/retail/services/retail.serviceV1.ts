@@ -5,7 +5,6 @@ import { AckNackResponse } from 'src/utils/ack-nack';
 import validateJson from 'src/utils/validator';
 import { ConfigService } from '@nestjs/config';
 import { AxiosService } from 'src/common/axios/axios.service';
-import { onSearchSchema } from '../schema/onSearch.schema';
 import { createOndcNetworkHeader } from 'src/utils/ondc.authentication';
 import { Action } from 'src/common/constants/action';
 
@@ -21,6 +20,7 @@ export class RetailService {
         context: searchRetailDto.context,
         message: searchRetailDto.message,
       });
+      console.log(isValid,"searchRetailDto",searchRetailDto)
       if (!isValid) {
         const message = new AckNackResponse(
           'NACK',
@@ -53,6 +53,7 @@ export class RetailService {
         return message;
       } else {
         const message = new AckNackResponse('ACK');
+        console.log("on_search Response",searchRetailDto)
         await this.axiosService.post(
           this.configService.get('APP_SERVICE_URL') + `/${Action.on_search}`,
           searchRetailDto,

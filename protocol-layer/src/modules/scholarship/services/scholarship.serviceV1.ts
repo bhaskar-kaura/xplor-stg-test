@@ -14,6 +14,7 @@ import {
   NACK,
 } from 'src/common/constants/action';
 import { ConfigService } from '@nestjs/config';
+import { onSearchSchema } from '../schema/onSearch.schema';
 
 @Injectable()
 export class ScholarshipService {
@@ -59,7 +60,7 @@ export class ScholarshipService {
 
   async on_search(searchScholarshipDto: SearchScholarshipDto) {
     try {
-      const isValid = validateJson(searchSchema, {
+      const isValid = validateJson(onSearchSchema, {
         context: searchScholarshipDto.context,
         message: searchScholarshipDto.message,
       });

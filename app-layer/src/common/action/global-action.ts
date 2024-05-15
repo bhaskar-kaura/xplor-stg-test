@@ -98,7 +98,7 @@ export class GlobalActionService {
                 message,
               );
             // Log the search response for the retail domain
-            console.log(`Retail: ${searchResponseRetail}`);
+            console.log(`Retail: ${JSON.stringify(searchResponseRetail)}`);
             break;
           default:
             // Default case if the domain does not match any of the expected values

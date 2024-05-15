@@ -14,6 +14,7 @@ import {
   ERROR_CODE_CONTEXT,
   NACK,
 } from '../.../../../../common/constants/action';
+import { onSearchSchema } from '../schema/onSearch.schema';
 @Injectable()
 export class CourseService {
   constructor(
@@ -48,7 +49,7 @@ export class CourseService {
   async onSearch(searchCourseDto: SearchCourseDto) {
     try {
       console.log('courseOnSearchResponse', searchCourseDto);
-      const isValid = validateJson(searchSchema, {
+      const isValid = validateJson(onSearchSchema, {
         context: searchCourseDto.context,
         message: searchCourseDto.message,
       });
@@ -63,7 +64,7 @@ export class CourseService {
         return message;
       } else {
         const message = new AckNackResponse(ACK);
-        await this.axiosService.post(
+        const response=await this.axiosService.post(
           this.configService.get('APP_SERVICE_URL') + `/${Action.on_search}`,
           searchCourseDto,
         );
@@ -79,6 +80,7 @@ export class CourseService {
       context: searchCourseDto.context,
       message: searchCourseDto.message,
     };
+    console.log()
     const result = await this.axiosService.post(
       searchCourseDto.gatewayUrl + '/search',
       searchPayload,
