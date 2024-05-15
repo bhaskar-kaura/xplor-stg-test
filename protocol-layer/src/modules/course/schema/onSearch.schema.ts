@@ -41,7 +41,7 @@ export const onSearchSchema = {
                         items: {
                           type: 'object',
                           properties: {
-                            url: { type: 'string', format: 'uri' },
+                            url: { type: 'string'},
                             size_type: { type: 'string' },
                           },
                           required: ['url', 'size_type'],
@@ -109,7 +109,7 @@ export const onSearchSchema = {
                               items: {
                                 type: 'object',
                                 properties: {
-                                  url: { type: 'string', format: 'uri' },
+                                  url: { type: 'string'},
                                 },
                                 required: ['url'],
                               },
@@ -119,7 +119,7 @@ export const onSearchSchema = {
                               items: {
                                 type: 'object',
                                 properties: {
-                                  url: { type: 'string', format: 'uri' },
+                                  url: { type: 'string'},
                                 },
                                 required: ['url'],
                               },
@@ -147,7 +147,7 @@ export const onSearchSchema = {
                                   items: {
                                     type: 'object',
                                     properties: {
-                                      url: { type: 'string', format: 'uri' },
+                                      url: { type: 'string' },
                                     },
                                     required: ['url'],
                                   },
@@ -235,12 +235,10 @@ export const onSearchSchema = {
                 },
                 required: [
                   'id',
-                  'descriptor',
-                  'categories',
-                  'fulfillments',
+                  'descriptor',       
                   'items',
-                  'fulfillments',
                 ],
+       
               },
             },
           },

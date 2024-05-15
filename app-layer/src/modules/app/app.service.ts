@@ -60,6 +60,7 @@ export class AppService {
   // Method to handle search requests and delegate to the sendSearch method
   async onSearch(response: OnestContext | OndcContext | any) {
     try {
+      console.log('response ==================', JSON.stringify(response),"=============================")
       // Delegate the search operation to the sendSearch method
       await this.sendSearch(response);
     } catch (error) {
@@ -118,7 +119,7 @@ export class AppService {
       console.log('resp', resp);
     } catch (error) {
       // Log the error and throw a BadGatewayException with a formatted error response
-      console.log(error?.message);
+      console.log(error);
       return new BadGatewayException(
         getResponse(false, error?.message, null, error?.response?.data),
       );
