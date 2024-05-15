@@ -38,7 +38,7 @@ export function CreateOnestContext(
   message_id: string, // Message ID of the request
   action: Action, // Action type of the request
   bap_id: string, // BAP ID associated with the request
-  bap_url: string, // BAP URI associated with the request
+  bap_uri: string, // BAP URI associated with the request
   country: string, // Country of the request
   city: string, // City of the request
 ): OnestContext {
@@ -51,7 +51,7 @@ export function CreateOnestContext(
     timestamp: new Date(), // Set the current timestamp
     version: '1.1.0', // Version of the request
     bap_id: bap_id,
-    bap_uri: bap_url,
+    bap_uri: bap_uri,
     transaction_id: transaction_id,
     message_id: message_id,
     ttl: 'PT10M', // Time to live for the request
@@ -68,7 +68,7 @@ export function CreateOndcContext(
   message_id: string, // Message ID of the request
   action: Action, // Action type of the request
   bap_id: string, // BAP ID associated with the request
-  bap_url: string, // BAP URI associated with the request
+  bap_uri: string, // BAP URI associated with the request
   country: string, // Country of the request
   city: string, // City of the request
 ): OndcContext {
@@ -81,7 +81,7 @@ export function CreateOndcContext(
     timestamp: new Date(), // Set the current timestamp
     core_version: '1.1.0', // Core version of the request
     bap_id: bap_id,
-    bap_uri: bap_url,
+    bap_uri: bap_uri,
     transaction_id: transaction_id,
     message_id: message_id,
     ttl: 'PT10M', // Time to live for the request

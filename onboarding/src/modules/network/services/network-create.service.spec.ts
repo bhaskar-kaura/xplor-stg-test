@@ -14,7 +14,7 @@ describe('NetworkCreateService', () => {
     _id: 'network_yu4me8ehie5i6ei6m5e65363633354entj',
     name: 'ONEST_NETWORK',
     domains: ['Skilling', 'Job', 'Finance'],
-    bap_url: 'https://bap.url.com/witsLab',
+    bap_uri: 'https://bap.url.com/witsLab',
     bap_id: 'bap_witslab',
     callback_url: 'https://witslab.callbackurl.com/',
     registry_url: 'https://witslab.registry.com/',
