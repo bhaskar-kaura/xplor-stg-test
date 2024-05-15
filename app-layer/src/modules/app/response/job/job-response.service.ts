@@ -24,7 +24,7 @@ export class JobResponseService {
           return {
             id: data?.id,
             descriptor: data?.descriptor,
-            categories: data?.categories.map((data) => {
+            categories: data?.categories?.map((data) => {
               return {
                 id: data.id,
                 descriptor: {
