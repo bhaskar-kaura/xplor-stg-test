@@ -6,7 +6,7 @@ import { GetOnboardedNetworksDto } from '../dto/get-onboarded-networks.dto'
 import { HttpResponseMessage } from '../../../common/constants/http-response-message'
 import { getSuccessResponse } from '../../../utils/get-success-response'
 import { NetworkErrorMessages } from '../../../common/constants/error.messages'
-import { NetworksList } from '../../../common/constants/network.enum'
+import { NetworksList } from '../../../common/constants/network'
 
 @Injectable()
 export class NetworkReadService {
@@ -27,13 +27,12 @@ export class NetworkReadService {
     }
 
     const skip = (getOnboardedNetworksBody.page - 1) * getOnboardedNetworksBody.pageSize
-    const networks = await this.onboardedNetworkModel
-      .find(query)
-      .skip(skip)
-      .limit(getOnboardedNetworksBody.pageSize)
-      .then()
+    const [networks, totalCount] = await Promise.all([
+      this.onboardedNetworkModel.find(query).skip(skip).limit(getOnboardedNetworksBody.pageSize).exec(),
+      this.onboardedNetworkModel.countDocuments(query).exec(), // Count total documents
+    ])
 
-    return getSuccessResponse(networks, HttpResponseMessage.OK)
+    return getSuccessResponse({ networks, totalCount }, HttpResponseMessage.OK)
   }
 
   // Returns network details by it's id

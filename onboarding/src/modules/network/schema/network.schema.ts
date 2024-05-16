@@ -13,7 +13,7 @@ export class Network extends Document {
   domains: string[]
 
   @Prop({ required: true })
-  bap_url: string
+  bap_uri: string
 
   @Prop({ required: true })
   bap_id: string

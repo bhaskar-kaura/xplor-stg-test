@@ -1,24 +1,23 @@
-import { Context } from "../context";
+import { Context } from '../context';
 
 interface Descriptor {
-    code?: string;
-    name: string;
+  code?: string;
+  name: string;
 }
 
-
 interface Item {
-    descriptor: Descriptor;
+  descriptor: Descriptor;
 }
 
 interface Intent {
-    item: Item;
+  item: Item;
 }
 
 interface Message {
-    intent: Intent;
+  intent: Intent;
 }
 
 export interface IJobSearch {
-    context: Context;
-    message: Message;
+  context: Context;
+  message: Message;
 }

@@ -1,23 +1,37 @@
 import { NestFactory } from '@nestjs/core'
 import { AppModule } from './app.module'
-import { BadRequestException, ValidationError, ValidationPipe } from '@nestjs/common'
-import { API_VERSION_PREFIX } from './common/constants/request-routes'
+import { ValidationPipe, VersioningType } from '@nestjs/common'
+import { json } from 'express'
+import { ConfigService } from '@nestjs/config'
+import helmet from 'helmet'
 
 async function run() {
   const app = await NestFactory.create(AppModule, { cors: true })
-  app.useGlobalPipes(
-    new ValidationPipe({
-      exceptionFactory: (validationErrors: ValidationError[] = []) => {
-        return new BadRequestException({
-          message: Object.values(validationErrors[0].constraints).join(', ').split(', ').at(0),
-          error: 'Bad Request',
-          statusCode: 400,
-        })
-      },
+
+  // Use Helmet for basic security headers
+  app.use(helmet())
+
+  // Use global validation pipe with whitelist option enabled
+  app.useGlobalPipes(new ValidationPipe({ whitelist: true }))
+
+  // Set a global prefix for all routes, excluding the root and health check routes
+  // Set global prefix for all routes
+  app.setGlobalPrefix('onboarding', { exclude: ['/', '/health'] })
+  app.use(
+    json({
+      limit: '10mb',
     }),
   )
-  app.setGlobalPrefix(API_VERSION_PREFIX)
-  await app.listen(3000)
+  // Retrieve the ConfigService to access configuration values
+  const configService = app.get(ConfigService)
+
+  // Enable Versioning
+  app.enableVersioning({
+    type: VersioningType.URI,
+    defaultVersion: '1',
+  })
+  // Start the application and listen on the configured port
+  await app.listen(configService.get<string>('ONBOARDING_LAYER_PORT'))
 }
 
 run()

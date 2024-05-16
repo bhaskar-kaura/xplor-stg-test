@@ -1,74 +1,74 @@
-import { Context } from "../context";
+import { Context } from '../context';
 
 interface Descriptor {
-    name: string;
-    code?: string;
+  name: string;
+  code?: string;
 }
 
 interface Range {
-    start: string;
-    end: string;
+  start: string;
+  end: string;
 }
 
 interface Time {
-    range: Range;
+  range: Range;
 }
 
 interface ListItem {
-    descriptor?: Descriptor;
-    value: string;
+  descriptor?: Descriptor;
+  value: string;
 }
 
 interface Tag {
-    descriptor: Descriptor;
-    list: ListItem[];
-    display: boolean;
+  descriptor: Descriptor;
+  list: ListItem[];
+  display: boolean;
 }
 
 interface Item {
-    id: string;
-    descriptor: Descriptor;
-    long_desc?: string;
-    fulfillment_ids: string[];
-    location_ids: string[];
-    time: Time;
-    tags: Tag[];
+  id: string;
+  descriptor: Descriptor;
+  long_desc?: string;
+  fulfillment_ids: string[];
+  location_ids: string[];
+  time: Time;
+  tags: Tag[];
 }
 
 interface Location {
-    id: string;
-    city: {
-        name: string;
-        code: string;
-    };
-    state: {
-        name: string;
-        code: string;
-    };
+  id: string;
+  city: {
+    name: string;
+    code: string;
+  };
+  state: {
+    name: string;
+    code: string;
+  };
 }
 
 interface Fulfillment {
-    id: string;
-    type: string;
+  id: string;
+  type: string;
 }
 
 interface Provider {
-    descriptor: Descriptor;
-    fulfillments: Fulfillment[];
-    locations: Location[];
+  descriptor: Descriptor;
+  fulfillments: Fulfillment[];
+  locations: Location[];
 }
 
 interface Order {
-    provider: Provider;
-    items: Item[];
-    type: string;
+  provider: Provider;
+  items: Item[];
+  type: string;
 }
 
 interface Message {
-    order: Order;
+  order: Order;
 }
 
 export interface IJobOnSelect {
-    context: Context;
-    message: Message;
+  context: Context;
+  message: Message;
 }

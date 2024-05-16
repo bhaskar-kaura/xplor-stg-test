@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
-import { RetailService } from './retail.service';
-import { RetailController } from './retail.controller';
+import { RetailService } from './services/retail.serviceV1';
+import { RetailController } from './retail.controllerV1';
 
 @Module({
   controllers: [RetailController],
-  providers: [RetailService]
+  providers: [RetailService],
 })
 export class RetailModule {}

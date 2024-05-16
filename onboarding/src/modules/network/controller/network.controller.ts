@@ -8,7 +8,7 @@ import { NetworkDeleteService } from '../services/network-delete.service'
 import { NetworkUpdateService } from '../services/network-update.service'
 import { UpdateNetworkDto } from '../dto/update-network.dto'
 
-@Controller('network')
+@Controller({ version: '1', path: 'network' })
 export class NetworkController {
   constructor(
     private readonly domainReadService: DomainReadService,

@@ -1,23 +1,23 @@
-import { Context } from "../context";
+import { Context } from '../context';
 
 interface Provider {
-    id: string;
+  id: string;
 }
 
 interface Item {
-    id: string;
+  id: string;
 }
 
 interface Order {
-    provider: Provider;
-    items: Item[];
+  provider: Provider;
+  items: Item[];
 }
 
 interface Message {
-    order: Order;
+  order: Order;
 }
 
 export interface IJobSelect {
-    context: Context;
-    message: Message;
+  context: Context;
+  message: Message;
 }

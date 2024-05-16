@@ -1,5 +1,4 @@
-import { Context } from "../context";
-
+import { Context } from '../context';
 
 interface Descriptor {
   code?: string;
@@ -55,7 +54,7 @@ interface Item {
 
 interface Order {
   provider: {
-      id: string;
+    id: string;
   };
   items: Item[];
   fulfillments: Fulfillment[];
@@ -65,7 +64,7 @@ interface Message {
   order: Order;
 }
 
-interface IJobInit {
+export interface IJobInit {
   context: Context;
   message: Message;
 }
