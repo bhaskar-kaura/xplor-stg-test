@@ -3,7 +3,6 @@ import { BadGatewayException, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 
 import { SearchRequestDto } from './dto/search-request.dto';
-import { OndcContext, OnestContext } from '../../util/context.builder';
 import { GlobalActionService } from '../../common/action/global-action';
 import { JobResponseService } from './response/job/job-response.service';
 import { DomainsEnum } from '../../common/constants/enums';
@@ -11,6 +10,8 @@ import { AxiosService } from '../../common/axios/axios.service';
 import { getResponse } from '../../util/response';
 import { coreResponseMessage } from '../../common/constants/http-response-message';
 import { RetailResponseService } from './response/retail/retail-response.service';
+import { DumpService } from '../dump/service/dump.service';
+import { CreateDumpDto } from '../dump/dto/create-dump.dto';
 
 // Decorator to mark this class as a provider that can be injected into other classes
 @Injectable()
@@ -22,6 +23,7 @@ export class AppService {
     private ondcCreatePayload: RetailResponseService, // Service to create job response payloads
     private readonly httpService: AxiosService, // Service for making HTTP requests
     private readonly configService: ConfigService, // Service for accessing configuration values
+    private readonly dumpService: DumpService, // Service for dumping the request & response
   ) {
     // Initialize the configService with a new instance
     this.configService = new ConfigService();
@@ -35,6 +37,16 @@ export class AppService {
   // Method to perform a search operation
   async search(searchRequest: SearchRequestDto) {
     try {
+      // Dump the request into database
+      const createDumpDto: CreateDumpDto = {
+        context: searchRequest.context,
+        transaction_id: searchRequest.context.transaction_id,
+        message_id: searchRequest.context.message_id,
+        request_type: searchRequest.context.action,
+        message: JSON.stringify(searchRequest.message),
+      };
+
+      await this.dumpService.create(createDumpDto);
       // Perform the global search using the injected service
       await this.globalActionService.globalSearch(
         searchRequest.domain,
@@ -58,9 +70,23 @@ export class AppService {
   }
 
   // Method to handle search requests and delegate to the sendSearch method
-  async onSearch(response: OnestContext | OndcContext | any) {
+  async onSearch(response: any) {
     try {
-      console.log('response ==================', JSON.stringify(response),"=============================")
+      console.log(
+        'response ==================',
+        JSON.stringify(response),
+        '=============================',
+      );
+      // Dump the response into database
+      const createDumpDto: CreateDumpDto = {
+        context: response?.context,
+        transaction_id: response?.context?.transaction_id,
+        message_id: response?.context?.message_id,
+        request_type: response?.context?.action,
+        message: JSON.stringify(response.message),
+      };
+
+      await this.dumpService.create(createDumpDto);
       // Delegate the search operation to the sendSearch method
       await this.sendSearch(response);
     } catch (error) {
