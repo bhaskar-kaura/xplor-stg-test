@@ -25,14 +25,14 @@ interface Order {
 /**
  * Interface for a message, which includes an order.
  */
-interface Message {
+export interface IMessageSelect {
   order: Order;
 }
 
 /**
  * Interface for a job selection, including a context and a message.
  */
-export interface IJobSelect {
+export interface ICourseSelect {
   context: Context;
-  message: Message;
+  message: IMessageSelect;
 }
