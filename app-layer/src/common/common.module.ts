@@ -14,6 +14,8 @@ import { DumpService } from 'src/modules/dump/service/dump.service';
 import { CourseSelectService } from 'src/modules/app/request/course/services/selectv1.service';
 import { DumpModule } from 'src/modules/dump/dump.module';
 import { ScholarshipSelectService } from 'src/modules/app/request/scholarship/services/selectv1.service';
+import { ScholarshipInitService } from 'src/modules/app/request/scholarship/services/initv1.service';
+import { CourseInitService } from 'src/modules/app/request/course/services/initv1.service';
 
 /**
  * Decorates the CommonModule class with @Global() to make it a global module.
@@ -36,6 +38,8 @@ import { ScholarshipSelectService } from 'src/modules/app/request/scholarship/se
     RetailSearchService, // Service for retail-related searches
     CourseSelectService, // Service for course Select operations
     ScholarshipSelectService, // Service for scholarship Select operations
+    CourseInitService, // Service for course Init operations
+    ScholarshipInitService, // Service for scholarship Init operations
   ],
   exports: [
     AxiosService, // Exporting AxiosService for use in other modules
@@ -47,7 +51,8 @@ import { ScholarshipSelectService } from 'src/modules/app/request/scholarship/se
     RetailSearchService, // Exporting RetailSearchService for use in other modules
     CourseSelectService, // Exporting CourseSelectService for use in other modules
     ScholarshipSelectService, // Exporting ScholarshipSelectService for use in other modules
-
+    CourseInitService, // Service for course Init operations
+    ScholarshipInitService, // Service for scholarship Init operations
   ],
 })
 // Define the CommonModule class.

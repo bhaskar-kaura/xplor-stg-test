@@ -4,6 +4,7 @@ import { AppService } from './app.service';
 import { SearchRequestDto } from './dto/search-request.dto';
 import { OndcContext, OnestContext } from '../../util/context.builder';
 import { SelectRequestDto } from './dto/select-request.dto';
+import { InitRequestDto } from './dto/init-request.dto';
 
 /**
  * Controller for handling various requests in the application.
@@ -51,5 +52,10 @@ export class AppController {
   @Post('select')
   select(@Body() selectRequest: SelectRequestDto) {
     return this.appService.select(selectRequest);
+  }
+
+  @Post('init')
+  init(@Body() initRequest: InitRequestDto) {
+    return this.appService.init(initRequest);
   }
 }

@@ -13,6 +13,7 @@ import { RetailResponseService } from './response/retail/retail-response.service
 import { DumpService } from '../dump/service/dump.service';
 import { CreateDumpDto } from '../dump/dto/create-dump.dto';
 import { SelectRequestDto } from './dto/select-request.dto';
+import { InitRequestDto } from './dto/init-request.dto';
 
 // Decorator to mark this class as a provider that can be injected into other classes
 @Injectable()
@@ -71,7 +72,6 @@ export class AppService {
     }
   }
 
- 
   // Method to handle search requests and delegate to the sendSearch method
   async onSearch(response: any) {
     try {
@@ -164,10 +164,9 @@ export class AppService {
     }
   }
 
-
   async select(selectRequest: SelectRequestDto) {
-    try {     
-      console.log(selectRequest,"selectRequest")
+    try {
+      console.log(selectRequest, 'selectRequest');
       await this.globalActionService.globalSelect(selectRequest);
       // Return a success response
       return getResponse(
@@ -185,4 +184,23 @@ export class AppService {
     }
   }
 
+  async init(initRequest: InitRequestDto) {
+    try {
+      console.log(initRequest, 'initRequest');
+      await this.globalActionService.globalInit(initRequest);
+      // Return a success response
+      return getResponse(
+        true,
+        coreResponseMessage.searchSuccessResponse,
+        null,
+        null,
+      );
+    } catch (error) {
+      // Log the error and throw a BadGatewayException with a formatted error response
+      console.log(JSON.stringify(error?.response));
+      throw new BadGatewayException(
+        getResponse(false, error?.message, null, error?.response?.data),
+      );
+    }
+  }
 }
