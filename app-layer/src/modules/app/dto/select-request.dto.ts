@@ -8,6 +8,11 @@ class OrderItem {
 
     @IsString()
     providerId: string;
+
+    @IsOptional()
+    @IsArray()
+    @IsString({ each: true })
+    fulfillmentId?: string[];
 }
 
 class Message {
