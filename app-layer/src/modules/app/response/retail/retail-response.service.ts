@@ -28,8 +28,8 @@ export class RetailResponseService {
             ? response?.catalog['bpp/fulfillments']
             : {},
       };
-      catalog.providers = catalog.providers.map((provider: Provider) => {
-        provider.items.map((item) => {
+      catalog.providers = catalog?.providers?.map((provider: Provider) => {
+        provider?.items?.map((item) => {
           item.price.value = item.price.value.toString();
           item.price.maximum_value = item.price.maximum_value.toString();
           return item;
