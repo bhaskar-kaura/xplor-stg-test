@@ -95,6 +95,7 @@ interface Item {
   price: {
     currency: string;
     value: string;
+    maximum_value: string;
   };
   quantity?: {
     maximum?: {

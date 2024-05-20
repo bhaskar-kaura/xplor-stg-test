@@ -30,9 +30,8 @@ export class RetailResponseService {
       };
       catalog.providers = catalog.providers.map((provider: Provider) => {
         provider.items.map((item) => {
-          console.log('item', JSON.stringify(item));
-          console.log('item.price', JSON.stringify(item.price));
           item.price.value = item.price.value.toString();
+          item.price.maximum_value = item.price.maximum_value.toString();
           return item;
         });
         return provider;
