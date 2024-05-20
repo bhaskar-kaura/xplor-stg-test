@@ -9,10 +9,10 @@ export class Dump extends Document {
   @Prop({ required: true })
   transaction_id: string;
 
-  @Prop({ type:String, optional:true})
+  @Prop({ type: String, optional: true })
   domain: string | Array<string>;
 
-  @Prop({ type:Array<string> })
+  @Prop({ type: Array<string> })
   domains: Array<string>;
 
   @Prop({ required: true })
@@ -24,7 +24,7 @@ export class Dump extends Document {
   @Prop({ type: Object, required: true })
   context: Record<string, any>;
 
-  @Prop({type:Object,required: true })
+  @Prop({ type: Object, required: true })
   message: Record<string, any>;
 }
 export const DumpModel = Dump.name;
