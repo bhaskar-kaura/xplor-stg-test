@@ -33,6 +33,13 @@ export class RetailResponseService {
           catalog: catalog,
         },
       };
+      catalog.providers.map((data: Provider) => {
+        console.log('provider', JSON.stringify(data));
+        data.items.map((item) => {
+          console.log('item', JSON.stringify(item));
+          console.log('item.price', item.price);
+        });
+      });
       return resp;
     } catch (error) {
       console.log(error);

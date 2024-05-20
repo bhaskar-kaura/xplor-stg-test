@@ -133,7 +133,6 @@ export class AppService {
             ? this.onestCreatePayload.createPayload(response.message)
             : {};
         case DomainsEnum.RETAIL_DOMAIN:
-          console.log('retailData', response.message);
           retail = response.message
             ? this.ondcCreatePayload.createPayload(response.message)
             : {};

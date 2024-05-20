@@ -275,7 +275,7 @@ export const onSearchSchema = {
                               type: 'string',
                             },
                           },
-                          required: ['currency', 'value', 'maximum_value'],
+                          required: ['currency', 'value'],
                         },
                         '@ondc/org/returnable': {
                           type: 'boolean',
