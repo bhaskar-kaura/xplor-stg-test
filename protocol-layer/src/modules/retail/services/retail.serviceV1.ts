@@ -44,7 +44,7 @@ export class RetailService {
         context: searchRetailDto.context,
         message: searchRetailDto.message,
       });
-      console.log('validatedRetailResponse', onSearchSchema);
+      console.log('validatedRetailResponse', JSON.stringify(searchRetailDto));
       if (!isValid) {
         const message = new AckNackResponse(
           'NACK',
