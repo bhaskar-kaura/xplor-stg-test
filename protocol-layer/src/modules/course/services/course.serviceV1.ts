@@ -3,7 +3,7 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { AxiosService } from '../.../../../../common/axios/axios.service';
 
 import { searchSchema } from '../schema/search.schema';
-import { SearchCourseDto } from '../dto/search-course.dto';
+import { OnSelectCourseDto, SearchCourseDto, SelectCourseDto } from '../dto/request-course.dto';
 import validateJson from '../.../../../../utils/validator';
 import { AckNackResponse } from '../.../../../../utils/ack-nack';
 import { ConfigService } from '@nestjs/config';
@@ -15,6 +15,8 @@ import {
   NACK,
 } from '../.../../../../common/constants/action';
 import { onSearchSchema } from '../schema/onSearch.schema';
+import { selectSchema } from '../schema/select.schema';
+import { onSelectSchema } from '../schema/onSelect.schema';
 @Injectable()
 export class CourseService {
   constructor(
@@ -86,5 +88,78 @@ export class CourseService {
       searchPayload,
     );
     return result;
+  }
+
+  async select(selectCourseDto: SelectCourseDto) {
+    try {
+      const isValid = validateJson(selectSchema, {
+        context: selectCourseDto.context,
+        message: selectCourseDto.message,
+      });
+      console.log('isValid', isValid);
+      if (isValid !== true) {
+        const message = new AckNackResponse(
+          'NACK',
+          'CONTEXT_ERROR',
+          '625519',
+          isValid as unknown as string,
+        );
+        throw new BadRequestException(message);
+      } else {
+        const message = new AckNackResponse('ACK');
+        await this.sendSelectRequest(selectCourseDto);
+        return {
+          message,
+        };
+      }
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async onSelect(onSelectCourseDto: OnSelectCourseDto) {
+    try {
+      console.log('courseOnSearchResponse', onSelectCourseDto);
+      const isValid = validateJson(onSelectSchema, {
+        context: onSelectCourseDto.context,
+        message: onSelectCourseDto.message,
+      });
+      console.log(isValid);
+      if (!isValid) {
+        const message = new AckNackResponse(
+          NACK,
+          CONTEXT_ERROR,
+          ERROR_CODE_CONTEXT,
+          isValid as unknown as string,
+        );
+        return message;
+      } else {
+        const message = new AckNackResponse(ACK);
+        const response=await this.axiosService.post(
+          this.configService.get('APP_SERVICE_URL') + `/${Action.on_select}`,
+          onSelectCourseDto,
+        );
+        return response;
+      }
+    } catch (error) {
+      throw error;
+    }
+  }
+  async sendSelectRequest(selectCourseDto: SelectCourseDto) {
+    try {
+      const selectPayload = {
+        context: selectCourseDto.context,
+        message: selectCourseDto.message,
+      };
+
+      const url = selectCourseDto.context.bpp_uri + `/${Action.select}`;
+      console.log(url);
+      const selectResponse = await this.axiosService.post(url, selectPayload);
+      console.log('selectRequest=======', selectResponse);
+      return selectResponse;
+    } catch (error) {
+      console.log('error===============', error);
+      throw error?.response;
+    }
   }
 }

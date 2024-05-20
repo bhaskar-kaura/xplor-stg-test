@@ -12,15 +12,18 @@ import {
   OnestContextConstants,
   searchContextConstants,
 } from '../constants/context.constant';
+import { CourseSelectService } from 'src/modules/app/request/course/services/selectv1.service';
+import { SelectRequestDto } from 'src/modules/app/dto/select-request.dto';
 
 @Injectable()
 export class GlobalActionService {
   constructor(
     private readonly jobSearchService: JobSearchService,
     private readonly courseSearchService: CourseSearchService,
+    private readonly courseSelectService: CourseSelectService,
     private readonly scholarshipService: ScholarshipSearchService,
     private readonly retailService: RetailSearchService,
-  ) {}
+  ) { }
 
   /**
    * Performs a global search across different domains (job, course, scholarship).
@@ -106,6 +109,58 @@ export class GlobalActionService {
             break;
         }
       });
+    } catch (error) {
+      // Catch any errors that occur during the search operations
+      // Log the error for debugging purposes
+      console.error(error);
+      // Rethrow the error to be handled by the caller
+      throw error;
+    }
+  }
+
+  async globalSelect(
+     request: SelectRequestDto
+  ) {
+    try {
+   
+      // Switch statement to handle different domains
+      switch (request?.context?.domain) {
+        case xplorDomain.job:
+          // Logic for JOB_DOMAIN
+          // Perform the search operation using the JobSearchService
+          // const searchResponse =
+          //   await this.jobSearchService.sendSearchPayload(contexts, message);
+          // // Log the search response for the job domain
+          // console.log(`Job: ${searchResponse}`);
+          break;
+        case xplorDomain.course:
+          // Logic for COURSE_DOMAIN
+  
+          const selectResponseCourse =
+            await this.courseSelectService.sendSelectPayload(request
+            );
+          // Log the search response for the course domain
+          console.log(`course-select: ${JSON.stringify(selectResponseCourse)}`);
+          break;
+        case xplorDomain.scholarship:
+          // Logic for SCHOLARSHIP_DOMAIN
+          // Perform the search operation using the ScholarshipSearchService
+          // const searchResponseScholarship =
+          //   await this.scholarshipService.sendSelecPayload(
+          //     contexts,
+          //     message,
+          //   );
+          // // Log the search response for the scholarship domain
+          // console.log(`Scholarship: ${searchResponseScholarship}`);
+          break;
+        default:
+          // Default case if the domain does not match any of the expected values
+          // No specific action is taken here, but you could add logic to handle unexpected domains
+       
+          break;
+      }
+    
+  
     } catch (error) {
       // Catch any errors that occur during the search operations
       // Log the error for debugging purposes

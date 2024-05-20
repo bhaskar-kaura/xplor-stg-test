@@ -3,6 +3,7 @@ import { Body, Controller, Get, Post } from '@nestjs/common';
 import { AppService } from './app.service';
 import { SearchRequestDto } from './dto/search-request.dto';
 import { OndcContext, OnestContext } from '../../util/context.builder';
+import { SelectRequestDto } from './dto/select-request.dto';
 
 /**
  * Controller for handling various requests in the application.
@@ -45,5 +46,10 @@ export class AppController {
   @Post('on_search')
   onSearch(@Body() searchResponse: OndcContext | OnestContext | any) {
     return this.appService.onSearch(searchResponse);
+  }
+
+  @Post('select')
+  select(@Body() selectRequest: SelectRequestDto) {
+    return this.appService.select(selectRequest);
   }
 }

@@ -12,7 +12,8 @@ export const OnestContextConstants = {
    * It is crucial for routing and accessing the application's resources.
    */
   bap_uri: 'https://xplor-stg-nest-dev.thewitslab.com/protocol/v1',
-  version: '1.1.0',
+  version: '1.0.0',
+  ttl: 'PT10M',
 };
 
 export const OndcContextConstants = {
@@ -30,10 +31,10 @@ export const OndcContextConstants = {
    */
   bap_uri: 'https://xplor-core-nest-dev.thewitslab.com/api/v1/stg',
   version: '1.2.0',
-  ttl: 'PT2M',
+  ttl: 'PT1M',
 };
 
 export const searchContextConstants = {
   action: 'search',
-  ttl: 'PT2M',
+  ttl: 'PT1M',
 };

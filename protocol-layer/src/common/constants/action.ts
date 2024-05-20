@@ -1,13 +1,15 @@
 // Define an enumeration for different types of actions that can be performed
 export enum Action {
-  search = 'search', // Action to initiate a search
-  on_search = 'on_search', // Action to handle a search request
-  init = 'init', // Action to initialize a process or component
-  on_init = 'on_init', // Action to handle an initialization request
-  confirm = 'confirm', // Action to confirm an operation or request
-  on_confirm = 'on_confirm', // Action to handle a confirmation request
-  status = 'status', // Action to request the status of a process or component
-  on_status = 'on_status', // Action to handle a status request
+  search = 'search', // Trigger a search operation
+  on_search = 'on_search', // Handle the result of a search operation
+  select = 'select', // Trigger a select operation
+  on_select = 'on_select', // Handle the result of a select operation
+  init = 'init', // Initialize a process or component
+  on_init = 'on_init', // Handle the initialization of a process or component
+  confirm = 'confirm', // Confirm an action or process
+  on_confirm = 'on_confirm', // Handle the confirmation of an action or process
+  status = 'status', // Check the status of a process or component
+  on_status = 'on_status', // Handle the status update of a process or component
 }
 
 // Define constants for response codes

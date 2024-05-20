@@ -1,4 +1,4 @@
-import { Context } from '../context';
+import { Context, SelectContext } from '../context';
 
 /**
  * Interface for a provider, which includes an ID.
@@ -10,7 +10,7 @@ interface Provider {
 /**
  * Interface for an item, which includes an ID.
  */
-interface Item {
+export interface Item {
   id: string;
 }
 
@@ -33,6 +33,6 @@ export interface IMessageSelect {
  * Interface for a job selection, including a context and a message.
  */
 export interface ICourseSelect {
-  context: Context;
+  context: SelectContext;
   message: IMessageSelect;
 }

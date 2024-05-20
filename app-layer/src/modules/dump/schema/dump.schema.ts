@@ -9,6 +9,12 @@ export class Dump extends Document {
   @Prop({ required: true })
   transaction_id: string;
 
+  @Prop({ type:String, optional:true})
+  domain: string | Array<string>;
+
+  @Prop({ type:Array<string> })
+  domains: Array<string>;
+
   @Prop({ required: true })
   request_type: string;
 
@@ -18,8 +24,8 @@ export class Dump extends Document {
   @Prop({ type: Object, required: true })
   context: Record<string, any>;
 
-  @Prop({ required: true })
-  message: string;
+  @Prop({type:Object,required: true })
+  message: Record<string, any>;
 }
 export const DumpModel = Dump.name;
 export type DumpDocument = Dump & Document;

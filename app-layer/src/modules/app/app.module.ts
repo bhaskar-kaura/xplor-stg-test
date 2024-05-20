@@ -10,6 +10,7 @@ import { JobResponseService } from './response/job/job-response.service';
 import { RetailResponseService } from './response/retail/retail-response.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { DumpModule } from '../dump/dump.module';
+import { DumpService } from '../dump/service/dump.service';
 
 /**
  * Module decorator for defining the module's metadata.

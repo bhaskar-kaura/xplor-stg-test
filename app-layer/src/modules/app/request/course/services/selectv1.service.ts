@@ -1,8 +1,13 @@
 import { Injectable } from '@nestjs/common';
 
 import { CourseSelectPayload } from '../entity/select.enytity';
-import { Context } from '../interface/context';
-import { ICourseSelect, IMessageSelect as Message } from '../interface/request/Select';
+import { Context, SelectContext } from '../interface/context';
+import {
+  ICourseSelect,
+  IMessageSelect,
+  Item,
+  IMessageSelect as Message,
+} from '../interface/request/select';
 import { OnestContextConstants } from 'src/common/constants/context.constant';
 import { AxiosService } from 'src/common/axios/axios.service';
 import { ConfigService } from '@nestjs/config';
@@ -12,37 +17,51 @@ import {
   Gateway,
   xplorDomain,
 } from 'src/common/constants/enums';
+import { DumpService } from 'src/modules/dump/service/dump.service';
+import { SelectRequestDto } from 'src/modules/app/dto/select-request.dto';
 
-/**
- * Service for handling course Select operations.
- * This service is responsible for creating and sending Select payloads for course-related queries.
- */
 @Injectable()
 export class CourseSelectService {
   constructor(
     private readonly configService: ConfigService,
     private readonly httpService: AxiosService,
+    private readonly dbService: DumpService,
   ) {}
 
-  /**
-   * Creates a payload for a course Select operation.
-   * This method constructs a CourseSelectPayload object with the necessary context and query information.
-   * @param context The context in which the Select is performed.
-   * @param query The query parameters for the Select.
-   * @returns The constructed payload.
-   */
-  createPayload(context: Context, query: Message) {
+  async createPayload(request: SelectRequestDto) {
     try {
-      const contextPayload: Context = {
+      const itemsFromDb = await this.dbService.findItemByProviderId(
+        request?.context?.transactionId,
+        request?.message?.order?.providerId,
+        request?.message?.order?.itemsId,
+        request?.context?.domain,
+      );
+      const context = itemsFromDb.context as unknown as SelectContext;
+      const contextPayload: SelectContext = {
         ...context,
-        bap_id: OnestContextConstants.bap_id,
-        bap_uri:
-          this.configService.get('PROTOCOL_SERVICE_URL') +
-          `/${xplorDomain.course}`,
+        action: Action.select,
         domain: DomainsEnum.COURSE_DOMAIN,
+        message_id: request.context.messageId,
+        version: OnestContextConstants.version,
+        timestamp: new Date().toISOString(),
+        ttl: request.context.ttl
+          ? request.context.ttl
+          : OnestContextConstants.ttl,
       };
-      const message: Message = query;
-      const payload = new CourseSelectPayload(contextPayload, message);
+      itemsFromDb.context as unknown as SelectContext;
+      const messagePayload: IMessageSelect = {
+        order: {
+          provider: {
+            id: request.message.order.providerId,
+          },
+          items: [
+            { id: request.message.order.itemsId[0] },
+            ...request.message.order.itemsId.slice(1).map((id) => ({ id })),
+          ],
+        },
+      };
+
+      const payload = new CourseSelectPayload(contextPayload, messagePayload);
       return {
         ...payload,
         gatewayUrl: Gateway.course,
@@ -52,22 +71,16 @@ export class CourseSelectService {
     }
   }
 
-  /**
-   * Sends a Select payload to the appropriate service.
-   * This method sends the constructed payload to the service endpoint and returns the response.
-   * @param context The context in which the Select is performed.
-   * @param query The query parameters for the Select.
-   * @returns The response from the service.
-   */
-  async sendSelectPayload(context: Context, query: Message) {
+  async sendSelectPayload(request: SelectRequestDto) {
     try {
-      const SelectPayload: ICourseSelect = this.createPayload(context, query);
+      const selectPayload: ICourseSelect = await this.createPayload(request);
 
       const url =
         this.configService.get('PROTOCOL_SERVICE_URL') +
-        `/${xplorDomain.course}/${Action.Select}`;
+        `/${xplorDomain.course}/${Action.select}`;
 
-      const response = await this.httpService.post(url, SelectPayload);
+      const response = await this.httpService.post(url, selectPayload);
+      console.log('selectPayload', JSON.stringify(selectPayload));
       return response;
     } catch (error) {
       console.log(error);

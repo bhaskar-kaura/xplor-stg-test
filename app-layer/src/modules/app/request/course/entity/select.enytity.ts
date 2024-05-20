@@ -1,6 +1,6 @@
 // Import necessary interfaces and types from other modules
-import { Context } from '../interface/context';
-import { ICourseSelect, IMessageSelect as Message } from '../interface/request/Select';
+import { Context, SelectContext } from '../interface/context';
+import { ICourseSelect, IMessageSelect as Message } from '../interface/request/select';
 
 /**
  * Represents the payload for selecting courses.
@@ -10,7 +10,7 @@ import { ICourseSelect, IMessageSelect as Message } from '../interface/request/S
 export class CourseSelectPayload implements ICourseSelect {
 
   // The context object containing relevant application-wide data or configurations
-  context: Context;
+  context: SelectContext;
 
   // The message object detailing the specific request parameters for course selection
   message: Message;
@@ -22,7 +22,7 @@ export class CourseSelectPayload implements ICourseSelect {
    * @param context The application context required for processing the request.
    * @param message The detailed message specifying the course selection criteria.
    */
-  constructor(context: Context, message: Message) {
+  constructor(context: SelectContext, message: Message) {
     // Assigns the provided context and message to the corresponding properties
     this.context = context;
     this.message = message;

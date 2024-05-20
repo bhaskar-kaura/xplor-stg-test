@@ -10,6 +10,9 @@ import { JobSearchService } from '../modules/app/request/job/services/searchv1.s
 import { CourseSearchService } from '../modules/app/request/course/services/searchv1.service';
 import { ScholarshipSearchService } from '../modules/app/request/scholarship/services/searchv1.service';
 import { RetailSearchService } from 'src/modules/app/request/retail/services/searchv1.service';
+import { DumpService } from 'src/modules/dump/service/dump.service';
+import { CourseSelectService } from 'src/modules/app/request/course/services/selectv1.service';
+import { DumpModule } from 'src/modules/dump/dump.module';
 
 /**
  * Decorates the CommonModule class with @Global() to make it a global module.
@@ -17,7 +20,7 @@ import { RetailSearchService } from 'src/modules/app/request/retail/services/sea
  */
 @Global()
 @Module({
-  imports: [{ module: HttpModule, global: true }], // Importing HttpModule globally
+  imports: [{ module: HttpModule, global: true }, DumpModule], // Importing HttpModule globally
   providers: [
     AxiosService, // Service for making HTTP requests
     GrafanaLoggerService, // Service for logging with Grafana
@@ -30,6 +33,7 @@ import { RetailSearchService } from 'src/modules/app/request/retail/services/sea
     CourseSearchService, // Service for course-related searches
     ScholarshipSearchService, // Service for scholarship-related searches
     RetailSearchService, // Service for retail-related searches
+    CourseSelectService, // Service for course Select operations
   ],
   exports: [
     AxiosService, // Exporting AxiosService for use in other modules
@@ -39,6 +43,7 @@ import { RetailSearchService } from 'src/modules/app/request/retail/services/sea
     CourseSearchService, // Exporting CourseSearchService for use in other modules
     ScholarshipSearchService, // Exporting ScholarshipSearchService for use in other modules
     RetailSearchService, // Exporting RetailSearchService for use in other modules
+    CourseSelectService, // Exporting CourseSelectService for use in other modules
   ],
 })
 // Define the CommonModule class.

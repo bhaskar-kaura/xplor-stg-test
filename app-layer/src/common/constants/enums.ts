@@ -27,6 +27,8 @@ export const xplorDomain = {
 export enum Action {
   search = 'search', // Trigger a search operation
   on_search = 'on_search', // Handle the result of a search operation
+  select = 'select', // Trigger a select operation
+  on_select = 'on_select', // Handle the result of a select operation
   init = 'init', // Initialize a process or component
   on_init = 'on_init', // Handle the initialization of a process or component
   confirm = 'confirm', // Confirm an action or process

@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 
-import { SearchJobDto } from '../../dto/search-job.dto';
+import { SearchJobDto, SelectJobDto } from '../../dto/request-job.dto';
 import { searchSchema } from '../../schema/v1/search.schema';
 import { AxiosService } from '../../../../common/axios/axios.service';
 import validateJson from '../../../../utils/validator';
@@ -93,6 +93,51 @@ export class JobService {
       }
     } catch (error) {
       throw error;
+    }
+  }
+
+  async select(selectJobDto: SelectJobDto) {
+    try {
+      const isValid = validateJson(searchSchema, {
+        context: selectJobDto.context,
+        message: selectJobDto.message,
+      });
+      console.log('isValid', isValid);
+      if (isValid !== true) {
+        const message = new AckNackResponse(
+          'NACK',
+          'CONTEXT_ERROR',
+          '625519',
+          isValid as unknown as string,
+        );
+        throw new BadRequestException(message);
+      } else {
+        const message = new AckNackResponse('ACK');
+        await this.sendSearchRequest(selectJobDto);
+        return {
+          message,
+        };
+      }
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async sendSelectRequest(selectJobDto: SelectJobDto) {
+    try {
+      const searchPayload = {
+        context: selectJobDto.context,
+        message: selectJobDto.message,
+      };
+
+      const url = selectJobDto.gatewayUrl + '/select';
+      console.log(url);
+      const searchResponse = await this.axiosService.post(url, searchPayload);
+      console.log('selectRequest=======', searchResponse);
+      return searchResponse;
+    } catch (error) {
+      console.log('error===============', error);
+      throw error?.response;
     }
   }
 }

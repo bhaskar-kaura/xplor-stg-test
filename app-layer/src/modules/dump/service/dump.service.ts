@@ -15,7 +15,26 @@ export class DumpService {
     return await this.dumpModel.find();
   }
 
-  async findByTransactionId(transaction_id: string): Promise<Dump[]> {
-    return await this.dumpModel.findOne({ transaction_id });
+  async findByTransactionId(
+    transaction_id: string,
+    domain: string,
+  ): Promise<Dump> {
+
+      return await this.dumpModel.findOne({ transaction_id, domain });
+    
+  }
+
+  async findItemByProviderId(transactionId: string, providerId: string, id: string[], domain: string,): Promise<Dump | null> {
+    console.log(id)
+    return await this.dumpModel.findOne({
+      transaction_id: transactionId,
+      domain: domain,
+      "message.catalog.providers": {
+        $elemMatch: {
+          id: providerId,
+          "items.id": { $in: id }
+        }
+      }
+    }).exec();
   }
 }

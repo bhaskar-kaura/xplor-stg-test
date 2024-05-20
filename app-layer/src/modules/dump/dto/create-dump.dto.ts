@@ -1,9 +1,17 @@
-import { IsString, IsNotEmpty, IsObject } from 'class-validator';
+import { IsString, IsNotEmpty, IsObject, IsOptional, IsArray } from 'class-validator';
 
 export class CreateDumpDto {
   @IsString()
   @IsNotEmpty()
   transaction_id: string;
+
+  @IsOptional()
+  @IsString()
+  domain?: string 
+
+  @IsOptional()
+  @IsArray()
+  domains?: Array<string>
 
   @IsString()
   @IsNotEmpty()

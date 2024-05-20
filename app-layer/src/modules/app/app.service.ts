@@ -12,6 +12,7 @@ import { coreResponseMessage } from '../../common/constants/http-response-messag
 import { RetailResponseService } from './response/retail/retail-response.service';
 import { DumpService } from '../dump/service/dump.service';
 import { CreateDumpDto } from '../dump/dto/create-dump.dto';
+import { SelectRequestDto } from './dto/select-request.dto';
 
 // Decorator to mark this class as a provider that can be injected into other classes
 @Injectable()
@@ -40,6 +41,7 @@ export class AppService {
       // Dump the request into database
       const createDumpDto: CreateDumpDto = {
         context: searchRequest.context,
+        domains: [...searchRequest.domain],
         transaction_id: searchRequest.context.transaction_id,
         message_id: searchRequest.context.message_id,
         request_type: searchRequest.context.action,
@@ -69,6 +71,7 @@ export class AppService {
     }
   }
 
+ 
   // Method to handle search requests and delegate to the sendSearch method
   async onSearch(response: any) {
     try {
@@ -77,13 +80,23 @@ export class AppService {
         JSON.stringify(response),
         '=============================',
       );
+      const domain =
+        response?.context?.domain === DomainsEnum.COURSE_DOMAIN
+          ? 'course'
+          : response?.context?.domain === DomainsEnum.JOB_DOMAIN
+          ? 'job'
+          : response?.context?.domain === DomainsEnum.SCHOLARSHIP_DOMAIN
+          ? 'scholarship'
+          : 'retail';
+
       // Dump the response into database
       const createDumpDto: CreateDumpDto = {
         context: response?.context,
         transaction_id: response?.context?.transaction_id,
+        domain: domain,
         message_id: response?.context?.message_id,
         request_type: response?.context?.action,
-        message: JSON.stringify(response.message),
+        message: response?.message,
       };
 
       await this.dumpService.create(createDumpDto);
@@ -151,4 +164,25 @@ export class AppService {
       );
     }
   }
+
+
+  async select(searchRequest: SelectRequestDto) {
+    try {     
+      await this.globalActionService.globalSelect(searchRequest);
+      // Return a success response
+      return getResponse(
+        true,
+        coreResponseMessage.searchSuccessResponse,
+        null,
+        null,
+      );
+    } catch (error) {
+      // Log the error and throw a BadGatewayException with a formatted error response
+      console.log(JSON.stringify(error?.response));
+      throw new BadGatewayException(
+        getResponse(false, error?.message, null, error?.response?.data),
+      );
+    }
+  }
+
 }
