@@ -200,7 +200,6 @@ export const onSearchSchema = {
                               type: 'array',
                               items: {
                                 type: 'string',
-                                format: 'uri',
                               },
                             },
                           },
