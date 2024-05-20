@@ -1,10 +1,11 @@
 import { Injectable } from '@nestjs/common';
 
-import { CourseSelectPayload } from '../entity/select.entity';
-import { SelectContext } from '../interface/context';
+import { ScholarshipSelectPayload  } from '../entity/select.entity'
+import { Context, ISelectContext } from '../interface/context';
 import {
-  ICourseSelect,
-  IMessageSelect
+  IScholarshipSelect,
+  IMessageSelect,
+  IMessageSelect as Message,
 } from '../interface/request/select';
 import { OnestContextConstants } from 'src/common/constants/context.constant';
 import { AxiosService } from 'src/common/axios/axios.service';
@@ -19,7 +20,7 @@ import { DumpService } from 'src/modules/dump/service/dump.service';
 import { SelectRequestDto } from 'src/modules/app/dto/select-request.dto';
 
 @Injectable()
-export class CourseSelectService {
+export class ScholarshipSelectService {
   constructor(
     private readonly configService: ConfigService,
     private readonly httpService: AxiosService,
@@ -28,17 +29,24 @@ export class CourseSelectService {
 
   async createPayload(request: SelectRequestDto) {
     try {
+
       const itemsFromDb = await this.dbService.findItemByProviderId(
         request?.context?.transactionId,
         request?.message?.order?.providerId,
         request?.message?.order?.itemsId,
         request?.context?.domain,
       );
-      const context = itemsFromDb.context as unknown as SelectContext;
-      const contextPayload: SelectContext = {
+      if (itemsFromDb === null)
+      {
+        return 'Item not found'  
+      }
+      else {
+        const context = itemsFromDb?.context as unknown as ISelectContext;
+      
+      const contextPayload: ISelectContext = {
         ...context,
         action: Action.select,
-        domain: DomainsEnum.COURSE_DOMAIN,
+        domain: DomainsEnum.SCHOLARSHIP_DOMAIN,
         message_id: request.context.messageId,
         version: OnestContextConstants.version,
         timestamp: new Date().toISOString(),
@@ -46,24 +54,29 @@ export class CourseSelectService {
           ? request.context.ttl
           : OnestContextConstants.ttl,
       };
-      itemsFromDb.context as unknown as SelectContext;
+      itemsFromDb.context as unknown as ISelectContext;
       const messagePayload: IMessageSelect = {
         order: {
           provider: {
-            id: request.message.order.providerId,
+            id: request?.message?.order?.providerId,
           },
           items: [
             { id: request.message.order.itemsId[0] },
             ...request.message.order.itemsId.slice(1).map((id) => ({ id })),
           ],
+          fulfillments: [{ id: request.message.order.fulfillmentId[0] },
+          ...request.message.order.fulfillmentId.slice(1).map((id) => ({ id })),],
         },
       };
 
-      const payload = new CourseSelectPayload(contextPayload, messagePayload);
+      const payload = new ScholarshipSelectPayload(contextPayload, messagePayload);
+      console.log(JSON.stringify(payload));
       return {
         ...payload,
-        gatewayUrl: Gateway.course,
+        gatewayUrl: Gateway.scholarship,
       };
+      }
+      
     } catch (error) {
       return error?.message;
     }
@@ -71,17 +84,15 @@ export class CourseSelectService {
 
   async sendSelectPayload(request: SelectRequestDto) {
     try {
-      const selectPayload: ICourseSelect = await this.createPayload(request);
-
+      const selectPayload: IScholarshipSelect = await this.createPayload(request);
       const url =
         this.configService.get('PROTOCOL_SERVICE_URL') +
-        `/${xplorDomain.course}/${Action.select}`;
-
+        `/${xplorDomain.scholarship}/${Action.select}`;
+     console.log(JSON.stringify(selectPayload))
       const response = await this.httpService.post(url, selectPayload);
-      console.log('selectPayload', JSON.stringify(selectPayload));
       return response;
     } catch (error) {
-      console.log(error);
+      console.log(error?.message);
       return error?.message;
     }
   }

@@ -5,7 +5,7 @@ import { ConfigService } from '@nestjs/config';
 import { SearchRequestDto } from './dto/search-request.dto';
 import { GlobalActionService } from '../../common/action/global-action';
 import { JobResponseService } from './response/job/job-response.service';
-import { DomainsEnum } from '../../common/constants/enums';
+import { Action, DomainsEnum } from '../../common/constants/enums';
 import { AxiosService } from '../../common/axios/axios.service';
 import { getResponse } from '../../util/response';
 import { coreResponseMessage } from '../../common/constants/http-response-message';
@@ -44,8 +44,8 @@ export class AppService {
         domains: [...searchRequest.domain],
         transaction_id: searchRequest.context.transaction_id,
         message_id: searchRequest.context.message_id,
-        request_type: searchRequest.context.action,
-        message: JSON.stringify(searchRequest.message),
+        request_type: Action.search,
+        message: searchRequest.message,
       };
 
       await this.dumpService.create(createDumpDto);
@@ -133,7 +133,6 @@ export class AppService {
             ? this.onestCreatePayload.createPayload(response.message)
             : {};
         case DomainsEnum.RETAIL_DOMAIN:
-          console.log('retailData', response.message);
           retail = response.message
             ? this.ondcCreatePayload.createPayload(response.message)
             : {};
@@ -166,9 +165,10 @@ export class AppService {
   }
 
 
-  async select(searchRequest: SelectRequestDto) {
+  async select(selectRequest: SelectRequestDto) {
     try {     
-      await this.globalActionService.globalSelect(searchRequest);
+      console.log(selectRequest,"selectRequest")
+      await this.globalActionService.globalSelect(selectRequest);
       // Return a success response
       return getResponse(
         true,

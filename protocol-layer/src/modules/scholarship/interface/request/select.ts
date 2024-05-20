@@ -18,11 +18,11 @@ interface Order {
   fulfillments: fulfillment[];
 }
 
-export interface ICourseSelectMessage {
+export interface IScholarshipSelectMessage {
   order: Order;
 }
 
-export interface ICourseSelect {
+export interface IScholarshipSelect {
   context: ISelectContext;
-  message: ICourseSelectMessage;
+  message: IScholarshipSelectMessage;
 }

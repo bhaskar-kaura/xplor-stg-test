@@ -27,7 +27,7 @@ export class CreateDumpDto {
 
   @IsString()
   @IsNotEmpty()
-  message: string;
+  message: Record<string, any>;
 
   constructor(partial: Partial<CreateDumpDto>) {
     Object.assign(this, partial);

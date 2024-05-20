@@ -15,6 +15,8 @@ import {
 } from 'src/common/constants/action';
 import { ConfigService } from '@nestjs/config';
 import { onSearchSchema } from '../schema/onSearch.schema';
+import { selectSchema } from '../schema/select.schema';
+import { SelectScholarshipDto } from '../dto/request-scholarship.dtp';
 
 @Injectable()
 export class ScholarshipService {
@@ -25,6 +27,7 @@ export class ScholarshipService {
   ) {}
   async search(searchScholarshipDto: SearchScholarshipDto) {
     try {
+      console.log(JSON.stringify(searchScholarshipDto.message),"search_scholarship_dto");
       const isValid = validateJson(searchSchema, {
         context: searchScholarshipDto.context,
         message: searchScholarshipDto.message,
@@ -51,10 +54,12 @@ export class ScholarshipService {
       context: searchScholarshipDto.context,
       message: searchScholarshipDto.message,
     };
+     console.log(searchScholarshipDto.gatewayUrl,"gatewayUrl")
     const result = await this.axiosService.post(
       searchScholarshipDto.gatewayUrl + '/search',
       searchPayload,
     );
+    console.log(result,"scholarshipGatewayResult")
     return result;
   }
 
@@ -86,6 +91,50 @@ export class ScholarshipService {
         methodName: this.on_search.name,
       });
       throw error;
+    }
+  }
+
+  async select(selectScholarshipDto: SelectScholarshipDto) {
+    try {
+      const isValid = validateJson(selectSchema, {
+        context: selectScholarshipDto.context,
+        message: selectScholarshipDto.message,
+      });
+      console.log('isValid', isValid);
+      if (isValid !== true) {
+        const message = new AckNackResponse(
+          'NACK',
+          'CONTEXT_ERROR',
+          '625519',
+          isValid as unknown as string,
+        );
+        throw new BadRequestException(message);
+      } else {
+        const message = new AckNackResponse('ACK');
+        await this.sendSelectRequest(selectScholarshipDto);
+        return {
+          message,
+        };
+      }
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async sendSelectRequest(selectScholarshipDto: SelectScholarshipDto) {
+    try {
+      const selectPayload = {
+        context: selectScholarshipDto.context,
+        message: selectScholarshipDto.message,
+      };
+      const env=this.configService.get('NODE_ENV')
+      const url = env==='development'?selectScholarshipDto.gatewayUrl + `/${Action.select}`:selectPayload.context.bpp_id+ `${Action.select}`
+      const selectResponse = await this.axiosService.post(url, selectPayload);
+      console.log('selectRequest=======', selectResponse);
+      return selectResponse;
+    } catch (error) {
+      console.log('error===============', error);
+      throw error?.response;
     }
   }
 }

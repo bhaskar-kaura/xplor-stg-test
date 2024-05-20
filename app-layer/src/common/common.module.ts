@@ -13,6 +13,7 @@ import { RetailSearchService } from 'src/modules/app/request/retail/services/sea
 import { DumpService } from 'src/modules/dump/service/dump.service';
 import { CourseSelectService } from 'src/modules/app/request/course/services/selectv1.service';
 import { DumpModule } from 'src/modules/dump/dump.module';
+import { ScholarshipSelectService } from 'src/modules/app/request/scholarship/services/selectv1.service';
 
 /**
  * Decorates the CommonModule class with @Global() to make it a global module.
@@ -34,6 +35,7 @@ import { DumpModule } from 'src/modules/dump/dump.module';
     ScholarshipSearchService, // Service for scholarship-related searches
     RetailSearchService, // Service for retail-related searches
     CourseSelectService, // Service for course Select operations
+    ScholarshipSelectService, // Service for scholarship Select operations
   ],
   exports: [
     AxiosService, // Exporting AxiosService for use in other modules
@@ -44,6 +46,8 @@ import { DumpModule } from 'src/modules/dump/dump.module';
     ScholarshipSearchService, // Exporting ScholarshipSearchService for use in other modules
     RetailSearchService, // Exporting RetailSearchService for use in other modules
     CourseSelectService, // Exporting CourseSelectService for use in other modules
+    ScholarshipSelectService, // Exporting ScholarshipSelectService for use in other modules
+
   ],
 })
 // Define the CommonModule class.

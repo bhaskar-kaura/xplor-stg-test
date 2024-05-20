@@ -25,7 +25,6 @@ export class DumpService {
   }
 
   async findItemByProviderId(transactionId: string, providerId: string, id: string[], domain: string,): Promise<Dump | null> {
-    console.log(id)
     return await this.dumpModel.findOne({
       transaction_id: transactionId,
       domain: domain,

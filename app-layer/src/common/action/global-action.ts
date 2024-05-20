@@ -14,6 +14,7 @@ import {
 } from '../constants/context.constant';
 import { CourseSelectService } from 'src/modules/app/request/course/services/selectv1.service';
 import { SelectRequestDto } from 'src/modules/app/dto/select-request.dto';
+import { ScholarshipSelectService } from 'src/modules/app/request/scholarship/services/selectv1.service';
 
 @Injectable()
 export class GlobalActionService {
@@ -22,6 +23,7 @@ export class GlobalActionService {
     private readonly courseSearchService: CourseSearchService,
     private readonly courseSelectService: CourseSelectService,
     private readonly scholarshipService: ScholarshipSearchService,
+    private readonly scholarshipSelectService: ScholarshipSelectService,
     private readonly retailService: RetailSearchService,
   ) { }
 
@@ -73,6 +75,7 @@ export class GlobalActionService {
           case xplorDomain.scholarship:
             // Logic for SCHOLARSHIP_DOMAIN
             // Perform the search operation using the ScholarshipSearchService
+            
             const searchResponseScholarship =
               await this.scholarshipService.sendSearchPayload(
                 contexts,
@@ -145,13 +148,12 @@ export class GlobalActionService {
         case xplorDomain.scholarship:
           // Logic for SCHOLARSHIP_DOMAIN
           // Perform the search operation using the ScholarshipSearchService
-          // const searchResponseScholarship =
-          //   await this.scholarshipService.sendSelecPayload(
-          //     contexts,
-          //     message,
-          //   );
-          // // Log the search response for the scholarship domain
-          // console.log(`Scholarship: ${searchResponseScholarship}`);
+          const searchResponseScholarship =
+            await this.scholarshipSelectService.sendSelectPayload(
+             request
+            );
+          // Log the search response for the scholarship domain
+          console.log(`Scholarship: ${searchResponseScholarship}`);
           break;
         default:
           // Default case if the domain does not match any of the expected values
