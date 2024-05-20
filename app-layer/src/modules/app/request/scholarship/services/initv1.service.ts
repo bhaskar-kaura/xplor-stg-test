@@ -46,13 +46,11 @@ export class ScholarshipInitService {
       const messagePayload: IMessageInit = {
         order: {
           provider: {
-            id: selectRequestDetails?.message?.order.provider_id,
+            id: request.message.order.provider_id,
           },
           items: [
-            { id: selectRequestDetails?.message?.order.items_id[0] },
-            ...selectRequestDetails?.message?.order.itemsId
-              .slice(1)
-              .map((id) => ({ id })),
+            { id: request.message.order.items_id[0] },
+            ...request.message.order.items_id.slice(1).map((id) => ({ id })),
           ],
           billing: request.message.order.billing,
           fulfillments: [

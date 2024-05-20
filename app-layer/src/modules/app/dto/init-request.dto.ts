@@ -57,6 +57,13 @@ class OrderItem {
   @ValidateNested()
   @Type(() => BillingDto)
   billing: BillingDto;
+
+  @IsArray()
+  @IsString({ each: true })
+  items_id: string[];
+
+  @IsString()
+  provider_id: string;
 }
 
 class MessageDto {
