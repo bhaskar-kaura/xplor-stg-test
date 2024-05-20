@@ -3,7 +3,11 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { AxiosService } from '../.../../../../common/axios/axios.service';
 
 import { searchSchema } from '../schema/search.schema';
-import { OnSelectCourseDto, SearchCourseDto, SelectCourseDto } from '../dto/request-course.dto';
+import {
+  OnSelectCourseDto,
+  SearchCourseDto,
+  SelectCourseDto,
+} from '../dto/request-course.dto';
 import validateJson from '../.../../../../utils/validator';
 import { AckNackResponse } from '../.../../../../utils/ack-nack';
 import { ConfigService } from '@nestjs/config';
@@ -66,10 +70,11 @@ export class CourseService {
         return message;
       } else {
         const message = new AckNackResponse(ACK);
-        const response=await this.axiosService.post(
+        const response = await this.axiosService.post(
           this.configService.get('APP_SERVICE_URL') + `/${Action.on_search}`,
           searchCourseDto,
         );
+        console.log('response', response);
         return message;
       }
     } catch (error) {
@@ -82,7 +87,7 @@ export class CourseService {
       context: searchCourseDto.context,
       message: searchCourseDto.message,
     };
-    console.log()
+    console.log();
     const result = await this.axiosService.post(
       searchCourseDto.gatewayUrl + '/search',
       searchPayload,
@@ -135,11 +140,12 @@ export class CourseService {
         return message;
       } else {
         const message = new AckNackResponse(ACK);
-        const response=await this.axiosService.post(
+        const response = await this.axiosService.post(
           this.configService.get('APP_SERVICE_URL') + `/${Action.on_select}`,
           onSelectCourseDto,
         );
-        return response;
+        console.log('response', response);
+        return message;
       }
     } catch (error) {
       throw error;

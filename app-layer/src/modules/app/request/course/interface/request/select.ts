@@ -1,4 +1,4 @@
-import { Context, SelectContext } from '../context';
+import { SelectContext } from '../context';
 
 /**
  * Interface for a provider, which includes an ID.

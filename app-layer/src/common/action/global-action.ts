@@ -25,7 +25,7 @@ export class GlobalActionService {
     private readonly scholarshipService: ScholarshipSearchService,
     private readonly scholarshipSelectService: ScholarshipSelectService,
     private readonly retailService: RetailSearchService,
-  ) { }
+  ) {}
 
   /**
    * Performs a global search across different domains (job, course, scholarship).
@@ -75,7 +75,7 @@ export class GlobalActionService {
           case xplorDomain.scholarship:
             // Logic for SCHOLARSHIP_DOMAIN
             // Perform the search operation using the ScholarshipSearchService
-            
+
             const searchResponseScholarship =
               await this.scholarshipService.sendSearchPayload(
                 contexts,
@@ -121,11 +121,8 @@ export class GlobalActionService {
     }
   }
 
-  async globalSelect(
-     request: SelectRequestDto
-  ) {
+  async globalSelect(request: SelectRequestDto) {
     try {
-   
       // Switch statement to handle different domains
       switch (request?.context?.domain) {
         case xplorDomain.job:
@@ -138,10 +135,9 @@ export class GlobalActionService {
           break;
         case xplorDomain.course:
           // Logic for COURSE_DOMAIN
-  
+
           const selectResponseCourse =
-            await this.courseSelectService.sendSelectPayload(request
-            );
+            await this.courseSelectService.sendSelectPayload(request);
           // Log the search response for the course domain
           console.log(`course-select: ${JSON.stringify(selectResponseCourse)}`);
           break;
@@ -149,20 +145,16 @@ export class GlobalActionService {
           // Logic for SCHOLARSHIP_DOMAIN
           // Perform the search operation using the ScholarshipSearchService
           const searchResponseScholarship =
-            await this.scholarshipSelectService.sendSelectPayload(
-             request
-            );
+            await this.scholarshipSelectService.sendSelectPayload(request);
           // Log the search response for the scholarship domain
           console.log(`Scholarship: ${searchResponseScholarship}`);
           break;
         default:
           // Default case if the domain does not match any of the expected values
           // No specific action is taken here, but you could add logic to handle unexpected domains
-       
+
           break;
       }
-    
-  
     } catch (error) {
       // Catch any errors that occur during the search operations
       // Log the error for debugging purposes

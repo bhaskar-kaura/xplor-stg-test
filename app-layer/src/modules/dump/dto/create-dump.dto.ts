@@ -1,4 +1,10 @@
-import { IsString, IsNotEmpty, IsObject, IsOptional, IsArray } from 'class-validator';
+import {
+  IsString,
+  IsNotEmpty,
+  IsObject,
+  IsOptional,
+  IsArray,
+} from 'class-validator';
 
 export class CreateDumpDto {
   @IsString()
@@ -7,11 +13,11 @@ export class CreateDumpDto {
 
   @IsOptional()
   @IsString()
-  domain?: string 
+  domain?: string;
 
   @IsOptional()
   @IsArray()
-  domains?: Array<string>
+  domains?: Array<string>;
 
   @IsString()
   @IsNotEmpty()

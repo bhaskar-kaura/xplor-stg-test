@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Catalog, MessageResponse, Provider } from './interface/on-search';
+import { Catalog, MessageResponse } from './interface/on-search';
 
 /**
  * Service for handling job response operations.

@@ -1,14 +1,16 @@
 // Import necessary interfaces and types from other modules
-import {ISelectContext } from '../interface/context';
-import { IScholarshipSelect, IMessageSelect as Message } from '../interface/request/select';
+import { ISelectContext } from '../interface/context';
+import {
+  IScholarshipSelect,
+  IMessageSelect as Message,
+} from '../interface/request/select';
 
 /**
  * Represents the payload for selecting courses.
  * This class encapsulates the context and message related to course selection requests,
  * adhering to the ICourseSelect interface.
  */
-export class ScholarshipSelectPayload implements IScholarshipSelect{
-
+export class ScholarshipSelectPayload implements IScholarshipSelect {
   // The context object containing relevant application-wide data or configurations
   context: ISelectContext;
 

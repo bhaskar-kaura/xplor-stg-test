@@ -10,7 +10,8 @@ import { JobResponseService } from './response/job/job-response.service';
 import { RetailResponseService } from './response/retail/retail-response.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { DumpModule } from '../dump/dump.module';
-import { DumpService } from '../dump/service/dump.service';
+import { ScholarshipResponseService } from './response/scholarship/scholarship-response.service';
+import { CourseResponseService } from './response/course/course-response.service';
 
 /**
  * Module decorator for defining the module's metadata.
@@ -55,6 +56,8 @@ import { DumpService } from '../dump/service/dump.service';
     JobSearchService,
     JobResponseService,
     RetailResponseService,
+    ScholarshipResponseService,
+    CourseResponseService,
   ],
 })
 export class AppModule {}

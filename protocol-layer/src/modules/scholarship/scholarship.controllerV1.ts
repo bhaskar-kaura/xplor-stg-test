@@ -18,7 +18,12 @@ export class ScholarshipController {
 
   @Post('select')
   select(@Body() selectScholarshipDto: SelectScholarshipDto) {
-console.log('selectScholarshipDto', selectScholarshipDto)
+    console.log('selectScholarshipDto', selectScholarshipDto);
     return this.scholarshipService.select(selectScholarshipDto);
+  }
+
+  @Post('on_select')
+  on_select(@Body() searchScholarshipDto: SearchScholarshipDto) {
+    return this.scholarshipService.on_select(searchScholarshipDto);
   }
 }

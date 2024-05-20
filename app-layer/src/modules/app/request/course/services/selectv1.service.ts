@@ -2,10 +2,7 @@ import { Injectable } from '@nestjs/common';
 
 import { CourseSelectPayload } from '../entity/select.entity';
 import { SelectContext } from '../interface/context';
-import {
-  ICourseSelect,
-  IMessageSelect
-} from '../interface/request/select';
+import { ICourseSelect, IMessageSelect } from '../interface/request/select';
 import { OnestContextConstants } from 'src/common/constants/context.constant';
 import { AxiosService } from 'src/common/axios/axios.service';
 import { ConfigService } from '@nestjs/config';

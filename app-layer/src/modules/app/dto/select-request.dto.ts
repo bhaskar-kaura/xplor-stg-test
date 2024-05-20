@@ -2,45 +2,45 @@ import { IsArray, IsOptional, IsString, ValidateNested } from 'class-validator';
 import { Type } from 'class-transformer';
 
 class OrderItem {
-    @IsArray()
-    @IsString({ each: true })
-    itemsId: string[];
+  @IsArray()
+  @IsString({ each: true })
+  itemsId: string[];
 
-    @IsString()
-    providerId: string;
+  @IsString()
+  providerId: string;
 
-    @IsOptional()
-    @IsArray()
-    @IsString({ each: true })
-    fulfillmentId?: string[];
+  @IsOptional()
+  @IsArray()
+  @IsString({ each: true })
+  fulfillmentId?: string[];
 }
 
 class Message {
-    @ValidateNested()
-    @Type(() => OrderItem)
-    order: OrderItem;
+  @ValidateNested()
+  @Type(() => OrderItem)
+  order: OrderItem;
 }
 
 class Context {
-    @IsString()
-    transactionId: string;
+  @IsString()
+  transactionId: string;
 
-    @IsString()
-    domain: string;
+  @IsString()
+  domain: string;
 
-    @IsString()
-    messageId: string;
+  @IsString()
+  messageId: string;
 
-    @IsOptional()
-    ttl: string;
+  @IsOptional()
+  ttl: string;
 }
 
 export class SelectRequestDto {
-    @ValidateNested()
-    @Type(() => Context)
-    context: Context;
+  @ValidateNested()
+  @Type(() => Context)
+  context: Context;
 
-    @ValidateNested()
-    @Type(() => Message)
-    message: Message;
+  @ValidateNested()
+  @Type(() => Message)
+  message: Message;
 }

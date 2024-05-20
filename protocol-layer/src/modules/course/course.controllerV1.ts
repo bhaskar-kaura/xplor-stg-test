@@ -1,6 +1,10 @@
 import { Controller, Post, Body } from '@nestjs/common';
 import { CourseService } from './services/course.serviceV1';
-import { OnSelectCourseDto, SearchCourseDto, SelectCourseDto } from './dto/request-course.dto';
+import {
+  OnSelectCourseDto,
+  SearchCourseDto,
+  SelectCourseDto,
+} from './dto/request-course.dto';
 
 @Controller({ version: '1', path: 'course' })
 export class CourseController {

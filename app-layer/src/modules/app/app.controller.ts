@@ -52,4 +52,10 @@ export class AppController {
   select(@Body() selectRequest: SelectRequestDto) {
     return this.appService.select(selectRequest);
   }
+
+  @Post('on_select')
+  onSelect(@Body() selectResponse: OndcContext | OnestContext | any) {
+    console.log('select===========', selectResponse);
+    return this.appService.onSelect(selectResponse);
+  }
 }

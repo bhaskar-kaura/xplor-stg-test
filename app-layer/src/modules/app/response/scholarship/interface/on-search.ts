@@ -4,13 +4,8 @@
 export interface Catalog {
   descriptor: {
     name: string;
-    short_desc?: string;
-    long_desc?: string;
-    images?: string;
-    symbol?: string;
-    tags?: string;
+    code?: string;
   };
-  fulfillments: [];
   providers: Provider[];
 }
 
@@ -18,15 +13,11 @@ export interface Catalog {
  * Interface for a provider, which includes an ID, a descriptor, optional categories, locations, fulfillments, and a list of items.
  */
 export interface Provider {
-  '@ondc/org/fssai_license_no': string;
   id: string;
   descriptor: {
     name: string;
-    short_desc?: string;
-    long_desc?: string;
-    images?: string;
-    symbol?: string;
-    tags?: string;
+    short_desc: string;
+    images: Image[];
   };
   categories?: Category[];
   locations?: Location[];
@@ -35,13 +26,19 @@ export interface Provider {
 }
 
 /**
+ * Interface for an image, which includes a URL.
+ */
+interface Image {
+  url: string;
+}
+
+/**
  * Interface for a category, which includes an ID and a descriptor.
  */
 interface Category {
   id: string;
-  parent_category_id: string;
   descriptor: {
-    images: string[];
+    code: string;
     name: string;
   };
 }
@@ -81,9 +78,7 @@ interface Item {
   id: string;
   descriptor: {
     name: string;
-    short_desc?: string;
-    long_desc?: string;
-    images?: string;
+    long_desc: string;
   };
   price: {
     currency: string;
