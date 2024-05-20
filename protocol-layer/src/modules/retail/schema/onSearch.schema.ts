@@ -85,6 +85,7 @@ export const onSearchSchema = {
             },
             'bpp/providers': {
               type: 'array',
+              minItems: 1,
               items: {
                 type: 'object',
                 properties: {

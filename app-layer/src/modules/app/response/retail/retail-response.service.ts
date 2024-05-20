@@ -20,7 +20,7 @@ export class RetailResponseService {
     try {
       const catalog: Catalog = {
         providers:
-          response?.catalog != null ? response?.catalog['bpp/providers'] : {},
+          response?.catalog != null ? response?.catalog['bpp/providers'] : [],
         descriptor:
           response?.catalog != null ? response?.catalog['bpp/descriptor'] : {},
         fulfillments:
