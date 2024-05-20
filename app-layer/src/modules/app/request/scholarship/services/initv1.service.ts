@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 
 import { OnestContextConstants } from 'src/common/constants/context.constant';
 import { AxiosService } from 'src/common/axios/axios.service';
@@ -30,7 +30,8 @@ export class ScholarshipInitService {
           request?.context?.domain,
           'select',
         );
-      const context = selectRequestDetails.context as unknown as SelectContext;
+      const context = selectRequestDetails?.context as unknown as SelectContext;
+      if (!context) throw new NotFoundException('Context not found');
       const contextPayload: SelectContext = {
         ...context,
         action: Action.select,

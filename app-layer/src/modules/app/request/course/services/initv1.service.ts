@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 
 import { CourseSelectPayload } from '../entity/select.entity';
 import { SelectContext } from '../interface/context';
@@ -32,7 +32,9 @@ export class CourseInitService {
           request?.context?.domain,
           'select',
         );
-      const context = selectRequestDetails.context as unknown as SelectContext;
+      console.log('selectRequestDetails', selectRequestDetails);
+      const context = selectRequestDetails?.context as unknown as SelectContext;
+      if (!context) throw new NotFoundException('Context not found');
       const contextPayload: SelectContext = {
         ...context,
         action: Action.select,
@@ -91,7 +93,7 @@ export class CourseInitService {
   async sendInitPayload(request: InitRequestDto) {
     try {
       const initPayload = await this.createPayload(request);
-
+      console.log('initCreatePayload', initPayload);
       const url =
         this.configService.get('PROTOCOL_SERVICE_URL') +
         `/${xplorDomain.course}/${Action.init}`;

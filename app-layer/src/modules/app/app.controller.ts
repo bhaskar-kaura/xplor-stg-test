@@ -58,4 +58,9 @@ export class AppController {
   init(@Body() initRequest: InitRequestDto) {
     return this.appService.init(initRequest);
   }
+
+  @Post('on_init')
+  on_init(@Body() onInitRequest: OndcContext | OnestContext | any) {
+    return this.appService.onInit(onInitRequest);
+  }
 }

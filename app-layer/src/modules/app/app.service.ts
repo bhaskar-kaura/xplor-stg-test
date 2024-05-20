@@ -186,18 +186,55 @@ export class AppService {
 
   async init(initRequest: InitRequestDto) {
     try {
-      console.log(initRequest, 'initRequest');
       await this.globalActionService.globalInit(initRequest);
       // Return a success response
       return getResponse(
         true,
-        coreResponseMessage.searchSuccessResponse,
+        coreResponseMessage.initSuccessResponse,
         null,
         null,
       );
     } catch (error) {
       // Log the error and throw a BadGatewayException with a formatted error response
       console.log(JSON.stringify(error?.response));
+      throw new BadGatewayException(
+        getResponse(false, error?.message, null, error?.response?.data),
+      );
+    }
+  }
+
+  async onInit(response: any) {
+    try {
+      console.log(
+        'response ==================',
+        JSON.stringify(response),
+        '=============================',
+      );
+      const domain =
+        response?.context?.domain === DomainsEnum.COURSE_DOMAIN
+          ? 'course'
+          : response?.context?.domain === DomainsEnum.JOB_DOMAIN
+          ? 'job'
+          : response?.context?.domain === DomainsEnum.SCHOLARSHIP_DOMAIN
+          ? 'scholarship'
+          : 'retail';
+
+      // Dump the response into database
+      const createDumpDto: CreateDumpDto = {
+        context: response?.context,
+        transaction_id: response?.context?.transaction_id,
+        domain: domain,
+        message_id: response?.context?.message_id,
+        request_type: response?.context?.action,
+        message: response?.message,
+      };
+
+      await this.dumpService.create(createDumpDto);
+      // Delegate the search operation to the sendSearch method
+      await this.sendSearch(response);
+    } catch (error) {
+      // Log the error and throw a BadGatewayException with a formatted error response
+      console.log(error?.response);
       throw new BadGatewayException(
         getResponse(false, error?.message, null, error?.response?.data),
       );
