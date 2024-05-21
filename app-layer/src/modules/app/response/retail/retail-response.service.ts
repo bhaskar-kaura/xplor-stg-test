@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Catalog, MessageResponse } from './interface/on-search';
+import { Catalog, MessageResponse, Provider } from './interface/on-search';
 
 /**
  * Service for handling job response operations.
@@ -20,7 +20,7 @@ export class RetailResponseService {
     try {
       const catalog: Catalog = {
         providers:
-          response?.catalog != null ? response?.catalog['bpp/providers'] : {},
+          response?.catalog != null ? response?.catalog['bpp/providers'] : [],
         descriptor:
           response?.catalog != null ? response?.catalog['bpp/descriptor'] : {},
         fulfillments:
@@ -28,6 +28,14 @@ export class RetailResponseService {
             ? response?.catalog['bpp/fulfillments']
             : {},
       };
+      catalog.providers = catalog?.providers?.map((provider: Provider) => {
+        provider?.items?.map((item) => {
+          item.price.value = item.price.value.toString();
+          item.price.maximum_value = item.price.maximum_value.toString();
+          return item;
+        });
+        return provider;
+      });
       const resp: MessageResponse = {
         message: {
           catalog: catalog,

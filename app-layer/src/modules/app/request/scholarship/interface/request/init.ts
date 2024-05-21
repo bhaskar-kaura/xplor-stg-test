@@ -46,8 +46,6 @@ interface Person {
   name: string;
   gender: string;
   age: string;
-  skills: Skill[];
-  languages: Language[];
   tags: Tag[];
 }
 
@@ -71,7 +69,6 @@ interface Customer {
  * Interface for a fulfillment, including an ID and a customer.
  */
 interface Fulfillment {
-  id: string;
   customer: Customer;
 }
 
@@ -90,9 +87,16 @@ interface Order {
     id: string;
   };
   items: Item[];
+  billing: Billing;
   fulfillments: Fulfillment[];
 }
 
+interface Billing {
+  name: string;
+  phone: string;
+  email: string;
+  address: string;
+}
 /**
  * Interface for a job order.
  */
@@ -100,10 +104,13 @@ interface Message {
   order: Order;
 }
 
+export interface IMessageInit {
+  order: Order;
+}
 /**
  * Interface for a job initialization message, including a context and a message.
  */
-export interface IScholarshipInit {
+export interface IJobInit {
   context: Context;
   message: Message;
 }

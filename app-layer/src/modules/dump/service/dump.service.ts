@@ -22,6 +22,17 @@ export class DumpService {
     return await this.dumpModel.findOne({ transaction_id, domain });
   }
 
+  async findByActionTransactionId(
+    transaction_id: string,
+    domain: string,
+    request_type: string,
+  ): Promise<Dump> {
+    return await this.dumpModel.findOne({
+      transaction_id,
+      domain,
+      request_type,
+    });
+  }
   async findItemByProviderId(
     transactionId: string,
     providerId: string,
@@ -32,6 +43,28 @@ export class DumpService {
       .findOne({
         transaction_id: transactionId,
         domain: domain,
+        'message.catalog.providers': {
+          $elemMatch: {
+            id: providerId,
+            'items.id': { $in: id },
+          },
+        },
+      })
+      .exec();
+  }
+
+  async findItemByActionProviderId(
+    transactionId: string,
+    providerId: string,
+    domain: string,
+    action: string,
+    id: string[],
+  ): Promise<Dump | null> {
+    return await this.dumpModel
+      .findOne({
+        transaction_id: transactionId,
+        domain: domain,
+        request_type: action,
         'message.catalog.providers': {
           $elemMatch: {
             id: providerId,

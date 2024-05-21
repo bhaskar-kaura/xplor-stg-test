@@ -4,6 +4,8 @@ import { AxiosService } from '../.../../../../common/axios/axios.service';
 
 import { searchSchema } from '../schema/search.schema';
 import {
+  InitCourseDto,
+  OnInitCourseDto,
   OnSelectCourseDto,
   SearchCourseDto,
   SelectCourseDto,
@@ -21,6 +23,7 @@ import {
 import { onSearchSchema } from '../schema/onSearch.schema';
 import { selectSchema } from '../schema/select.schema';
 import { onSelectSchema } from '../schema/onSelect.schema';
+import { onInitSchema } from '../schema/onInit.schema';
 @Injectable()
 export class CourseService {
   constructor(
@@ -122,6 +125,79 @@ export class CourseService {
     }
   }
 
+  async init(initCourseDto: InitCourseDto) {
+    try {
+      const isValid = validateJson(selectSchema, {
+        context: initCourseDto.context,
+        message: initCourseDto.message,
+      });
+      console.log('isValid', isValid);
+      if (isValid !== true) {
+        const message = new AckNackResponse(
+          'NACK',
+          'CONTEXT_ERROR',
+          '625519',
+          isValid as unknown as string,
+        );
+        throw new BadRequestException(message);
+      } else {
+        const message = new AckNackResponse('ACK');
+        await this.sendInitRequest(initCourseDto);
+        return {
+          message,
+        };
+      }
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async onInit(onInitCourseDto: OnInitCourseDto) {
+    try {
+      console.log('onInitCourseDto', onInitCourseDto);
+      const isValid = validateJson(onInitSchema, {
+        context: onInitCourseDto.context,
+        message: onInitCourseDto.message,
+      });
+      console.log(isValid);
+      if (!isValid) {
+        const message = new AckNackResponse(
+          NACK,
+          CONTEXT_ERROR,
+          ERROR_CODE_CONTEXT,
+          isValid as unknown as string,
+        );
+        return message;
+      } else {
+        const message = new AckNackResponse(ACK);
+        const response = await this.axiosService.post(
+          this.configService.get('APP_SERVICE_URL') + `/${Action.on_init}`,
+          onInitCourseDto,
+        );
+        return response;
+      }
+    } catch (error) {
+      throw error;
+    }
+  }
+  private async sendInitRequest(initCourseDto: InitCourseDto) {
+    try {
+      const selectPayload = {
+        context: initCourseDto.context,
+        message: initCourseDto.message,
+      };
+
+      const url = initCourseDto.context.bpp_uri + `/${Action.init}`;
+      console.log(url);
+      const selectResponse = await this.axiosService.post(url, selectPayload);
+      console.log('selectRequest=======', selectResponse);
+      return selectResponse;
+    } catch (error) {
+      console.log('error===============', error);
+      throw error?.response;
+    }
+  }
+
   async onSelect(onSelectCourseDto: OnSelectCourseDto) {
     try {
       console.log('courseOnSearchResponse', onSelectCourseDto);
@@ -151,7 +227,8 @@ export class CourseService {
       throw error;
     }
   }
-  async sendSelectRequest(selectCourseDto: SelectCourseDto) {
+
+  private async sendSelectRequest(selectCourseDto: SelectCourseDto) {
     try {
       const selectPayload = {
         context: selectCourseDto.context,

@@ -1,7 +1,10 @@
 import { Controller, Post, Body } from '@nestjs/common';
 import { ScholarshipService } from './services/scholarship.serviceV1';
 import { SearchScholarshipDto } from './dto/search-scholarship.dto';
-import { SelectScholarshipDto } from './dto/request-scholarship.dtp';
+import {
+  InitScholarshipDto,
+  SelectScholarshipDto,
+} from './dto/request-scholarship.dtp';
 
 @Controller({ version: '1', path: 'scholarship' })
 export class ScholarshipController {
@@ -19,11 +22,23 @@ export class ScholarshipController {
   @Post('select')
   select(@Body() selectScholarshipDto: SelectScholarshipDto) {
     console.log('selectScholarshipDto', selectScholarshipDto);
+    console.log('selectScholarshipDto', selectScholarshipDto);
     return this.scholarshipService.select(selectScholarshipDto);
   }
 
   @Post('on_select')
   on_select(@Body() searchScholarshipDto: SearchScholarshipDto) {
     return this.scholarshipService.on_select(searchScholarshipDto);
+  }
+
+  @Post('init')
+  init(@Body() initCourseDto: InitScholarshipDto) {
+    console.log(JSON.stringify(initCourseDto));
+    return this.scholarshipService.init(initCourseDto);
+  }
+  @Post('on_init')
+  onInit(@Body() onInitCourseDto: InitScholarshipDto) {
+    console.log(onInitCourseDto);
+    return this.scholarshipService.onInit(onInitCourseDto);
   }
 }

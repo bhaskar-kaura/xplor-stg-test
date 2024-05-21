@@ -20,4 +20,5 @@ export enum HttpResponseMessage {
  */
 export const coreResponseMessage = {
   searchSuccessResponse: 'Search event subscribed', // Message indicating successful subscription to a search event
+  initSuccessResponse: 'Init event subscribed', // Message indicating successful subscription to an init event
 };

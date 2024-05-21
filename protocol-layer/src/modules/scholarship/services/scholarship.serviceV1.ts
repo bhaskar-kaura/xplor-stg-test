@@ -16,7 +16,12 @@ import {
 import { ConfigService } from '@nestjs/config';
 import { onSearchSchema } from '../schema/onSearch.schema';
 import { selectSchema } from '../schema/select.schema';
-import { SelectScholarshipDto } from '../dto/request-scholarship.dtp';
+import {
+  InitScholarshipDto,
+  OnInitScholarshipDto,
+  SelectScholarshipDto,
+} from '../dto/request-scholarship.dtp';
+import { onInitSchema } from '../schema/onInit.schema';
 import { onSelectSchema } from '../schema/on-select.schema';
 
 @Injectable()
@@ -28,10 +33,7 @@ export class ScholarshipService {
   ) {}
   async search(searchScholarshipDto: SearchScholarshipDto) {
     try {
-      console.log(
-        JSON.stringify(searchScholarshipDto.message),
-        'search_scholarship_dto',
-      );
+      console.log(JSON.stringify(searchScholarshipDto.message),"search_scholarship_dto");
       const isValid = validateJson(searchSchema, {
         context: searchScholarshipDto.context,
         message: searchScholarshipDto.message,
@@ -58,12 +60,12 @@ export class ScholarshipService {
       context: searchScholarshipDto.context,
       message: searchScholarshipDto.message,
     };
-    console.log(searchScholarshipDto.gatewayUrl, 'gatewayUrl');
+     console.log(searchScholarshipDto.gatewayUrl,"gatewayUrl")
     const result = await this.axiosService.post(
       searchScholarshipDto.gatewayUrl + '/search',
       searchPayload,
     );
-    console.log(result, 'scholarshipGatewayResult');
+    console.log(result,"scholarshipGatewayResult")
     return result;
   }
 
@@ -145,6 +147,79 @@ export class ScholarshipService {
     }
   }
 
+  async init(initScholarshipDto: InitScholarshipDto) {
+    try {
+      const isValid = validateJson(selectSchema, {
+        context: initScholarshipDto.context,
+        message: initScholarshipDto.message,
+      });
+      console.log('isValid', isValid);
+      if (isValid !== true) {
+        const message = new AckNackResponse(
+          'NACK',
+          'CONTEXT_ERROR',
+          '625519',
+          isValid as unknown as string,
+        );
+        throw new BadRequestException(message);
+      } else {
+        const message = new AckNackResponse('ACK');
+        await this.sendInitRequest(initScholarshipDto);
+        return {
+          message,
+        };
+      }
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async onInit(onInitScholarshipDto: OnInitScholarshipDto) {
+    try {
+      console.log('onInitScholarshipDto', onInitScholarshipDto);
+      const isValid = validateJson(onInitSchema, {
+        context: onInitScholarshipDto.context,
+        message: onInitScholarshipDto.message,
+      });
+      console.log(isValid);
+      if (!isValid) {
+        const message = new AckNackResponse(
+          NACK,
+          CONTEXT_ERROR,
+          ERROR_CODE_CONTEXT,
+          isValid as unknown as string,
+        );
+        return message;
+      } else {
+        const message = new AckNackResponse(ACK);
+        const response = await this.axiosService.post(
+          this.configService.get('APP_SERVICE_URL') + `/${Action.on_init}`,
+          onInitScholarshipDto,
+        );
+        return response;
+      }
+    } catch (error) {
+      throw error;
+    }
+  }
+  private async sendInitRequest(initScholarshipDto: InitScholarshipDto) {
+    try {
+      const selectPayload = {
+        context: initScholarshipDto.context,
+        message: initScholarshipDto.message,
+      };
+
+      const url = initScholarshipDto.context.bpp_uri + `/${Action.init}`;
+      console.log(url);
+      const selectResponse = await this.axiosService.post(url, selectPayload);
+      console.log('selectRequest=======', selectResponse);
+      return selectResponse;
+    } catch (error) {
+      console.log('error===============', error);
+      throw error?.response;
+    }
+  }
+
   async on_select(searchScholarshipDto: SearchScholarshipDto) {
     try {
       const isValid = validateJson(onSelectSchema, {
@@ -162,7 +237,7 @@ export class ScholarshipService {
       } else {
         const message = new AckNackResponse(ACK);
         await this.axiosService.post(
-          this.configService.get('APP_SERVICE_URL') + `/${Action.on_select}`,
+          this.configService.get('APP_SERVICE_URL') + `/${Action.on_search}`,
           searchScholarshipDto,
         );
         return message;
