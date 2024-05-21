@@ -24,6 +24,7 @@ import { onSearchSchema } from '../schema/onSearch.schema';
 import { selectSchema } from '../schema/select.schema';
 import { onSelectSchema } from '../schema/onSelect.schema';
 import { onInitSchema } from '../schema/onInit.schema';
+import { initSchema } from '../schema/init.schema';
 @Injectable()
 export class CourseService {
   constructor(
@@ -126,7 +127,7 @@ export class CourseService {
 
   async init(initCourseDto: InitCourseDto) {
     try {
-      const isValid = validateJson(selectSchema, {
+      const isValid = validateJson(initSchema, {
         context: initCourseDto.context,
         message: initCourseDto.message,
       });
@@ -181,14 +182,14 @@ export class CourseService {
   }
   private async sendInitRequest(initCourseDto: InitCourseDto) {
     try {
-      const selectPayload = {
+      const initPayload = {
         context: initCourseDto.context,
         message: initCourseDto.message,
       };
 
       const url = initCourseDto.context.bpp_uri + `/${Action.init}`;
       console.log(url);
-      const selectResponse = await this.axiosService.post(url, selectPayload);
+      const selectResponse = await this.axiosService.post(url, initPayload);
       console.log('selectRequest=======', selectResponse);
       return selectResponse;
     } catch (error) {

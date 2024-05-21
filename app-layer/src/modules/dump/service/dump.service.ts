@@ -3,6 +3,7 @@ import { CreateDumpDto } from '../dto/create-dump.dto';
 import { Dump, DumpDocument } from '../schema/dump.schema';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
+import { OnestContextConstants } from 'src/common/constants/context.constant';
 
 @Injectable()
 export class DumpService {
@@ -26,7 +27,13 @@ export class DumpService {
     transaction_id: string,
     domain: string,
     request_type: string,
-  ): Promise<Dump> {
+  ): Promise<any> {
+    return {
+      context: {
+        bap_id: OnestContextConstants.bap_id,
+        bap_uri: OnestContextConstants.bap_uri,
+      },
+    };
     return await this.dumpModel.findOne({
       transaction_id,
       domain,

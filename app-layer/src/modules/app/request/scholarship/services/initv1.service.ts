@@ -30,14 +30,17 @@ export class ScholarshipInitService {
           request?.context?.domain,
           'select',
         );
+      if (!selectRequestDetails) return null;
       const context = selectRequestDetails?.context as unknown as SelectContext;
-      if (!context) throw new NotFoundException('Context not found');
       const contextPayload: SelectContext = {
         ...context,
-        action: Action.select,
+        action: Action.init,
         domain: DomainsEnum.SCHOLARSHIP_DOMAIN,
+        transaction_id: request.context.transaction_id,
         message_id: request.context.message_id,
         version: OnestContextConstants.version,
+        bpp_id: request.context.bpp_id,
+        bpp_uri: request.context.bpp_uri,
         timestamp: new Date().toISOString(),
         ttl: request.context.ttl
           ? request.context.ttl
@@ -48,23 +51,23 @@ export class ScholarshipInitService {
           provider: {
             id: request.message.order.provider_id,
           },
-          items: [
-            { id: request.message.order.items_id[0] },
-            ...request.message.order.items_id.slice(1).map((id) => ({ id })),
-          ],
+          items: [...request.message.order.items_id.map((id) => ({ id: id }))],
           billing: request.message.order.billing,
           fulfillments: [
             {
               customer: {
                 person: {
-                  name: request.message.order.billing.name,
-                  age: request.message.order.billing.age,
-                  gender: request.message.order.billing.gender,
+                  name: request.message.order.fulfillment.customer.person.name,
+                  age: request.message.order.fulfillment.customer.person.age,
+                  gender:
+                    request.message.order.fulfillment.customer.person.gender,
                   tags: [],
                 },
                 contact: {
-                  phone: request.message.order.billing.phone,
-                  email: request.message.order.billing.email,
+                  phone:
+                    request.message.order.fulfillment.customer.contact.phone,
+                  email:
+                    request.message.order.fulfillment.customer.contact.email,
                 },
               },
             },
@@ -88,6 +91,7 @@ export class ScholarshipInitService {
   async sendInitPayload(request: InitRequestDto) {
     try {
       const initPayload = await this.createPayload(request);
+      if (!initPayload) throw new NotFoundException('Context not found');
       const url =
         this.configService.get('PROTOCOL_SERVICE_URL') +
         `/${xplorDomain.scholarship}/${Action.init}`;

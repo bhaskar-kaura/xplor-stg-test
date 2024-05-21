@@ -186,6 +186,16 @@ export class AppService {
 
   async init(initRequest: InitRequestDto) {
     try {
+      const createDumpDto: CreateDumpDto = {
+        context: initRequest?.context,
+        transaction_id: initRequest?.context?.transaction_id,
+        domain: initRequest.context.domain,
+        message_id: initRequest?.context?.message_id,
+        request_type: Action.init,
+        message: initRequest?.message,
+      };
+
+      await this.dumpService.create(createDumpDto);
       await this.globalActionService.globalInit(initRequest);
       // Return a success response
       return getResponse(

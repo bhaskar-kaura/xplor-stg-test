@@ -22,6 +22,7 @@ import {
   SelectScholarshipDto,
 } from '../dto/request-scholarship.dtp';
 import { onInitSchema } from '../schema/onInit.schema';
+import { initSchema } from '../schema/init.schema';
 
 @Injectable()
 export class ScholarshipService {
@@ -151,7 +152,7 @@ export class ScholarshipService {
 
   async init(initScholarshipDto: InitScholarshipDto) {
     try {
-      const isValid = validateJson(selectSchema, {
+      const isValid = validateJson(initSchema, {
         context: initScholarshipDto.context,
         message: initScholarshipDto.message,
       });

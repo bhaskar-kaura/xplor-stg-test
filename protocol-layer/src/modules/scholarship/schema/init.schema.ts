@@ -10,6 +10,13 @@ export const initSchema = {
         order: {
           type: 'object',
           properties: {
+            provider: {
+              type: 'object',
+              properties: {
+                id: { type: 'string' },
+              },
+              required: ['id'],
+            },
             items: {
               type: 'array',
               items: {
@@ -20,43 +27,15 @@ export const initSchema = {
                 required: ['id'],
               },
             },
-            provider: {
-              type: 'object',
-              properties: {
-                id: { type: 'string' },
-              },
-              required: ['id'],
-            },
             billing: {
               type: 'object',
               properties: {
                 name: { type: 'string' },
-                organization: {
-                  type: 'object',
-                  properties: {
-                    descriptor: {
-                      type: 'object',
-                      properties: {
-                        name: { type: 'string' },
-                        code: { type: 'string' },
-                      },
-                      required: ['name', 'code'],
-                    },
-                    contact: {
-                      type: 'object',
-                      properties: {
-                        phone: { type: 'string' },
-                        email: { type: 'string', format: 'email' },
-                      },
-                      required: ['phone', 'email'],
-                    },
-                  },
-                  required: ['descriptor', 'contact'],
-                },
-                address: { type: 'string' },
                 phone: { type: 'string' },
+                email: { type: 'string' },
+                address: { type: 'string' },
               },
-              required: ['name', 'organization', 'address', 'phone'],
+              required: ['name', 'phone', 'email', 'address'],
             },
             fulfillments: {
               type: 'array',
@@ -66,61 +45,67 @@ export const initSchema = {
                   customer: {
                     type: 'object',
                     properties: {
-                      id: { type: 'string' },
                       person: {
                         type: 'object',
                         properties: {
                           name: { type: 'string' },
                           age: { type: 'string' },
                           gender: { type: 'string' },
+                          tags: {
+                            type: 'array',
+                            items: {
+                              type: 'object',
+                              properties: {
+                                descriptor: {
+                                  type: 'object',
+                                  properties: {
+                                    code: { type: 'string' },
+                                    name: { type: 'string' },
+                                  },
+                                  required: ['code', 'name'],
+                                },
+                                list: {
+                                  type: 'array',
+                                  items: {
+                                    type: 'object',
+                                    properties: {
+                                      descriptor: {
+                                        type: 'object',
+                                        properties: {
+                                          code: { type: 'string' },
+                                          name: { type: 'string' },
+                                        },
+                                        required: ['code', 'name'],
+                                      },
+                                      value: { type: 'string' },
+                                    },
+                                    required: ['descriptor', 'value'],
+                                  },
+                                },
+                                display: { type: 'boolean' },
+                              },
+                              required: ['descriptor', 'list', 'display'],
+                            },
+                          },
                         },
-                        required: ['name', 'age', 'gender'],
+                        required: ['name', 'age', 'gender', 'tags'],
                       },
                       contact: {
                         type: 'object',
                         properties: {
                           phone: { type: 'string' },
-                          email: { type: 'string', format: 'email' },
+                          email: { type: 'string' },
                         },
                         required: ['phone', 'email'],
                       },
                     },
-                    required: ['id', 'person', 'contact'],
+                    required: ['person', 'contact'],
                   },
                 },
-                required: ['customer'],
-              },
-            },
-            payments: {
-              type: 'array',
-              items: {
-                type: 'object',
-                properties: {
-                  params: {
-                    type: 'object',
-                    properties: {
-                      bank_code: { type: 'string' },
-                      bank_account_number: { type: 'string' },
-                      bank_account_name: { type: 'string' },
-                    },
-                    required: [
-                      'bank_code',
-                      'bank_account_number',
-                      'bank_account_name',
-                    ],
-                  },
-                },
-                required: ['params'],
               },
             },
           },
-          required: [
-            'items',
-            'provider',
-            'billing',
-            'fulfillments',
-            'payments',
-          ],
+          required: ['provider', 'items', 'billing', 'fulfillments'],
         },
       },
       required: ['order'],

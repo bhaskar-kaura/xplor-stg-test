@@ -181,7 +181,7 @@ export class GlobalActionService {
           const selectResponseCourse =
             await this.courseInitService.sendInitPayload(request);
           // Log the search response for the course domain
-          console.log(`course-select: ${JSON.stringify(selectResponseCourse)}`);
+          console.log(`course-init: ${JSON.stringify(selectResponseCourse)}`);
           break;
         case xplorDomain.scholarship:
           // Logic for SCHOLARSHIP_DOMAIN
@@ -189,7 +189,7 @@ export class GlobalActionService {
           const searchResponseScholarship =
             await this.scholarshipInitService.sendInitPayload(request);
           // Log the search response for the scholarship domain
-          console.log(`Scholarship: ${searchResponseScholarship}`);
+          console.log(`scholarship-init: ${searchResponseScholarship}`);
           break;
         default:
           // Default case if the domain does not match any of the expected values
