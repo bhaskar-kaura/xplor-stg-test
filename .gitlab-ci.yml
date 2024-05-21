@@ -15,7 +15,7 @@ deploy:dev:
         if [[ -d STG-nest-backend ]]; then
           cd /home/ubuntu/STG-nest-backend
           docker-compose down
-          cd /home/ubuntu && sudo rm -rf STG-nest-backend
+          cd /home/ubuntu/ && sudo rm -rf STG-nest-backend
         fi "
 
     - sshpass -p $Xplor_Password ssh $Xplor_Username@$Xplor_IP  "git clone -b develop https://user:'$GITLAB_ACCESS_TOKEN'@gitlab.thewitslab.com/wil-workspace/xplor/STG-nest-backend.git"
