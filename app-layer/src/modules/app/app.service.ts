@@ -16,6 +16,7 @@ import { SelectRequestDto } from './dto/select-request.dto';
 import { ScholarshipResponseService } from './response/scholarship/scholarship-response.service';
 import { CourseResponseService } from './response/course/course-response.service';
 import { InitRequestDto } from './dto/init-request.dto';
+import { ConfirmRequestDto } from './dto/confirm-request.dto';
 
 // Decorator to mark this class as a provider that can be injected into other classes
 @Injectable()
@@ -331,6 +332,26 @@ export class AppService {
     } catch (error) {
       // Log the error and throw a BadGatewayException with a formatted error response
       console.log(error?.response);
+      throw new BadGatewayException(
+        getResponse(false, error?.message, null, error?.response?.data),
+      );
+    }
+  }
+
+
+  async confirm(confirmRequest: ConfirmRequestDto) {
+    try {
+      await this.globalActionService.globalConfirm(confirmRequest);
+      // Return a success response
+      return getResponse(
+        true,
+        coreResponseMessage.confirmSuccessResponse,
+        null,
+        null,
+      );
+    } catch (error) {
+      // Log the error and throw a BadGatewayException with a formatted error response
+      console.log(JSON.stringify(error?.response));
       throw new BadGatewayException(
         getResponse(false, error?.message, null, error?.response?.data),
       );

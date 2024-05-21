@@ -8,20 +8,6 @@ interface Descriptor {
   name: string;
 }
 
-/**
- * Interface for a skill, which includes a name.
- */
-interface Skill {
-  name: string;
-}
-
-/**
- * Interface for a language, which includes a code and a name.
- */
-interface Language {
-  code: string;
-  name: string;
-}
 
 /**
  * Interface for a list item, which includes a descriptor and a value.
@@ -35,7 +21,7 @@ interface ListItem {
  * Interface for a tag, which includes a code and a list of list items.
  */
 interface Tag {
-  code: string;
+  code?: string;
   list: ListItem[];
 }
 
@@ -45,8 +31,8 @@ interface Tag {
 interface Person {
   name: string;
   gender: string;
-  age: string;
-  tags: Tag[];
+  age?: string;
+  tags?: Tag[];
 }
 
 /**
@@ -69,6 +55,7 @@ interface Customer {
  * Interface for a fulfillment, including an ID and a customer.
  */
 interface Fulfillment {
+  id?:string
   customer: Customer;
 }
 
