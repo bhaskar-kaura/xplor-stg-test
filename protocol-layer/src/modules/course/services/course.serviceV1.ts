@@ -4,7 +4,9 @@ import { AxiosService } from '../.../../../../common/axios/axios.service';
 
 import { searchSchema } from '../schema/search.schema';
 import {
+  ConfirmCourseDto,
   InitCourseDto,
+  OnConfirmCourseDto,
   OnInitCourseDto,
   OnSelectCourseDto,
   SearchCourseDto,
@@ -25,6 +27,8 @@ import { selectSchema } from '../schema/select.schema';
 import { onSelectSchema } from '../schema/onSelect.schema';
 import { onInitSchema } from '../schema/onInit.schema';
 import { initSchema } from '../schema/init.schema';
+import { confirmSchema } from '../schema/confirm.schema';
+import { onConfirmSchema } from '../schema/onConfirm.schema';
 @Injectable()
 export class CourseService {
   constructor(
@@ -74,10 +78,11 @@ export class CourseService {
         return message;
       } else {
         const message = new AckNackResponse(ACK);
-        await this.axiosService.post(
+        const response = await this.axiosService.post(
           this.configService.get('APP_SERVICE_URL') + `/${Action.on_search}`,
           searchCourseDto,
         );
+        console.log('response', response);
         return message;
       }
     } catch (error) {
@@ -124,6 +129,53 @@ export class CourseService {
       throw error;
     }
   }
+  async onSelect(onSelectCourseDto: OnSelectCourseDto) {
+    try {
+      console.log('courseOnSearchResponse', onSelectCourseDto);
+      const isValid = validateJson(onSelectSchema, {
+        context: onSelectCourseDto.context,
+        message: onSelectCourseDto.message,
+      });
+      console.log(isValid);
+      if (!isValid) {
+        const message = new AckNackResponse(
+          NACK,
+          CONTEXT_ERROR,
+          ERROR_CODE_CONTEXT,
+          isValid as unknown as string,
+        );
+        return message;
+      } else {
+        const message = new AckNackResponse(ACK);
+        const response = await this.axiosService.post(
+          this.configService.get('APP_SERVICE_URL') + `/${Action.on_select}`,
+          onSelectCourseDto,
+        );
+        console.log('response', response);
+        return message;
+      }
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  private async sendSelectRequest(selectCourseDto: SelectCourseDto) {
+    try {
+      const selectPayload = {
+        context: selectCourseDto.context,
+        message: selectCourseDto.message,
+      };
+
+      const url = selectCourseDto.context.bpp_uri + `/${Action.select}`;
+      console.log(url);
+      const selectResponse = await this.axiosService.post(url, selectPayload);
+      console.log('selectRequest=======', selectResponse);
+      return selectResponse;
+    } catch (error) {
+      console.log('error===============', error);
+      throw error?.response;
+    }
+  }
 
   async init(initCourseDto: InitCourseDto) {
     try {
@@ -142,6 +194,7 @@ export class CourseService {
         throw new BadRequestException(message);
       } else {
         const message = new AckNackResponse('ACK');
+        console.log('initCourseDto', initCourseDto);
         await this.sendInitRequest(initCourseDto);
         return {
           message,
@@ -187,10 +240,14 @@ export class CourseService {
         message: initCourseDto.message,
       };
 
-      const url = initCourseDto.context.bpp_uri + `/${Action.init}`;
-      console.log(url);
+      const env = this.configService.get('NODE_ENV');
+      const url =
+        env === 'development'
+          ? initCourseDto.gatewayUrl + `/${Action.init}`
+          : initPayload.context.bpp_id + `${Action.init}`;
       const selectResponse = await this.axiosService.post(url, initPayload);
-      console.log('selectRequest=======', selectResponse);
+      console.log('selectResponse', selectResponse);
+      console.log('initRequest=======', selectResponse);
       return selectResponse;
     } catch (error) {
       console.log('error===============', error);
@@ -198,12 +255,40 @@ export class CourseService {
     }
   }
 
-  async onSelect(onSelectCourseDto: OnSelectCourseDto) {
+  async confirm(confirmCourseDto: ConfirmCourseDto) {
     try {
-      console.log('courseOnSearchResponse', onSelectCourseDto);
-      const isValid = validateJson(onSelectSchema, {
-        context: onSelectCourseDto.context,
-        message: onSelectCourseDto.message,
+      const isValid = validateJson(confirmSchema, {
+        context: confirmCourseDto.context,
+        message: confirmCourseDto.message,
+      });
+      console.log('isValid', isValid);
+      if (isValid !== true) {
+        const message = new AckNackResponse(
+          'NACK',
+          'CONTEXT_ERROR',
+          '625519',
+          isValid as unknown as string,
+        );
+        throw new BadRequestException(message);
+      } else {
+        const message = new AckNackResponse('ACK');
+        console.log('confirmCourseDto', confirmCourseDto);
+        await this.sendConfirmRequest(confirmCourseDto);
+        return {
+          message,
+        };
+      }
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async onConfirm(onConfirmCourseDto: OnConfirmCourseDto) {
+    try {
+      console.log('onConfirmCourseDto', onConfirmCourseDto);
+      const isValid = validateJson(onConfirmSchema, {
+        context: onConfirmCourseDto.context,
+        message: onConfirmCourseDto.message,
       });
       console.log(isValid);
       if (!isValid) {
@@ -216,28 +301,31 @@ export class CourseService {
         return message;
       } else {
         const message = new AckNackResponse(ACK);
-        const response = await this.axiosService.post(
-          this.configService.get('APP_SERVICE_URL') + `/${Action.on_select}`,
-          onSelectCourseDto,
+        await this.axiosService.post(
+          this.configService.get('APP_SERVICE_URL') + `/${Action.on_confirm}`,
+          onConfirmCourseDto,
         );
-        return response;
+        return message;
       }
     } catch (error) {
       throw error;
     }
   }
 
-  private async sendSelectRequest(selectCourseDto: SelectCourseDto) {
+  private async sendConfirmRequest(confirmCourseDto: ConfirmCourseDto) {
     try {
-      const selectPayload = {
-        context: selectCourseDto.context,
-        message: selectCourseDto.message,
+      const confirmPayload = {
+        context: confirmCourseDto.context,
+        message: confirmCourseDto.message,
       };
-
-      const url = selectCourseDto.context.bpp_uri + `/${Action.select}`;
-      console.log(url);
-      const selectResponse = await this.axiosService.post(url, selectPayload);
-      console.log('selectRequest=======', selectResponse);
+      console.log('confirmPayload', JSON.stringify(confirmPayload));
+      const env = this.configService.get('NODE_ENV');
+      const url =
+        env === 'development'
+          ? confirmCourseDto.gatewayUrl + `/${Action.confirm}`
+          : confirmPayload.context.bpp_id + `${Action.confirm}`;
+      const selectResponse = await this.axiosService.post(url, confirmPayload);
+      console.log('confirmRequest=======', selectResponse);
       return selectResponse;
     } catch (error) {
       console.log('error===============', error);

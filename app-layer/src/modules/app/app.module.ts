@@ -10,6 +10,8 @@ import { JobResponseService } from './response/job/job-response.service';
 import { RetailResponseService } from './response/retail/retail-response.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { DumpModule } from '../dump/dump.module';
+import { ScholarshipResponseService } from './response/scholarship/scholarship-response.service';
+import { CourseResponseService } from './response/course/course-response.service';
 import { DumpService } from '../dump/service/dump.service';
 import { CourseInitService } from './request/course/services/initv1.service';
 import { ScholarshipInitService } from './request/scholarship/services/initv1.service';
@@ -57,6 +59,8 @@ import { ScholarshipInitService } from './request/scholarship/services/initv1.se
     JobSearchService,
     JobResponseService,
     RetailResponseService,
+    ScholarshipResponseService,
+    CourseResponseService,
   ],
 })
 export class AppModule {}

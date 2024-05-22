@@ -13,7 +13,6 @@ export class SearchJobDto {
   gatewayUrl: string;
 }
 
-
 export class SelectJobDto {
   @IsNotEmpty()
   context: Context;

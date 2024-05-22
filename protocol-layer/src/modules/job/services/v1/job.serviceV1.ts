@@ -73,7 +73,7 @@ export class JobService {
         context: searchJobDto.context,
         message: searchJobDto.message,
       });
-      console.log("Job payload isValid",isValid)
+      console.log('Job payload isValid', isValid);
       if (!isValid) {
         const message = new AckNackResponse(
           NACK,
@@ -84,7 +84,7 @@ export class JobService {
         throw new BadRequestException(message);
       } else {
         const message = new AckNackResponse(ACK);
-        console.log("on_search Job dto",searchJobDto)
+        console.log('on_search Job dto', searchJobDto);
         await this.axiosService.post(
           this.configService.get('APP_SERVICE_URL') + `/${Action.on_search}`,
           searchJobDto,

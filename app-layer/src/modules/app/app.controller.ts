@@ -5,6 +5,7 @@ import { SearchRequestDto } from './dto/search-request.dto';
 import { OndcContext, OnestContext } from '../../util/context.builder';
 import { SelectRequestDto } from './dto/select-request.dto';
 import { InitRequestDto } from './dto/init-request.dto';
+import { ConfirmRequestDto } from './dto/confirm-request.dto';
 
 /**
  * Controller for handling various requests in the application.
@@ -54,9 +55,19 @@ export class AppController {
     return this.appService.select(selectRequest);
   }
 
+  @Post('on_select')
+  onSelect(@Body() selectResponse: OndcContext | OnestContext | any) {
+    console.log('select===========', selectResponse);
+    return this.appService.onSelect(selectResponse);
+  }
   @Post('init')
   init(@Body() initRequest: InitRequestDto) {
     return this.appService.init(initRequest);
+  }
+
+  @Post('confirm')
+  confirm(@Body() confirmRequest: ConfirmRequestDto) {
+    return this.appService.confirm(confirmRequest);
   }
 
   @Post('on_init')

@@ -1,15 +1,7 @@
 import { contextSchema } from './context.schema';
 
-/**
- * This schema defines the structure for the message received when performing a search operation
- * within the course module. It includes the context and a catalog of providers, items, and
- * other relevant data that matches the search criteria.
- *
- * The `context` property provides the necessary context for the search operation, while the
- * `message` property contains the actual search results, including provider details, items,
- * and other relevant information.
- */
 export const onSelectSchema = {
+  $schema: 'http://json-schema.org/draft-07/schema#',
   type: 'object',
   properties: {
     context: contextSchema,
@@ -34,7 +26,6 @@ export const onSelectSchema = {
                         type: 'object',
                         properties: {
                           url: { type: 'string' },
-                          size_type: { type: 'string' },
                         },
                         required: ['url'],
                       },
@@ -42,26 +33,21 @@ export const onSelectSchema = {
                   },
                   required: ['name', 'short_desc', 'images'],
                 },
-                categories: {
+                locations: {
                   type: 'array',
                   items: {
                     type: 'object',
                     properties: {
                       id: { type: 'string' },
-                      descriptor: {
-                        type: 'object',
-                        properties: {
-                          code: { type: 'string' },
-                          name: { type: 'string' },
-                        },
-                        required: ['code', 'name'],
-                      },
+                      city: { type: 'string' },
+                      state: { type: 'string' },
                     },
-                    required: ['id', 'descriptor'],
+                    required: ['id', 'city', 'state'],
                   },
                 },
+                rateable: { type: 'boolean' },
               },
-              required: ['id', 'descriptor', 'categories'],
+              required: ['id', 'descriptor', 'locations', 'rateable'],
             },
             items: {
               type: 'array',
@@ -69,72 +55,13 @@ export const onSelectSchema = {
                 type: 'object',
                 properties: {
                   id: { type: 'string' },
-                  quantity: {
-                    type: 'object',
-                    properties: {
-                      maximum: { type: 'number' },
-                    },
-                    required: ['maximum'],
-                  },
                   descriptor: {
                     type: 'object',
                     properties: {
                       name: { type: 'string' },
                       short_desc: { type: 'string' },
-                      long_desc: { type: 'string' },
-                      images: {
-                        type: 'array',
-                        items: {
-                          type: 'object',
-                          properties: {
-                            url: { type: 'string' },
-                          },
-                          required: ['url'],
-                        },
-                      },
-                      media: {
-                        type: 'array',
-                        items: {
-                          type: 'object',
-                          properties: {
-                            url: { type: 'string' },
-                          },
-                          required: ['url'],
-                        },
-                      },
                     },
-                    required: [
-                      'name',
-                      'short_desc',
-                      'long_desc',
-                      'images',
-                      'media',
-                    ],
-                  },
-                  creator: {
-                    type: 'object',
-                    properties: {
-                      descriptor: {
-                        type: 'object',
-                        properties: {
-                          name: { type: 'string' },
-                          short_desc: { type: 'string' },
-                          long_desc: { type: 'string' },
-                          images: {
-                            type: 'array',
-                            items: {
-                              type: 'object',
-                              properties: {
-                                url: { type: 'string' },
-                              },
-                              required: ['url'],
-                            },
-                          },
-                        },
-                        required: ['name', 'short_desc', 'long_desc', 'images'],
-                      },
-                    },
-                    required: ['descriptor'],
+                    required: ['name', 'short_desc'],
                   },
                   price: {
                     type: 'object',
@@ -144,14 +71,28 @@ export const onSelectSchema = {
                     },
                     required: ['currency', 'value'],
                   },
-                  category_ids: { type: 'array', items: { type: 'string' } },
-                  rating: { type: 'string' },
+                  time: {
+                    type: 'object',
+                    properties: {
+                      label: { type: 'string' },
+                      range: {
+                        type: 'object',
+                        properties: {
+                          start: { type: 'string' },
+                          end: { type: 'string' },
+                        },
+                        required: ['start', 'end'],
+                      },
+                    },
+                    required: ['label', 'range'],
+                  },
                   rateable: { type: 'boolean' },
                   tags: {
                     type: 'array',
                     items: {
                       type: 'object',
                       properties: {
+                        display: { type: 'boolean' },
                         descriptor: {
                           type: 'object',
                           properties: {
@@ -165,35 +106,27 @@ export const onSelectSchema = {
                           items: {
                             type: 'object',
                             properties: {
-                              descriptor: {
-                                type: 'object',
-                                properties: {
-                                  code: { type: 'string' },
-                                  name: { type: 'string' },
-                                },
-                                required: ['code', 'name'],
-                              },
                               value: { type: 'string' },
                             },
-                            required: ['descriptor', 'value'],
+                            required: ['value'],
                           },
                         },
-                        display: { type: 'boolean' },
                       },
-                      required: ['descriptor', 'list', 'display'],
+                      required: ['display', 'descriptor', 'list'],
                     },
                   },
+                  location_ids: { type: 'array', items: { type: 'string' } },
+                  category_ids: { type: 'array', items: { type: 'string' } },
                 },
                 required: [
                   'id',
-                  'quantity',
                   'descriptor',
-                  'creator',
                   'price',
-                  'category_ids',
-                  'rating',
+                  'time',
                   'rateable',
                   'tags',
+                  'location_ids',
+                  'category_ids',
                 ],
               },
             },
@@ -202,6 +135,9 @@ export const onSelectSchema = {
               items: {
                 type: 'object',
                 properties: {
+                  id: { type: 'string' },
+                  type: { type: 'string' },
+                  tracking: { type: 'boolean' },
                   agent: {
                     type: 'object',
                     properties: {
@@ -223,7 +159,7 @@ export const onSelectSchema = {
                     required: ['person', 'contact'],
                   },
                 },
-                required: ['agent'],
+                required: ['id', 'type', 'tracking', 'agent'],
               },
             },
             quote: {
@@ -237,15 +173,33 @@ export const onSelectSchema = {
                   },
                   required: ['currency', 'value'],
                 },
+                breakup: {
+                  type: 'array',
+                  items: {
+                    type: 'object',
+                    properties: {
+                      title: { type: 'string' },
+                      price: {
+                        type: 'object',
+                        properties: {
+                          currency: { type: 'string' },
+                          value: { type: 'string' },
+                        },
+                        required: ['currency', 'value'],
+                      },
+                    },
+                    required: ['title', 'price'],
+                  },
+                },
               },
-              required: ['price'],
+              required: ['price', 'breakup'],
             },
           },
-          required: ['provider', 'items', 'fulfillments', 'quote'],
+          required: ['order'],
         },
       },
       required: ['order'],
     },
   },
-  required: ['message'],
+  required: ['context', 'message'],
 };

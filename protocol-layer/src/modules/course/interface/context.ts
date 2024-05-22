@@ -23,6 +23,3 @@ export interface ISelectContext {
   timestamp: string;
   ttl: string;
 }
-
-
-

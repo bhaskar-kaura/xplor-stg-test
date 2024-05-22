@@ -22,7 +22,12 @@ import {
   SelectScholarshipDto,
 } from '../dto/request-scholarship.dtp';
 import { onInitSchema } from '../schema/onInit.schema';
+<<<<<<< HEAD
 import { initSchema } from '../schema/init.schema';
+import { onSelectSchema } from '../schema/on-select.schema';
+=======
+import { onSelectSchema } from '../schema/on-select.schema';
+>>>>>>> origin/feat/bec_confirm
 
 @Injectable()
 export class ScholarshipService {
@@ -33,10 +38,7 @@ export class ScholarshipService {
   ) {}
   async search(searchScholarshipDto: SearchScholarshipDto) {
     try {
-      console.log(
-        JSON.stringify(searchScholarshipDto.message),
-        'search_scholarship_dto',
-      );
+      console.log(JSON.stringify(searchScholarshipDto.message),"search_scholarship_dto");
       const isValid = validateJson(searchSchema, {
         context: searchScholarshipDto.context,
         message: searchScholarshipDto.message,
@@ -63,12 +65,12 @@ export class ScholarshipService {
       context: searchScholarshipDto.context,
       message: searchScholarshipDto.message,
     };
-    console.log(searchScholarshipDto.gatewayUrl, 'gatewayUrl');
+     console.log(searchScholarshipDto.gatewayUrl,"gatewayUrl")
     const result = await this.axiosService.post(
       searchScholarshipDto.gatewayUrl + '/search',
       searchPayload,
     );
-    console.log(result, 'scholarshipGatewayResult');
+    console.log(result,"scholarshipGatewayResult")
     return result;
   }
 
@@ -220,6 +222,37 @@ export class ScholarshipService {
     } catch (error) {
       console.log('error===============', error);
       throw error?.response;
+    }
+  }
+
+  async on_select(searchScholarshipDto: SearchScholarshipDto) {
+    try {
+      const isValid = validateJson(onSelectSchema, {
+        context: searchScholarshipDto.context,
+        message: searchScholarshipDto.message,
+      });
+      if (!isValid) {
+        const message = new AckNackResponse(
+          NACK,
+          CONTEXT_ERROR,
+          ERROR_CODE_CONTEXT,
+          isValid as unknown as string,
+        );
+        return message;
+      } else {
+        const message = new AckNackResponse(ACK);
+        await this.axiosService.post(
+          this.configService.get('APP_SERVICE_URL') + `/${Action.on_search}`,
+          searchScholarshipDto,
+        );
+        return message;
+      }
+    } catch (error) {
+      this.loggerService.sendDebug({
+        message: error,
+        methodName: this.on_search.name,
+      });
+      throw error;
     }
   }
 }

@@ -10,12 +10,12 @@ import { JobSearchService } from '../modules/app/request/job/services/searchv1.s
 import { CourseSearchService } from '../modules/app/request/course/services/searchv1.service';
 import { ScholarshipSearchService } from '../modules/app/request/scholarship/services/searchv1.service';
 import { RetailSearchService } from 'src/modules/app/request/retail/services/searchv1.service';
-import { DumpService } from 'src/modules/dump/service/dump.service';
 import { CourseSelectService } from 'src/modules/app/request/course/services/selectv1.service';
 import { DumpModule } from 'src/modules/dump/dump.module';
 import { ScholarshipSelectService } from 'src/modules/app/request/scholarship/services/selectv1.service';
 import { ScholarshipInitService } from 'src/modules/app/request/scholarship/services/initv1.service';
 import { CourseInitService } from 'src/modules/app/request/course/services/initv1.service';
+import { CourseConfirmService } from 'src/modules/app/request/course/services/confirmV1.service';
 
 /**
  * Decorates the CommonModule class with @Global() to make it a global module.
@@ -40,6 +40,7 @@ import { CourseInitService } from 'src/modules/app/request/course/services/initv
     ScholarshipSelectService, // Service for scholarship Select operations
     CourseInitService, // Service for course Init operations
     ScholarshipInitService, // Service for scholarship Init operations
+    CourseConfirmService, // Service for course Confirm operations
   ],
   exports: [
     AxiosService, // Exporting AxiosService for use in other modules
@@ -53,6 +54,7 @@ import { CourseInitService } from 'src/modules/app/request/course/services/initv
     ScholarshipSelectService, // Exporting ScholarshipSelectService for use in other modules
     CourseInitService, // Service for course Init operations
     ScholarshipInitService, // Service for scholarship Init operations
+    CourseConfirmService, // Service for course Confirm operations
   ],
 })
 // Define the CommonModule class.

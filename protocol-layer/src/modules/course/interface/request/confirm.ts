@@ -1,64 +1,90 @@
-import { Context } from '../context';
+interface Context {
+  domain: string;
+  action: string;
+  version: string;
+  bap_uri: string;
+  bap_id: string;
+  transaction_id: string;
+  message_id: string;
+  timestamp: string;
+  ttl: string;
+  bpp_id: string;
+  bpp_uri: string;
+}
 
-interface Descriptor {
-  code: string;
+interface Billing {
   name: string;
-}
-
-interface ListItem {
-  descriptor: Descriptor;
-  value: string;
-}
-
-interface Tag {
-  code: string;
-  list: ListItem[];
-}
-
-interface Person {
-  name: string;
-  gender: string;
-  age: string;
-  skills: { name: string }[];
-  languages: { code: string; name: string }[];
-  tags: Tag[];
-}
-
-interface Contact {
   phone: string;
   email: string;
-}
-
-interface Customer {
-  person: Person;
-  contact: Contact;
-}
-
-interface Fulfillment {
-  id: string;
-  customer: Customer;
+  address: string;
 }
 
 interface Item {
   id: string;
-  fulfillment_ids: string[];
 }
 
 interface Provider {
   id: string;
 }
+interface Params {
+  amount: string;
+  currency: string;
+}
+
+interface PaymentStatus {
+  params: Params;
+  status: string;
+}
+
+// Alternatively, if you prefer a single interface for the entire structure:
+interface Payment {
+  params: {
+    amount: string;
+    currency: string;
+  };
+  status: string;
+}
+interface Fulfillment {
+  customer: {
+    person: {
+      name: string;
+      age: string;
+      gender: string;
+      tags: Array<{
+        descriptor: {
+          code: string;
+          name: string;
+        };
+        list: Array<{
+          descriptor: {
+            code: string;
+            name: string;
+          };
+          value: string;
+        }>;
+        display: boolean;
+      }>;
+    };
+    contact: {
+      phone: string;
+      email: string;
+    };
+  };
+}
 
 interface Order {
   provider: Provider;
   items: Item[];
+  billing: Billing;
   fulfillments: Fulfillment[];
+  payments: Payment[];
 }
 
-interface Message {
+export interface ICourseConfirmMessage {
   order: Order;
 }
 
-export interface IJobConfirm {
+export interface ICourseConfirmRequest {
   context: Context;
-  message: Message;
+  message: ICourseConfirmMessage;
 }

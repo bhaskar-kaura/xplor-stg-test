@@ -47,5 +47,3 @@ export interface ISelectContext {
   timestamp: string; // Timestamp of the operation
   ttl: string; // Time-to-live value in seconds
 }
-
-

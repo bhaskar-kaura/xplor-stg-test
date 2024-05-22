@@ -1,4 +1,4 @@
-import { contextSchema, searchContextSchema } from './context.schema';
+import { contextSchema } from './context.schema';
 
 /**
  * This schema defines the structure for the message received when a selection is made within the course module.

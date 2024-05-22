@@ -1,100 +1,90 @@
-import { Context } from '../context';
+interface Context {
+  domain: string;
+  action: string;
+  version: string;
+  bap_uri: string;
+  bap_id: string;
+  transaction_id: string;
+  message_id: string;
+  timestamp: string;
+  ttl: string;
+  bpp_id: string;
+  bpp_uri: string;
+}
 
-/**
- * Interface for a descriptor, which can optionally include a code and must include a name.
- */
-interface Descriptor {
-  code?: string;
+interface Billing {
   name: string;
-}
-
-/**
- * Interface for a list item, which includes a descriptor and a value.
- */
-interface ListItem {
-  descriptor: Descriptor;
-  value: string;
-}
-
-/**
- * Interface for a tag, which includes a code and a list of list items.
- */
-interface Tag {
-  code: string;
-  list: ListItem[];
-}
-
-/**
- * Interface for a person, including name, gender, age, skills, languages, and tags.
- */
-interface Person {
-  name: string;
-  gender: string;
-  age: string;
-  skills: { name: string }[];
-  languages: { code: string; name: string }[];
-  tags: Tag[];
-}
-
-/**
- * Interface for a contact, including phone and email.
- */
-interface Contact {
   phone: string;
   email: string;
+  address: string;
 }
 
-/**
- * Interface for a customer, including a person and contact.
- */
-interface Customer {
-  person: Person;
-  contact: Contact;
-}
-
-/**
- * Interface for a fulfillment, including an ID and a customer.
- */
-interface Fulfillment {
-  id: string;
-  customer: Customer;
-}
-
-/**
- * Interface for an item, including an ID and fulfillment IDs.
- */
 interface Item {
   id: string;
-  fulfillment_ids: string[];
 }
 
-/**
- * Interface for a provider, including an ID.
- */
 interface Provider {
   id: string;
 }
+interface Params {
+  amount: string;
+  currency: string;
+}
 
-/**
- * Interface for an order, including a provider, items, and fulfillments.
- */
+interface PaymentStatus {
+  params: Params;
+  status: string;
+}
+
+// Alternatively, if you prefer a single interface for the entire structure:
+interface Payment {
+  params: {
+    amount: string;
+    currency: string;
+  };
+  status: string;
+}
+interface Fulfillment {
+  customer: {
+    person: {
+      name: string;
+      age: string;
+      gender: string;
+      tags: Array<{
+        descriptor: {
+          code: string;
+          name: string;
+        };
+        list: Array<{
+          descriptor: {
+            code: string;
+            name: string;
+          };
+          value: string;
+        }>;
+        display: boolean;
+      }>;
+    };
+    contact: {
+      phone: string;
+      email: string;
+    };
+  };
+}
+
 interface Order {
   provider: Provider;
   items: Item[];
+  billing: Billing;
   fulfillments: Fulfillment[];
+  payments: Payment[];
 }
 
-/**
- * Interface for a job order.
- */
-interface Message {
+export interface ICourseConfirmMessage {
   order: Order;
 }
 
-/**
- * Interface for a job confirmation message, including a context and a message.
- */
-export interface IJobConfirm {
+export interface ICourseConfirmRequest {
   context: Context;
-  message: Message;
+  message: ICourseConfirmMessage;
 }
