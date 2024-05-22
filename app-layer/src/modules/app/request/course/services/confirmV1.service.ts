@@ -31,17 +31,18 @@ export class CourseConfirmService {
           'on_search',
         );
       console.log('selectRequestDetails', selectRequestDetails);
-        const context = selectRequestDetails?.context as unknown as SelectContext;
-        const billing = selectRequestDetails?.message?.order?.billing
-        delete billing?.id
-        const fulfillments = selectRequestDetails?.message?.order?.billing
+      const context = selectRequestDetails?.context as unknown as SelectContext;
+      const billing = selectRequestDetails?.message?.order?.billing;
+      delete billing?.id;
+      const fulfillments = selectRequestDetails?.message?.order?.billing;
       if (!context) throw new NotFoundException('Context not found');
       const contextPayload: SelectContext = {
         ...context,
         action: Action.confirm,
-          domain: DomainsEnum.COURSE_DOMAIN,
-        bap_uri: this.configService.get('PROTOCOL_SERVICE_URL') +
-        `/${xplorDomain.course}`,
+        domain: DomainsEnum.COURSE_DOMAIN,
+        bap_uri:
+          this.configService.get('PROTOCOL_SERVICE_URL') +
+          `/${xplorDomain.course}`,
         message_id: request.context.message_id,
         version: OnestContextConstants.version,
         timestamp: new Date().toISOString(),
@@ -52,38 +53,48 @@ export class CourseConfirmService {
       const messagePayload: ICourseConfirmMessage = {
         order: {
           provider: {
-            id: selectRequestDetails?.message?.order?.provider_id ?selectRequestDetails?.message?.order?.provider_id:request?.message?.order?.provider_id,
+            id: selectRequestDetails?.message?.order?.provider_id
+              ? selectRequestDetails?.message?.order?.provider_id
+              : request?.message?.order?.provider_id,
           },
-          items:selectRequestDetails?.message?.order?.items_id[0]? [
-            { id: selectRequestDetails?.message?.order?.items_id[0]},
-            ...selectRequestDetails?.message?.order?.itemsId
-              .slice(1)
-              .map((id) => ({ id })),
-              ]:[{
-              id:"d4975df5-b18c-4772-80ad-368669856d52" 
-          }],
-          billing: billing?billing:{
-            "name": "Jane Doe",
-            "phone": "+91-9663088848",
-            "email": "jane.doe@example.com",
-            "address": "No 27, XYZ Lane, etc"
-          },
-          fulfillments: fulfillments?fulfillments:[
-            {
-              "customer": {
-                "person": {
-                  "name": "Jane Doe",
-                  "age": "13",
-                  "gender": "female"
+          items: selectRequestDetails?.message?.order?.items_id[0]
+            ? [
+                { id: selectRequestDetails?.message?.order?.items_id[0] },
+                ...selectRequestDetails?.message?.order?.itemsId
+                  .slice(1)
+                  .map((id) => ({ id })),
+              ]
+            : [
+                {
+                  id: 'd4975df5-b18c-4772-80ad-368669856d52',
                 },
-                "contact": {
-                  "phone": "+91-9663088848",
-                  "email": "jane.doe@example.com"
-                }
-              }
-            }
-          ],
-              payments: request.message.order.payments
+              ],
+          billing: billing
+            ? billing
+            : {
+                name: 'Jane Doe',
+                phone: '+91-9663088848',
+                email: 'jane.doe@example.com',
+                address: 'No 27, XYZ Lane, etc',
+              },
+          fulfillments: fulfillments
+            ? fulfillments
+            : [
+                {
+                  customer: {
+                    person: {
+                      name: 'Jane Doe',
+                      age: '13',
+                      gender: 'female',
+                    },
+                    contact: {
+                      phone: '+91-9663088848',
+                      email: 'jane.doe@example.com',
+                    },
+                  },
+                },
+              ],
+          payments: request.message.order.payments,
         },
       };
 
@@ -102,12 +113,12 @@ export class CourseConfirmService {
 
   async sendConfirmPayload(request: ConfirmRequestDto) {
     try {
-        const ConfirmPayload = await this.createPayload(request);
-        console.log('ConfirmPayload', ConfirmPayload)
+      const ConfirmPayload = await this.createPayload(request);
+      console.log('ConfirmPayload', ConfirmPayload);
       const url =
         this.configService.get('PROTOCOL_SERVICE_URL') +
         `/${xplorDomain.course}/${Action.confirm}`;
-     console.log('url', url)
+      console.log('url', url);
       const response = await this.httpService.post(url, ConfirmPayload);
       console.log('confirmPayload', JSON.stringify(ConfirmPayload));
       return response;

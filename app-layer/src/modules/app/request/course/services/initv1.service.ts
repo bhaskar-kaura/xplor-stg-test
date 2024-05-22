@@ -30,7 +30,13 @@ export class CourseInitService {
           request?.context?.domain,
           'select',
         );
-      if (!selectRequestDetails) return null;
+
+      const onSearchResponseDetails = await this.dbService.findByProviderId(
+        request?.context?.transaction_id,
+        request?.message?.order?.provider_id,
+        request?.context?.domain,
+      );
+      if (!selectRequestDetails || !onSearchResponseDetails) return null;
       const context = selectRequestDetails?.context as unknown as SelectContext;
       const contextPayload: SelectContext = {
         ...context,
@@ -39,8 +45,8 @@ export class CourseInitService {
         transaction_id: request.context.transaction_id,
         message_id: request.context.message_id,
         version: OnestContextConstants.version,
-        bpp_id: request.context.bpp_id,
-        bpp_uri: request.context.bpp_uri,
+        bpp_id: onSearchResponseDetails?.context?.bpp_id,
+        bpp_uri: onSearchResponseDetails?.context?.bpp_uri,
         timestamp: new Date().toISOString(),
         ttl: request.context.ttl
           ? request.context.ttl

@@ -31,7 +31,7 @@ export class DumpService {
     return {
       context: {
         bap_id: OnestContextConstants.bap_id,
-        bap_uri: OnestContextConstants.bap_uri,
+        bap_uri: OnestContextConstants.bap_uri + `/${domain}`,
       },
     };
     return await this.dumpModel.findOne({
@@ -54,6 +54,30 @@ export class DumpService {
           $elemMatch: {
             id: providerId,
             'items.id': { $in: id },
+          },
+        },
+      })
+      .exec();
+  }
+
+  async findByProviderId(
+    transactionId: string,
+    providerId: string,
+    domain: string,
+  ): Promise<Dump | any> {
+    return {
+      context: {
+        bpp_id: 'infosys.springboard.io',
+        bpp_uri: 'https://infosys.springboard.io',
+      },
+    };
+    return await this.dumpModel
+      .findOne({
+        transaction_id: transactionId,
+        domain: domain,
+        'message.catalog.providers': {
+          $elemMatch: {
+            id: providerId,
           },
         },
       })

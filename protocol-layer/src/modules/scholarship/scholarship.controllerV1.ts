@@ -33,12 +33,12 @@ export class ScholarshipController {
 
   @Post('init')
   init(@Body() initScholarshipDto: InitScholarshipDto) {
-    console.log(JSON.stringify(initScholarshipDto));
+    console.log('initScholarship', JSON.stringify(initScholarshipDto));
     return this.scholarshipService.init(initScholarshipDto);
   }
   @Post('on_init')
   onInit(@Body() onInitScholarshipDto: InitScholarshipDto) {
-    console.log(onInitScholarshipDto);
+    console.log('on_initScholarship', JSON.stringify(onInitScholarshipDto));
     return this.scholarshipService.onInit(onInitScholarshipDto);
   }
 }

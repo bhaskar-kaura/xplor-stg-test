@@ -22,12 +22,8 @@ import {
   SelectScholarshipDto,
 } from '../dto/request-scholarship.dtp';
 import { onInitSchema } from '../schema/onInit.schema';
-<<<<<<< HEAD
 import { initSchema } from '../schema/init.schema';
 import { onSelectSchema } from '../schema/on-select.schema';
-=======
-import { onSelectSchema } from '../schema/on-select.schema';
->>>>>>> origin/feat/bec_confirm
 
 @Injectable()
 export class ScholarshipService {
@@ -38,7 +34,10 @@ export class ScholarshipService {
   ) {}
   async search(searchScholarshipDto: SearchScholarshipDto) {
     try {
-      console.log(JSON.stringify(searchScholarshipDto.message),"search_scholarship_dto");
+      console.log(
+        JSON.stringify(searchScholarshipDto.message),
+        'search_scholarship_dto',
+      );
       const isValid = validateJson(searchSchema, {
         context: searchScholarshipDto.context,
         message: searchScholarshipDto.message,
@@ -65,12 +64,12 @@ export class ScholarshipService {
       context: searchScholarshipDto.context,
       message: searchScholarshipDto.message,
     };
-     console.log(searchScholarshipDto.gatewayUrl,"gatewayUrl")
+    console.log(searchScholarshipDto.gatewayUrl, 'gatewayUrl');
     const result = await this.axiosService.post(
       searchScholarshipDto.gatewayUrl + '/search',
       searchPayload,
     );
-    console.log(result,"scholarshipGatewayResult")
+    console.log(result, 'scholarshipGatewayResult');
     return result;
   }
 
@@ -142,7 +141,7 @@ export class ScholarshipService {
       const url =
         env === 'development'
           ? selectScholarshipDto.gatewayUrl + `/${Action.select}`
-          : selectPayload.context.bpp_id + `${Action.select}`;
+          : selectPayload.context.bpp_uri + `${Action.select}`;
       const selectResponse = await this.axiosService.post(url, selectPayload);
       console.log('selectRequest=======', selectResponse);
       return selectResponse;
@@ -209,16 +208,20 @@ export class ScholarshipService {
   }
   private async sendInitRequest(initScholarshipDto: InitScholarshipDto) {
     try {
-      const selectPayload = {
+      const initPayload = {
         context: initScholarshipDto.context,
         message: initScholarshipDto.message,
       };
 
-      const url = initScholarshipDto.context.bpp_uri + `/${Action.init}`;
+      const env = this.configService.get('NODE_ENV');
+      const url =
+        env === 'development'
+          ? initScholarshipDto.gatewayUrl + `/${Action.init}`
+          : initPayload.context.bpp_uri + `${Action.init}`;
       console.log(url);
-      const selectResponse = await this.axiosService.post(url, selectPayload);
-      console.log('selectRequest=======', selectResponse);
-      return selectResponse;
+      const initResponse = await this.axiosService.post(url, initPayload);
+      console.log('initRequest=======', initResponse);
+      return initResponse;
     } catch (error) {
       console.log('error===============', error);
       throw error?.response;

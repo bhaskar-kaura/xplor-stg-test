@@ -12,13 +12,6 @@ import {
  * Validates the context information required for a search operation.
  */
 export class ContextDto {
-  @IsNotEmpty({ message: 'BPP ID is required' })
-  @IsString({ message: 'BPP ID must be a string' })
-  bpp_id: string;
-
-  @IsNotEmpty({ message: 'BPP Uri is required' })
-  @IsString({ message: 'BPP Uri must be a string' })
-  bpp_uri: string;
   @IsNotEmpty({ message: 'Domain is required' })
   @IsString({ message: 'Domain must be a string' })
   domain: string;

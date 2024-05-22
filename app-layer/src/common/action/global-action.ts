@@ -223,11 +223,11 @@ export class GlobalActionService {
           // Log the search response for the course domain
           console.log(`course-select: ${JSON.stringify(selectResponseCourse)}`);
           break;
-        // case xplorDomain.scholarship:
-        //   // Logic for SCHOLARSHIP_DOMAIN
-        //   // Perform the search operation using the ScholarshipSearchService
-        //   const searchResponseScholarship =
-        //     await this.scholarshipInitService.sendInitPayload(request);
+        case xplorDomain.scholarship:
+          // Logic for SCHOLARSHIP_DOMAIN
+          // Perform the search operation using the ScholarshipSearchService
+          // const searchResponseScholarship =
+          // await this.scholarshipInitService.sendInitPayload(request);
           // Log the search response for the scholarship domain
           // console.log(`Scholarship: ${searchResponseScholarship}`);
           break;

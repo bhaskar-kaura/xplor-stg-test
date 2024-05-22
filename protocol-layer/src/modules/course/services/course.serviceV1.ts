@@ -245,10 +245,10 @@ export class CourseService {
         env === 'development'
           ? initCourseDto.gatewayUrl + `/${Action.init}`
           : initPayload.context.bpp_id + `${Action.init}`;
-      const selectResponse = await this.axiosService.post(url, initPayload);
-      console.log('selectResponse', selectResponse);
-      console.log('initRequest=======', selectResponse);
-      return selectResponse;
+      const initResponse = await this.axiosService.post(url, initPayload);
+      console.log('initResponse', initResponse);
+      console.log('initRequest=======', initResponse);
+      return initResponse;
     } catch (error) {
       console.log('error===============', error);
       throw error?.response;
