@@ -99,7 +99,4 @@ export class OnConfirmCourseDto {
   // The message property must not be empty
   @IsNotEmpty()
   message: any;
-
-
 }
-

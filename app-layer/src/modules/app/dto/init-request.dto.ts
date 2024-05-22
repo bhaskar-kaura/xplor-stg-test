@@ -4,7 +4,6 @@ import {
   IsArray,
   IsBoolean,
   IsNotEmpty,
-  IsNumber,
   IsObject,
   IsOptional,
   IsString,
@@ -33,7 +32,6 @@ export class ContextDto {
 }
 
 class BillingDto {
-  
   @IsNotEmpty({ message: 'id is required' })
   @IsString({ message: 'id must be a string' })
   id: string;
@@ -149,7 +147,6 @@ class Fulfillment {
 }
 
 export class FulfillmentsDto {
-
   @ArrayNotEmpty({ message: 'Fulfillments cannot be empty' })
   @ValidateNested({ each: true })
   @Type(() => Fulfillment)
@@ -159,7 +156,7 @@ class OrderItem {
   @ValidateNested()
   @Type(() => BillingDto)
   billing: BillingDto;
-    
+
   @ValidateNested()
   @Type(() => FulfillmentsDto)
   fulfillments: FulfillmentsDto;

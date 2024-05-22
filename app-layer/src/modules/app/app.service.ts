@@ -269,7 +269,7 @@ export class AppService {
       console.log('selectPayload', JSON.stringify(payload));
 
       // Construct the URL for the search request
-      const url = this.configService.get('CORE_SERVICE_URL') + '/stg/on_search';
+      const url = this.configService.get('CORE_SERVICE_URL') + '/stg/on_select';
       // Send the search request and log the response
       const resp = await this.httpService.post(url, payload);
       console.log('resp', resp);
@@ -338,7 +338,6 @@ export class AppService {
     }
   }
 
-
   async confirm(confirmRequest: ConfirmRequestDto) {
     try {
       await this.globalActionService.globalConfirm(confirmRequest);
@@ -353,6 +352,100 @@ export class AppService {
       // Log the error and throw a BadGatewayException with a formatted error response
       console.log(JSON.stringify(error?.response));
       throw new BadGatewayException(
+        getResponse(false, error?.message, null, error?.response?.data),
+      );
+    }
+  }
+
+  // Method to handle search requests and delegate to the sendSearch method
+  async onConfirm(response: any) {
+    try {
+      const domain =
+        response?.context?.domain === DomainsEnum.COURSE_DOMAIN
+          ? 'course'
+          : response?.context?.domain === DomainsEnum.JOB_DOMAIN
+          ? 'job'
+          : response?.context?.domain === DomainsEnum.SCHOLARSHIP_DOMAIN
+          ? 'scholarship'
+          : 'retail';
+
+      // Dump the response into database
+      const createDumpDto: CreateDumpDto = {
+        context: response?.context,
+        transaction_id: response?.context?.transaction_id,
+        domain: domain,
+        message_id: response?.context?.message_id,
+        request_type: Action.on_confirm,
+        message: response?.message,
+      };
+
+      await this.dumpService.create(createDumpDto);
+      // Delegate the search operation to the sendSearch method
+      await this.sendConfirm(response);
+    } catch (error) {
+      // Log the error and throw a BadGatewayException with a formatted error response
+      console.log(error?.response);
+      throw new BadGatewayException(
+        getResponse(false, error?.message, null, error?.response?.data),
+      );
+    }
+  }
+
+  async sendConfirm(response: any) {
+    try {
+      // Initialize variables for job, course, and scholarship payloads
+      let job: object, course: object, scholarship: object, retail: object;
+      // Determine which type of payload to create based on the domain
+      switch (response.context.domain) {
+        case DomainsEnum.JOB_DOMAIN:
+          job = response.message
+            ? this.onestCreatePayload.createPayload(response.message)
+            : {};
+          break;
+        case DomainsEnum.COURSE_DOMAIN:
+          course = response.message
+            ? this.onestCreateCoursePayload.createConfirmPayload(
+                response.message,
+              )
+            : {};
+          break;
+        case DomainsEnum.SCHOLARSHIP_DOMAIN:
+          scholarship = response.message
+            ? this.onestCreateScholarshipPayload.createConfirmPayload(
+                response.message,
+              )
+            : {};
+          break;
+        case DomainsEnum.RETAIL_DOMAIN:
+          retail = response.message
+            ? this.ondcCreatePayload.createPayload(response.message)
+            : {};
+          break;
+        default:
+          break;
+      }
+      // Construct the payload for the search request
+      const payload = {
+        context: response.context,
+        data: {
+          job: job != null ? job : {},
+          course: course != null ? course : {},
+          scholarship: scholarship != null ? scholarship : {},
+          retail: retail != null ? retail : {},
+        },
+      };
+      console.log('confirmPayload', JSON.stringify(payload));
+
+      // Construct the URL for the search request
+      const url =
+        this.configService.get('CORE_SERVICE_URL') + '/stg/on_confirm';
+      // Send the search request and log the response
+      const resp = await this.httpService.post(url, payload);
+      console.log('resp', resp);
+    } catch (error) {
+      // Log the error and throw a BadGatewayException with a formatted error response
+      console.log(error);
+      return new BadGatewayException(
         getResponse(false, error?.message, null, error?.response?.data),
       );
     }

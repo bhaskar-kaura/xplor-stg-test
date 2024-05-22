@@ -16,6 +16,7 @@ import { ScholarshipSelectService } from 'src/modules/app/request/scholarship/se
 import { ScholarshipInitService } from 'src/modules/app/request/scholarship/services/initv1.service';
 import { CourseInitService } from 'src/modules/app/request/course/services/initv1.service';
 import { CourseConfirmService } from 'src/modules/app/request/course/services/confirmV1.service';
+import { ScholarshipConfirmService } from 'src/modules/app/request/scholarship/services/confirmV1.service';
 
 /**
  * Decorates the CommonModule class with @Global() to make it a global module.
@@ -41,6 +42,7 @@ import { CourseConfirmService } from 'src/modules/app/request/course/services/co
     CourseInitService, // Service for course Init operations
     ScholarshipInitService, // Service for scholarship Init operations
     CourseConfirmService, // Service for course Confirm operations
+    ScholarshipConfirmService, // Service for scholarship Confirm operations
   ],
   exports: [
     AxiosService, // Exporting AxiosService for use in other modules
@@ -55,6 +57,7 @@ import { CourseConfirmService } from 'src/modules/app/request/course/services/co
     CourseInitService, // Service for course Init operations
     ScholarshipInitService, // Service for scholarship Init operations
     CourseConfirmService, // Service for course Confirm operations
+    ScholarshipConfirmService, // Service for scholarship Confirm operations
   ],
 })
 // Define the CommonModule class.

@@ -20,6 +20,7 @@ import { CourseInitService } from 'src/modules/app/request/course/services/initv
 import { ScholarshipInitService } from 'src/modules/app/request/scholarship/services/initv1.service';
 import { CourseConfirmService } from 'src/modules/app/request/course/services/confirmV1.service';
 import { ConfirmRequestDto } from 'src/modules/app/dto/confirm-request.dto';
+import { ScholarshipConfirmService } from 'src/modules/app/request/scholarship/services/confirmV1.service';
 
 @Injectable()
 export class GlobalActionService {
@@ -29,6 +30,7 @@ export class GlobalActionService {
     private readonly courseSelectService: CourseSelectService,
     private readonly courseInitService: CourseInitService,
     private readonly courseConfirmService: CourseConfirmService,
+    private readonly scholarshipConfirmService: ScholarshipConfirmService,
     private readonly scholarshipInitService: ScholarshipInitService,
     private readonly scholarshipService: ScholarshipSearchService,
     private readonly scholarshipSelectService: ScholarshipSelectService,
@@ -223,13 +225,12 @@ export class GlobalActionService {
           // Log the search response for the course domain
           console.log(`course-select: ${JSON.stringify(selectResponseCourse)}`);
           break;
-        // case xplorDomain.scholarship:
-        //   // Logic for SCHOLARSHIP_DOMAIN
-        //   // Perform the search operation using the ScholarshipSearchService
-        //   const searchResponseScholarship =
-        //     await this.scholarshipInitService.sendInitPayload(request);
-          // Log the search response for the scholarship domain
-          // console.log(`Scholarship: ${searchResponseScholarship}`);
+        case xplorDomain.scholarship:
+          // Logic for SCHOLARSHIP_DOMAIN
+          // Perform the search operation using the ScholarshipSearchService
+          const searchResponseScholarship =
+            await this.scholarshipConfirmService.sendConfirmPayload(request);
+          console.log(`Scholarship: ${searchResponseScholarship}`);
           break;
         default:
           // Default case if the domain does not match any of the expected values

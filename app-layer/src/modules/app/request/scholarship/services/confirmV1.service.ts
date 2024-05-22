@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 
-import { SelectContext } from '../interface/context';
+import { ISelectContext } from '../interface/context';
 import { OnestContextConstants } from 'src/common/constants/context.constant';
 import { AxiosService } from 'src/common/axios/axios.service';
 import { ConfigService } from '@nestjs/config';
@@ -12,10 +12,10 @@ import {
 } from 'src/common/constants/enums';
 import { DumpService } from 'src/modules/dump/service/dump.service';
 import { ConfirmRequestDto } from 'src/modules/app/dto/confirm-request.dto';
-import { ICourseConfirmMessage } from '../interface/request/confirm';
+import { IScholarshipConfirmMessage } from '../interface/request/confirm';
 
 @Injectable()
-export class CourseConfirmService {
+export class ScholarshipConfirmService {
   constructor(
     private readonly configService: ConfigService,
     private readonly httpService: AxiosService,
@@ -31,18 +31,19 @@ export class CourseConfirmService {
           'on_search',
         );
       console.log('selectRequestDetails', selectRequestDetails);
-      const context = selectRequestDetails?.context as unknown as SelectContext;
+      const context =
+        selectRequestDetails?.context as unknown as ISelectContext;
       const billing = selectRequestDetails?.message?.order?.billing;
       delete billing?.id;
       const fulfillments = selectRequestDetails?.message?.order?.billing;
       if (!context) throw new NotFoundException('Context not found');
-      const contextPayload: SelectContext = {
+      const contextPayload: ISelectContext = {
         ...context,
         action: Action.confirm,
-        domain: DomainsEnum.COURSE_DOMAIN,
+        domain: DomainsEnum.SCHOLARSHIP_DOMAIN,
         bap_uri:
           this.configService.get('PROTOCOL_SERVICE_URL') +
-          `/${xplorDomain.course}`,
+          `/${xplorDomain.scholarship}`,
         message_id: request.context.message_id,
         version: OnestContextConstants.version,
         timestamp: new Date().toISOString(),
@@ -50,7 +51,7 @@ export class CourseConfirmService {
           ? request.context.ttl
           : OnestContextConstants.ttl,
       };
-      const messagePayload: ICourseConfirmMessage = {
+      const messagePayload: IScholarshipConfirmMessage = {
         order: {
           provider: {
             id: selectRequestDetails?.message?.order?.provider_id
@@ -66,22 +67,35 @@ export class CourseConfirmService {
               ]
             : [
                 {
-                  id: 'd4975df5-b18c-4772-80ad-368669856d52',
+                  id: request?.message?.order?.items_id[0],
+                  ...request?.message?.order?.items_id
+                    .slice(1)
+                    .map((id) => ({ id })),
                 },
               ],
           billing: billing
             ? billing
             : {
-                name: 'Jane Doe',
-                phone: '+91-9663088848',
-                email: 'jane.doe@example.com',
+                name: 'Manjunath',
+                organization: {
+                  descriptor: {
+                    name: 'Namma Yatri',
+                    code: 'nammayatri.in',
+                  },
+                  contact: {
+                    phone: '+91-8888888888',
+                    email: 'scholarships@nammayatri.in',
+                  },
+                },
                 address: 'No 27, XYZ Lane, etc',
+                phone: '+91-9999999999',
               },
           fulfillments: fulfillments
             ? fulfillments
             : [
                 {
                   customer: {
+                    id: 'aadhaar:798677675565',
                     person: {
                       name: 'Jane Doe',
                       age: '13',
@@ -94,7 +108,7 @@ export class CourseConfirmService {
                   },
                 },
               ],
-          payments: request.message.order.payments,
+          payment: request.message.order.payments,
         },
       };
 
@@ -104,7 +118,7 @@ export class CourseConfirmService {
       };
       return {
         ...payload,
-        gatewayUrl: Gateway.course,
+        gatewayUrl: Gateway.scholarship,
       };
     } catch (error) {
       return error?.message;
@@ -117,7 +131,7 @@ export class CourseConfirmService {
       console.log('ConfirmPayload', ConfirmPayload);
       const url =
         this.configService.get('PROTOCOL_SERVICE_URL') +
-        `/${xplorDomain.course}/${Action.confirm}`;
+        `/${xplorDomain.scholarship}/${Action.confirm}`;
       console.log('url', url);
       const response = await this.httpService.post(url, ConfirmPayload);
       console.log('confirmPayload', JSON.stringify(ConfirmPayload));

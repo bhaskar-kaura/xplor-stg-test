@@ -1,6 +1,14 @@
 import { Controller, Post, Body } from '@nestjs/common';
 import { CourseService } from './services/course.serviceV1';
-import { ConfirmCourseDto, InitCourseDto, OnConfirmCourseDto, OnInitCourseDto, OnSelectCourseDto, SearchCourseDto, SelectCourseDto } from './dto/request-course.dto';
+import {
+  ConfirmCourseDto,
+  InitCourseDto,
+  OnConfirmCourseDto,
+  OnInitCourseDto,
+  OnSelectCourseDto,
+  SearchCourseDto,
+  SelectCourseDto,
+} from './dto/request-course.dto';
 
 @Controller({ version: '1', path: 'course' })
 export class CourseController {
@@ -32,7 +40,6 @@ export class CourseController {
     console.log('initCourseDto', JSON.stringify(initCourseDto));
     return this.courseService.init(initCourseDto);
   }
-
 
   @Post('/on_init')
   onInit(@Body() onInitCourseDto: OnInitCourseDto) {

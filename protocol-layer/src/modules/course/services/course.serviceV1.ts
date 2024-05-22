@@ -222,11 +222,11 @@ export class CourseService {
         return message;
       } else {
         const message = new AckNackResponse(ACK);
-        const response = await this.axiosService.post(
+        await this.axiosService.post(
           this.configService.get('APP_SERVICE_URL') + `/${Action.on_init}`,
           onInitCourseDto,
         );
-        return response;
+        return message;
       }
     } catch (error) {
       throw error;
@@ -245,7 +245,7 @@ export class CourseService {
           ? initCourseDto.gatewayUrl + `/${Action.init}`
           : selectPayload.context.bpp_id + `${Action.init}`;
       const selectResponse = await this.axiosService.post(url, selectPayload);
-      console.log('selectResponse', selectResponse)
+      console.log('selectResponse', selectResponse);
       console.log('initRequest=======', selectResponse);
       return selectResponse;
     } catch (error) {
@@ -253,7 +253,6 @@ export class CourseService {
       throw error?.response;
     }
   }
-
 
   async confirm(confirmCourseDto: ConfirmCourseDto) {
     try {
@@ -318,7 +317,7 @@ export class CourseService {
         context: confirmCourseDto.context,
         message: confirmCourseDto.message,
       };
-      console.log('confirmPayload', JSON.stringify(confirmPayload))
+      console.log('confirmPayload', JSON.stringify(confirmPayload));
       const env = this.configService.get('NODE_ENV');
       const url =
         env === 'development'
@@ -332,5 +331,4 @@ export class CourseService {
       throw error?.response;
     }
   }
-
 }

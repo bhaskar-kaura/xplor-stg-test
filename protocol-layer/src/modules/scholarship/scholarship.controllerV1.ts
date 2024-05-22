@@ -2,7 +2,9 @@ import { Controller, Post, Body } from '@nestjs/common';
 import { ScholarshipService } from './services/scholarship.serviceV1';
 import { SearchScholarshipDto } from './dto/search-scholarship.dto';
 import {
+  ConfirmScholarshipDto,
   InitScholarshipDto,
+  OnConfirmScholarshipDto,
   SelectScholarshipDto,
 } from './dto/request-scholarship.dtp';
 
@@ -40,5 +42,16 @@ export class ScholarshipController {
   onInit(@Body() onInitCourseDto: InitScholarshipDto) {
     console.log(onInitCourseDto);
     return this.scholarshipService.onInit(onInitCourseDto);
+  }
+
+  @Post('confirm')
+  confirm(@Body() initCourseDto: ConfirmScholarshipDto) {
+    console.log(JSON.stringify(initCourseDto));
+    return this.scholarshipService.confirm(initCourseDto);
+  }
+  @Post('on_confirm')
+  onconfirm(@Body() onConfirmScholarshipDto: OnConfirmScholarshipDto) {
+    console.log(onConfirmScholarshipDto);
+    return this.scholarshipService.onConfirm(onConfirmScholarshipDto);
   }
 }

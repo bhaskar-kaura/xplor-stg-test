@@ -26,15 +26,6 @@ interface Item {
 interface Provider {
   id: string;
 }
-interface Params {
-  amount: string;
-  currency: string;
-}
-
-interface PaymentStatus {
-  params: Params;
-  status: string;
-}
 
 // Alternatively, if you prefer a single interface for the entire structure:
 interface Payment {

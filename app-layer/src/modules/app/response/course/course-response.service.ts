@@ -6,6 +6,11 @@ import {
   ICourseSelectResponseMessage,
   ICourseSelectResponseMessageOrder,
 } from './interface/on-select';
+import {
+  ICourseConfirmResponse,
+  ICourseConfirmResponseMessage,
+  ICourseConfirmResponseMessageOrder,
+} from './interface/on-confirm';
 
 /**
  * Service for handling job response operations.
@@ -78,6 +83,35 @@ export class CourseResponseService {
         quote: response?.order?.quote,
       };
       const resp: ICourseSelectMessage = {
+        message: {
+          order: order,
+        },
+      };
+      return resp;
+    } catch (error) {
+      console.log(error);
+      return error?.message;
+    }
+  }
+
+  createConfirmPayload(response: ICourseConfirmResponseMessage) {
+    try {
+      const order: ICourseConfirmResponseMessageOrder = {
+        id: response?.order?.id,
+        provider: {
+          id: response?.order?.provider?.id,
+        },
+        items: response?.order?.items?.map((item) => {
+          return {
+            id: item?.id,
+          };
+        }),
+        fulfillments: response?.order?.fulfillments,
+        quote: response?.order?.quote,
+        billing: response?.order?.billing,
+        payments: response?.order?.payments,
+      };
+      const resp: ICourseConfirmResponse = {
         message: {
           order: order,
         },

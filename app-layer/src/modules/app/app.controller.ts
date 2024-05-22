@@ -74,4 +74,9 @@ export class AppController {
   on_init(@Body() onInitRequest: OndcContext | OnestContext | any) {
     return this.appService.onInit(onInitRequest);
   }
+
+  @Post('on_confirm')
+  onConfirm(@Body() confirmRequest: OndcContext | OnestContext | any) {
+    return this.appService.onConfirm(confirmRequest);
+  }
 }
