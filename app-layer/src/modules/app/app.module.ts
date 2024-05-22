@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -8,6 +8,10 @@ import { CommonModule } from '../../common/common.module';
 import { JobSearchService } from './request/job/services/searchv1.service';
 import { JobResponseService } from './response/job/job-response.service';
 import { RetailResponseService } from './response/retail/retail-response.service';
+import { MongooseModule } from '@nestjs/mongoose';
+import { DumpModule } from '../dump/dump.module';
+import { ScholarshipResponseService } from './response/scholarship/scholarship-response.service';
+import { CourseResponseService } from './response/course/course-response.service';
 
 /**
  * Module decorator for defining the module's metadata.
@@ -27,6 +31,14 @@ import { RetailResponseService } from './response/retail/retail-response.service
       isGlobal: true,
       load: [configuration],
     }),
+    MongooseModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: (configService: ConfigService) => ({
+        uri: configService.get('MONGODB_URL'),
+      }),
+      inject: [ConfigService],
+    }),
+    DumpModule,
     CommonModule,
   ],
   /**
@@ -44,6 +56,8 @@ import { RetailResponseService } from './response/retail/retail-response.service
     JobSearchService,
     JobResponseService,
     RetailResponseService,
+    ScholarshipResponseService,
+    CourseResponseService,
   ],
 })
 export class AppModule {}

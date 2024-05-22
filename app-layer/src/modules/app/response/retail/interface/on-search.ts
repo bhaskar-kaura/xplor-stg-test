@@ -35,13 +35,6 @@ export interface Provider {
 }
 
 /**
- * Interface for an image, which includes a URL.
- */
-interface Image {
-  url: string;
-}
-
-/**
  * Interface for a category, which includes an ID and a descriptor.
  */
 interface Category {
@@ -95,6 +88,7 @@ interface Item {
   price: {
     currency: string;
     value: string;
+    maximum_value: string;
   };
   quantity?: {
     maximum?: {

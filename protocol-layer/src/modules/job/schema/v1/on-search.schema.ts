@@ -121,7 +121,7 @@ export const onSearchSchema = {
               },
             },
           },
-          required: ['descriptor', 'payments', 'providers'],
+          required: ['descriptor', 'providers'],
         },
       },
       required: ['catalog'],

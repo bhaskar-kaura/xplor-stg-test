@@ -1,100 +1,102 @@
-import { Context } from '../context';
+interface Location {
+  city: {
+    name: string;
+    code: string;
+  };
+  country: {
+    name: string;
+    code: string;
+  };
+}
 
-/**
- * Interface for a descriptor, which can optionally include a code and must include a name.
- */
-interface Descriptor {
-  code?: string;
+interface Context {
+  domain: string;
+  location: Location;
+  action: string;
+  version: string;
+  bap_id: string;
+  bap_uri: string;
+  bpp_id: string;
+  bpp_uri: string;
+  transaction_id: string;
+  message_id: string;
+  timestamp: string;
+  ttl: string;
+}
+
+interface OrganizationDescriptor {
   name: string;
-}
-
-/**
- * Interface for a list item, which includes a descriptor and a value.
- */
-interface ListItem {
-  descriptor: Descriptor;
-  value: string;
-}
-
-/**
- * Interface for a tag, which includes a code and a list of list items.
- */
-interface Tag {
   code: string;
-  list: ListItem[];
 }
 
-/**
- * Interface for a person, including name, gender, age, skills, languages, and tags.
- */
-interface Person {
-  name: string;
-  gender: string;
-  age: string;
-  skills: { name: string }[];
-  languages: { code: string; name: string }[];
-  tags: Tag[];
-}
-
-/**
- * Interface for a contact, including phone and email.
- */
-interface Contact {
+interface OrganizationContact {
   phone: string;
   email: string;
 }
 
-/**
- * Interface for a customer, including a person and contact.
- */
-interface Customer {
-  person: Person;
-  contact: Contact;
+interface Organization {
+  descriptor: OrganizationDescriptor;
+  contact: OrganizationContact;
 }
 
-/**
- * Interface for a fulfillment, including an ID and a customer.
- */
-interface Fulfillment {
+interface Billing {
+  id?: string;
+  name: string;
+  organization: Organization;
+  address: string;
+  phone: string;
+}
+
+interface Payment {
+  id?: string;
+  params: {
+    bank_code?: string;
+    bank_account_number?: string;
+    bank_account_name?: string;
+  };
+}
+
+interface CustomerPerson {
+  name: string;
+  age: string;
+  gender: string;
+}
+
+interface CustomerContact {
+  phone: string;
+  email: string;
+}
+
+interface Customer {
   id: string;
+  person: CustomerPerson;
+  contact: CustomerContact;
+}
+
+interface Fulfillment {
+  id?: string;
   customer: Customer;
 }
 
-/**
- * Interface for an item, including an ID and fulfillment IDs.
- */
 interface Item {
   id: string;
-  fulfillment_ids: string[];
 }
 
-/**
- * Interface for a provider, including an ID.
- */
-interface Provider {
-  id: string;
-}
-
-/**
- * Interface for an order, including a provider, items, and fulfillments.
- */
 interface Order {
-  provider: Provider;
   items: Item[];
+  provider: {
+    id: string;
+  };
+  billing: Billing;
   fulfillments: Fulfillment[];
+  payment: Payment[];
 }
 
-/**
- * Interface for a job order.
- */
-interface Message {
+export interface IScholarshipConfirmMessage {
   order: Order;
 }
 
-/**
- * Interface for a job confirmation message, including a context and a message.
- */
 export interface IScholarshipConfirm {
-  context: Context;
-  message: Message;
+  context?: Context;
+  message: IScholarshipConfirmMessage;
 }

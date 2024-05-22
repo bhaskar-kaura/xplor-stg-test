@@ -8,6 +8,13 @@ interface Provider {
 }
 
 /**
+ * Interface for a fulfillment, which includes an ID.
+ */
+interface Fulfillment {
+  id: string;
+}
+
+/**
  * Interface for an item, which includes an ID.
  */
 interface Item {
@@ -20,12 +27,13 @@ interface Item {
 interface Order {
   provider: Provider;
   items: Item[];
+  fulfillments?: Fulfillment[];
 }
 
 /**
  * Interface for a message, which includes an order.
  */
-interface Message {
+export interface IMessageSelect {
   order: Order;
 }
 
@@ -34,5 +42,5 @@ interface Message {
  */
 export interface IScholarshipSelect {
   context: Context;
-  message: Message;
+  message: IMessageSelect;
 }

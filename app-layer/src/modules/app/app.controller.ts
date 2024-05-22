@@ -3,6 +3,10 @@ import { Body, Controller, Get, Post } from '@nestjs/common';
 import { AppService } from './app.service';
 import { SearchRequestDto } from './dto/search-request.dto';
 import { OndcContext, OnestContext } from '../../util/context.builder';
+import { SelectRequestDto } from './dto/select-request.dto';
+import { InitRequestDto } from './dto/init-request.dto';
+import { ConfirmRequestDto } from './dto/confirm-request.dto';
+import { StatusRequestDto } from './dto/status-request.dto';
 
 /**
  * Controller for handling various requests in the application.
@@ -45,5 +49,45 @@ export class AppController {
   @Post('on_search')
   onSearch(@Body() searchResponse: OndcContext | OnestContext | any) {
     return this.appService.onSearch(searchResponse);
+  }
+
+  @Post('select')
+  select(@Body() selectRequest: SelectRequestDto) {
+    return this.appService.select(selectRequest);
+  }
+
+  @Post('on_select')
+  onSelect(@Body() selectResponse: OndcContext | OnestContext | any) {
+    console.log('select===========', selectResponse);
+    return this.appService.onSelect(selectResponse);
+  }
+  @Post('init')
+  init(@Body() initRequest: InitRequestDto) {
+    return this.appService.init(initRequest);
+  }
+
+  @Post('on_init')
+  onInit(@Body() onInitRequest: OndcContext | OnestContext | any) {
+    return this.appService.onInit(onInitRequest);
+  }
+
+  @Post('confirm')
+  confirm(@Body() confirmRequest: ConfirmRequestDto) {
+    return this.appService.confirm(confirmRequest);
+  }
+
+  @Post('status')
+  status(@Body() statusRequest: StatusRequestDto) {
+    return this.appService.status(statusRequest);
+  }
+
+  @Post('on_status')
+  onStatus(@Body() onStatusRequest: OndcContext | OnestContext | any) {
+    return this.appService.onInit(onStatusRequest);
+  }
+
+  @Post('on_confirm')
+  onConfirm(@Body() confirmRequest: OndcContext | OnestContext | any) {
+    return this.appService.onConfirm(confirmRequest);
   }
 }

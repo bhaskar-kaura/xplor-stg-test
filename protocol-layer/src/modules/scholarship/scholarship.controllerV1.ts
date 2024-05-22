@@ -1,5 +1,13 @@
 import { Controller, Post, Body } from '@nestjs/common';
 import { ScholarshipService } from './services/scholarship.serviceV1';
+import {
+  ConfirmScholarshipDto,
+  InitScholarshipDto,
+  OnStatusScholarshipDto,
+  OnConfirmScholarshipDto,
+  SelectScholarshipDto,
+  StatusScholarshipDto,
+} from './dto/request-scholarship.dtp';
 import { SearchScholarshipDto } from './dto/search-scholarship.dto';
 
 @Controller({ version: '1', path: 'scholarship' })
@@ -13,5 +21,51 @@ export class ScholarshipController {
   @Post('on_search')
   on_search(@Body() searchScholarshipDto: SearchScholarshipDto) {
     return this.scholarshipService.on_search(searchScholarshipDto);
+  }
+
+  @Post('select')
+  select(@Body() selectScholarshipDto: SelectScholarshipDto) {
+    console.log('selectScholarshipDto', selectScholarshipDto);
+    console.log('selectScholarshipDto', selectScholarshipDto);
+    return this.scholarshipService.select(selectScholarshipDto);
+  }
+
+  @Post('on_select')
+  on_select(@Body() searchScholarshipDto: SearchScholarshipDto) {
+    return this.scholarshipService.on_select(searchScholarshipDto);
+  }
+
+  @Post('init')
+  init(@Body() initScholarshipDto: InitScholarshipDto) {
+    console.log('initScholarship', JSON.stringify(initScholarshipDto));
+    return this.scholarshipService.init(initScholarshipDto);
+  }
+  @Post('on_init')
+  onInit(@Body() onInitScholarshipDto: InitScholarshipDto) {
+    console.log('on_initScholarship', JSON.stringify(onInitScholarshipDto));
+    return this.scholarshipService.onInit(onInitScholarshipDto);
+  }
+
+  @Post('status')
+  status(@Body() statusScholarshipDto: StatusScholarshipDto) {
+    console.log('statusScholarshipDto', JSON.stringify(statusScholarshipDto));
+    return this.scholarshipService.status(statusScholarshipDto);
+  }
+
+  @Post('on_status')
+  onStatus(@Body() onStatusScholarshipDto: OnStatusScholarshipDto) {
+    console.log(onStatusScholarshipDto);
+    return this.scholarshipService.onStatus(onStatusScholarshipDto);
+  }
+
+  @Post('confirm')
+  confirm(@Body() initCourseDto: ConfirmScholarshipDto) {
+    console.log(JSON.stringify(initCourseDto));
+    return this.scholarshipService.confirm(initCourseDto);
+  }
+  @Post('on_confirm')
+  onconfirm(@Body() onConfirmScholarshipDto: OnConfirmScholarshipDto) {
+    console.log(onConfirmScholarshipDto);
+    return this.scholarshipService.onConfirm(onConfirmScholarshipDto);
   }
 }
