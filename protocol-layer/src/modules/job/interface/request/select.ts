@@ -13,11 +13,11 @@ interface Order {
   items: Item[];
 }
 
-interface Message {
+export interface IJobSelectMessage {
   order: Order;
 }
 
 export interface IJobSelect {
   context: Context;
-  message: Message;
+  message: IJobSelectMessage;
 }

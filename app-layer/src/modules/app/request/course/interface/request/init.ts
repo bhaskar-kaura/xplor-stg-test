@@ -9,21 +9,6 @@ interface Descriptor {
 }
 
 /**
- * Interface for a skill, which includes a name.
- */
-interface Skill {
-  name: string;
-}
-
-/**
- * Interface for a language, which includes a code and a name.
- */
-interface Language {
-  code: string;
-  name: string;
-}
-
-/**
  * Interface for a list item, which includes a descriptor and a value.
  */
 interface ListItem {
@@ -35,7 +20,7 @@ interface ListItem {
  * Interface for a tag, which includes a code and a list of list items.
  */
 interface Tag {
-  code: string;
+  code?: string;
   list: ListItem[];
 }
 
@@ -45,10 +30,8 @@ interface Tag {
 interface Person {
   name: string;
   gender: string;
-  age: string;
-  skills: Skill[];
-  languages: Language[];
-  tags: Tag[];
+  age?: string;
+  tags?: Tag[];
 }
 
 /**
@@ -71,7 +54,7 @@ interface Customer {
  * Interface for a fulfillment, including an ID and a customer.
  */
 interface Fulfillment {
-  id: string;
+  id?: string;
   customer: Customer;
 }
 
@@ -90,9 +73,16 @@ interface Order {
     id: string;
   };
   items: Item[];
+  billing: Billing;
   fulfillments: Fulfillment[];
 }
 
+interface Billing {
+  name: string;
+  phone: string;
+  email: string;
+  address: string;
+}
 /**
  * Interface for a job order.
  */
@@ -100,6 +90,9 @@ interface Message {
   order: Order;
 }
 
+export interface IMessageInit {
+  order: Order;
+}
 /**
  * Interface for a job initialization message, including a context and a message.
  */

@@ -85,6 +85,7 @@ export const onSearchSchema = {
             },
             'bpp/providers': {
               type: 'array',
+              minItems: 1,
               items: {
                 type: 'object',
                 properties: {
@@ -160,8 +161,194 @@ export const onSearchSchema = {
                       'images',
                     ],
                   },
+                  items: {
+                    type: 'array',
+                    minItems: 1,
+                    items: {
+                      type: 'object',
+                      properties: {
+                        id: {
+                          type: 'string',
+                        },
+                        time: {
+                          type: 'object',
+                          properties: {
+                            label: {
+                              type: 'string',
+                            },
+                            timestamp: {
+                              type: 'string',
+                            },
+                          },
+                          required: ['label', 'timestamp'],
+                        },
+                        parent_item_id: {
+                          type: 'string',
+                        },
+                        descriptor: {
+                          type: 'object',
+                          properties: {
+                            name: {
+                              type: 'string',
+                            },
+                            short_desc: {
+                              type: 'string',
+                            },
+                            long_desc: {
+                              type: 'string',
+                            },
+                            images: {
+                              type: 'array',
+                              items: {
+                                type: 'string',
+                              },
+                            },
+                          },
+                          required: [
+                            'name',
+                            'short_desc',
+                            'long_desc',
+                            'images',
+                          ],
+                        },
+                        quantity: {
+                          type: 'object',
+                          properties: {
+                            unitized: {
+                              type: 'object',
+                              properties: {
+                                measure: {
+                                  type: 'object',
+                                  properties: {
+                                    unit: {
+                                      type: 'string',
+                                    },
+                                    value: {
+                                      type: 'string',
+                                    },
+                                  },
+                                  required: ['unit', 'value'],
+                                },
+                              },
+                              required: ['measure'],
+                            },
+                            available: {
+                              type: 'object',
+                              properties: {
+                                count: {
+                                  type: 'string',
+                                },
+                              },
+                              required: ['count'],
+                            },
+                            maximum: {
+                              type: 'object',
+                              properties: {
+                                count: {
+                                  type: 'string',
+                                },
+                              },
+                              required: ['count'],
+                            },
+                          },
+                          required: ['unitized', 'available', 'maximum'],
+                        },
+                        category_id: {
+                          type: 'string',
+                        },
+                        location_id: {
+                          type: 'string',
+                        },
+                        fulfillment_id: {
+                          type: 'string',
+                        },
+                        price: {
+                          type: 'object',
+                          properties: {
+                            currency: {
+                              type: 'string',
+                            },
+                            value: {
+                              type: 'string',
+                            },
+                            maximum_value: {
+                              type: 'string',
+                            },
+                          },
+                          required: ['currency', 'value'],
+                        },
+                        '@ondc/org/returnable': {
+                          type: 'boolean',
+                        },
+                        '@ondc/org/cancellable': {
+                          type: 'boolean',
+                        },
+                        '@ondc/org/return_window': {
+                          type: 'string',
+                        },
+                        '@ondc/org/seller_pickup_return': {
+                          type: 'boolean',
+                        },
+                        '@ondc/org/time_to_ship': {
+                          type: 'string',
+                        },
+                        '@ondc/org/available_on_cod': {
+                          type: 'boolean',
+                        },
+                        '@ondc/org/contact_details_consumer_care': {
+                          type: 'string',
+                        },
+                        tags: {
+                          type: 'array',
+                          items: {
+                            type: 'object',
+                            properties: {
+                              code: {
+                                type: 'string',
+                              },
+                              list: {
+                                type: 'array',
+                                items: {
+                                  type: 'object',
+                                  properties: {
+                                    code: {
+                                      type: 'string',
+                                    },
+                                    value: {
+                                      type: 'string',
+                                    },
+                                  },
+                                  required: ['code', 'value'],
+                                },
+                              },
+                            },
+                            required: ['code', 'list'],
+                          },
+                        },
+                      },
+                      required: [
+                        'id',
+                        'time',
+                        'parent_item_id',
+                        'descriptor',
+                        'quantity',
+                        'category_id',
+                        'location_id',
+                        'fulfillment_id',
+                        'price',
+                        '@ondc/org/returnable',
+                        '@ondc/org/cancellable',
+                        '@ondc/org/return_window',
+                        '@ondc/org/seller_pickup_return',
+                        '@ondc/org/time_to_ship',
+                        '@ondc/org/available_on_cod',
+                        '@ondc/org/contact_details_consumer_care',
+                        'tags',
+                      ],
+                    },
+                  },
                 },
-                required: ['id', 'time', 'fulfillments', 'descriptor'],
+                required: ['id', 'time', 'fulfillments', 'descriptor', 'items'],
               },
             },
           },

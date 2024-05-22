@@ -1,4 +1,4 @@
-import { searchContextSchema } from './context.schema';
+import { contextSchema } from './context.schema';
 /**
  * This schema defines the structure for the initialization message of the course module.
  * It includes the context and message properties, which are required for the application
@@ -13,7 +13,7 @@ import { searchContextSchema } from './context.schema';
 export const initSchema = {
   type: 'object',
   properties: {
-    context: searchContextSchema,
+    context: contextSchema,
     message: {
       type: 'object',
       properties: {
@@ -42,7 +42,7 @@ export const initSchema = {
               properties: {
                 name: { type: 'string' },
                 phone: { type: 'string' },
-                email: { type: 'string', format: 'email' },
+                email: { type: 'string' },
                 address: { type: 'string' },
               },
               required: ['name', 'phone', 'email', 'address'],
@@ -104,7 +104,7 @@ export const initSchema = {
                         type: 'object',
                         properties: {
                           phone: { type: 'string' },
-                          email: { type: 'string', format: 'email' },
+                          email: { type: 'string' },
                         },
                         required: ['phone', 'email'],
                       },

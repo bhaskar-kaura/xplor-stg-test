@@ -1,6 +1,16 @@
 import { Controller, Post, Body } from '@nestjs/common';
 import { CourseService } from './services/course.serviceV1';
-import { SearchCourseDto } from './dto/search-course.dto';
+import {
+  ConfirmCourseDto,
+  InitCourseDto,
+  OnConfirmCourseDto,
+  OnInitCourseDto,
+  OnSelectCourseDto,
+  OnStatusCourseDto,
+  SearchCourseDto,
+  SelectCourseDto,
+  StatusCourseDto,
+} from './dto/request-course.dto';
 
 @Controller({ version: '1', path: 'course' })
 export class CourseController {
@@ -14,5 +24,51 @@ export class CourseController {
   @Post('on_search')
   onSearch(@Body() searchCourseDto: SearchCourseDto) {
     return this.courseService.onSearch(searchCourseDto);
+  }
+
+  @Post('/select')
+  select(@Body() selectCourseDto: SelectCourseDto) {
+    console.log(JSON.stringify(selectCourseDto));
+    return this.courseService.select(selectCourseDto);
+  }
+  @Post('/on_select')
+  onSelect(@Body() onselectCourseDto: OnSelectCourseDto) {
+    console.log(onselectCourseDto);
+    return this.courseService.onSelect(onselectCourseDto);
+  }
+
+  @Post('/init')
+  init(@Body() initCourseDto: InitCourseDto) {
+    console.log('initCourseDto', JSON.stringify(initCourseDto));
+    return this.courseService.init(initCourseDto);
+  }
+
+  @Post('/on_init')
+  onInit(@Body() onInitCourseDto: OnInitCourseDto) {
+    console.log(onInitCourseDto);
+    return this.courseService.onInit(onInitCourseDto);
+  }
+
+  @Post('/confirm')
+  confirm(@Body() confirmCourseDto: ConfirmCourseDto) {
+    console.log('confirmCourseDto', JSON.stringify(confirmCourseDto));
+    return this.courseService.confirm(confirmCourseDto);
+  }
+  @Post('/on_confirm')
+  onConfirm(@Body() onConfirmCourseDto: OnConfirmCourseDto) {
+    console.log('confirmCourseDto', JSON.stringify(onConfirmCourseDto));
+    return this.courseService.onConfirm(onConfirmCourseDto);
+  }
+
+  @Post('/status')
+  status(@Body() statusCourseDto: StatusCourseDto) {
+    console.log('initCourseDto', JSON.stringify(statusCourseDto));
+    return this.courseService.status(statusCourseDto);
+  }
+
+  @Post('/on_status')
+  onStatus(@Body() onStatusCourseDto: OnStatusCourseDto) {
+    console.log(onStatusCourseDto);
+    return this.courseService.onStatus(onStatusCourseDto);
   }
 }

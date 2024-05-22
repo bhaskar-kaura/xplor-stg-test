@@ -41,7 +41,7 @@ export const onSearchSchema = {
                         items: {
                           type: 'object',
                           properties: {
-                            url: { type: 'string'},
+                            url: { type: 'string' },
                             size_type: { type: 'string' },
                           },
                           required: ['url', 'size_type'],
@@ -109,7 +109,7 @@ export const onSearchSchema = {
                               items: {
                                 type: 'object',
                                 properties: {
-                                  url: { type: 'string'},
+                                  url: { type: 'string' },
                                 },
                                 required: ['url'],
                               },
@@ -119,7 +119,7 @@ export const onSearchSchema = {
                               items: {
                                 type: 'object',
                                 properties: {
-                                  url: { type: 'string'},
+                                  url: { type: 'string' },
                                 },
                                 required: ['url'],
                               },
@@ -233,12 +233,7 @@ export const onSearchSchema = {
                     },
                   },
                 },
-                required: [
-                  'id',
-                  'descriptor',       
-                  'items',
-                ],
-       
+                required: ['id', 'descriptor', 'items'],
               },
             },
           },

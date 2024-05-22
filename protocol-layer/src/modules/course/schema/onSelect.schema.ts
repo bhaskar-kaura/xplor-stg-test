@@ -1,4 +1,4 @@
-import { searchContextSchema } from './context.schema';
+import { contextSchema } from './context.schema';
 
 /**
  * This schema defines the structure for the message received when performing a search operation
@@ -12,7 +12,7 @@ import { searchContextSchema } from './context.schema';
 export const onSelectSchema = {
   type: 'object',
   properties: {
-    context: searchContextSchema,
+    context: contextSchema,
     message: {
       type: 'object',
       properties: {
@@ -36,7 +36,7 @@ export const onSelectSchema = {
                           url: { type: 'string' },
                           size_type: { type: 'string' },
                         },
-                        required: ['url', 'size_type'],
+                        required: ['url'],
                       },
                     },
                   },
@@ -63,17 +63,6 @@ export const onSelectSchema = {
               },
               required: ['id', 'descriptor', 'categories'],
             },
-            fulfillments: {
-              type: 'array',
-              items: {
-                type: 'object',
-                properties: {
-                  id: { type: 'string' },
-                  type: { type: 'string' },
-                },
-                required: ['id', 'type'],
-              },
-            },
             items: {
               type: 'array',
               items: {
@@ -83,13 +72,7 @@ export const onSelectSchema = {
                   quantity: {
                     type: 'object',
                     properties: {
-                      maximum: {
-                        type: 'object',
-                        properties: {
-                          count: { type: 'integer' },
-                        },
-                        required: ['count'],
-                      },
+                      maximum: { type: 'number' },
                     },
                     required: ['maximum'],
                   },
@@ -161,14 +144,7 @@ export const onSelectSchema = {
                     },
                     required: ['currency', 'value'],
                   },
-                  category_ids: {
-                    type: 'array',
-                    items: { type: 'string' },
-                  },
-                  fulfillment_ids: {
-                    type: 'array',
-                    items: { type: 'string' },
-                  },
+                  category_ids: { type: 'array', items: { type: 'string' } },
                   rating: { type: 'string' },
                   rateable: { type: 'boolean' },
                   tags: {
@@ -215,11 +191,39 @@ export const onSelectSchema = {
                   'creator',
                   'price',
                   'category_ids',
-                  'fulfillment_ids',
                   'rating',
                   'rateable',
                   'tags',
                 ],
+              },
+            },
+            fulfillments: {
+              type: 'array',
+              items: {
+                type: 'object',
+                properties: {
+                  agent: {
+                    type: 'object',
+                    properties: {
+                      person: {
+                        type: 'object',
+                        properties: {
+                          name: { type: 'string' },
+                        },
+                        required: ['name'],
+                      },
+                      contact: {
+                        type: 'object',
+                        properties: {
+                          email: { type: 'string' },
+                        },
+                        required: ['email'],
+                      },
+                    },
+                    required: ['person', 'contact'],
+                  },
+                },
+                required: ['agent'],
               },
             },
             quote: {
@@ -237,7 +241,7 @@ export const onSelectSchema = {
               required: ['price'],
             },
           },
-          required: ['provider', 'fulfillments', 'items', 'quote'],
+          required: ['provider', 'items', 'fulfillments', 'quote'],
         },
       },
       required: ['order'],
