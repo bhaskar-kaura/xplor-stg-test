@@ -17,6 +17,7 @@ import { ScholarshipResponseService } from './response/scholarship/scholarship-r
 import { CourseResponseService } from './response/course/course-response.service';
 import { InitRequestDto } from './dto/init-request.dto';
 import { ConfirmRequestDto } from './dto/confirm-request.dto';
+import { StatusRequestDto } from './dto/status-request.dto';
 
 // Decorator to mark this class as a provider that can be injected into other classes
 @Injectable()
@@ -293,7 +294,7 @@ export class AppService {
       };
 
       await this.dumpService.create(createDumpDto);
-      await this.globalActionService.globalInit(initRequest);
+      this.globalActionService.globalInit(initRequest);
       // Return a success response
       return getResponse(
         true,
@@ -417,6 +418,131 @@ export class AppService {
       // Log the error and throw a BadGatewayException with a formatted error response
       console.log(JSON.stringify(error?.response));
       throw new BadGatewayException(
+        getResponse(false, error?.message, null, error?.response?.data),
+      );
+    }
+  }
+
+  async status(statusRequest: StatusRequestDto) {
+    try {
+      const createDumpDto: CreateDumpDto = {
+        context: statusRequest?.context,
+        transaction_id: statusRequest?.context?.transaction_id,
+        domain: statusRequest.context.domain,
+        message_id: statusRequest?.context?.message_id,
+        request_type: Action.init,
+        message: statusRequest?.message,
+      };
+
+      await this.dumpService.create(createDumpDto);
+      this.globalActionService.globalStatus(statusRequest);
+      // Return a success response
+      return getResponse(
+        true,
+        coreResponseMessage.statusSuccessResponse,
+        null,
+        null,
+      );
+    } catch (error) {
+      // Log the error and throw a BadGatewayException with a formatted error response
+      console.log(JSON.stringify(error?.response));
+      throw new BadGatewayException(
+        getResponse(false, error?.message, null, error?.response?.data),
+      );
+    }
+  }
+
+  async onStatus(response: any) {
+    try {
+      console.log(
+        'response ==================',
+        JSON.stringify(response),
+        '=============================',
+      );
+      const domain =
+        response?.context?.domain === DomainsEnum.COURSE_DOMAIN
+          ? 'course'
+          : response?.context?.domain === DomainsEnum.JOB_DOMAIN
+          ? 'job'
+          : response?.context?.domain === DomainsEnum.SCHOLARSHIP_DOMAIN
+          ? 'scholarship'
+          : 'retail';
+
+      // Dump the response into database
+      const createDumpDto: CreateDumpDto = {
+        context: response?.context,
+        transaction_id: response?.context?.transaction_id,
+        domain: domain,
+        message_id: response?.context?.message_id,
+        request_type: response?.context?.action,
+        message: response?.message,
+      };
+
+      await this.dumpService.create(createDumpDto);
+      // Delegate the search operation to the sendSearch method
+      await this.sendInit(response);
+    } catch (error) {
+      // Log the error and throw a BadGatewayException with a formatted error response
+      console.log(error?.response);
+      throw new BadGatewayException(
+        getResponse(false, error?.message, null, error?.response?.data),
+      );
+    }
+  }
+
+  async sendStatus(response: any) {
+    try {
+      // Initialize variables for job, course, and scholarship payloads
+      let job: object, course: object, scholarship: object, retail: object;
+      // Determine which type of payload to create based on the domain
+      switch (response.context.domain) {
+        case DomainsEnum.JOB_DOMAIN:
+          job = response.message
+            ? this.onestCreatePayload.createPayload(response.message)
+            : {};
+          break;
+        case DomainsEnum.COURSE_DOMAIN:
+          course = response.message
+            ? this.onestCreateCoursePayload.createStatusPayload(
+                response.message,
+              )
+            : {};
+          break;
+        case DomainsEnum.SCHOLARSHIP_DOMAIN:
+          scholarship = response.message
+            ? this.onestCreateScholarshipPayload.createStatusPayload(
+                response.message,
+              )
+            : {};
+        case DomainsEnum.RETAIL_DOMAIN:
+          retail = response.message
+            ? this.ondcCreatePayload.createPayload(response.message)
+            : {};
+          break;
+        default:
+          break;
+      }
+      // Construct the payload for the search request
+      const payload = {
+        context: response.context,
+        data: {
+          job: job != null ? job : {},
+          course: course != null ? course : {},
+          scholarship: scholarship != null ? scholarship : {},
+          retail: retail != null ? retail : {},
+        },
+      };
+      console.log('initPayload', JSON.stringify(payload));
+
+      // Construct the URL for the search request
+      const url = this.configService.get('CORE_SERVICE_URL') + '/stg/on_init';
+      // Send the search request and log the response
+      const resp = await this.httpService.post(url, payload);
+      console.log('resp', resp);
+    } catch (error) {
+      // Log the error and throw a BadGatewayException with a formatted error response
+      console.log(error);
+      return new BadGatewayException(
         getResponse(false, error?.message, null, error?.response?.data),
       );
     }

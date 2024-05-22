@@ -19,11 +19,15 @@ import { selectSchema } from '../schema/select.schema';
 import {
   InitScholarshipDto,
   OnInitScholarshipDto,
+  OnStatusScholarshipDto,
   SelectScholarshipDto,
+  StatusScholarshipDto,
 } from '../dto/request-scholarship.dtp';
 import { onInitSchema } from '../schema/onInit.schema';
 import { initSchema } from '../schema/init.schema';
 import { onSelectSchema } from '../schema/on-select.schema';
+import { onStatusSchema } from '../schema/onStatus.schema';
+import { statusSchema } from '../schema/status.schema';
 
 @Injectable()
 export class ScholarshipService {
@@ -256,6 +260,84 @@ export class ScholarshipService {
         methodName: this.on_search.name,
       });
       throw error;
+    }
+  }
+
+  async status(statusScholarshipDto: StatusScholarshipDto) {
+    try {
+      const isValid = validateJson(statusSchema, {
+        context: statusScholarshipDto.context,
+        message: statusScholarshipDto.message,
+      });
+      console.log('isValid', isValid);
+      if (isValid !== true) {
+        const message = new AckNackResponse(
+          'NACK',
+          'CONTEXT_ERROR',
+          '625519',
+          isValid as unknown as string,
+        );
+        throw new BadRequestException(message);
+      } else {
+        const message = new AckNackResponse('ACK');
+        console.log('statusScholarshipDto', statusScholarshipDto);
+        await this.sendStatusRequest(statusScholarshipDto);
+        return {
+          message,
+        };
+      }
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async onStatus(onStatusScholarshipDto: OnStatusScholarshipDto) {
+    try {
+      console.log('onStatusScholarshipDto', onStatusScholarshipDto);
+      const isValid = validateJson(onStatusSchema, {
+        context: onStatusScholarshipDto.context,
+        message: onStatusScholarshipDto.message,
+      });
+      console.log(isValid);
+      if (!isValid) {
+        const message = new AckNackResponse(
+          NACK,
+          CONTEXT_ERROR,
+          ERROR_CODE_CONTEXT,
+          isValid as unknown as string,
+        );
+        return message;
+      } else {
+        const message = new AckNackResponse(ACK);
+        const response = await this.axiosService.post(
+          this.configService.get('APP_SERVICE_URL') + `/${Action.on_status}`,
+          onStatusScholarshipDto,
+        );
+        return response;
+      }
+    } catch (error) {
+      throw error;
+    }
+  }
+  private async sendStatusRequest(statusScholarshipDto: StatusScholarshipDto) {
+    try {
+      const statusPayload = {
+        context: statusScholarshipDto.context,
+        message: statusScholarshipDto.message,
+      };
+
+      const env = this.configService.get('NODE_ENV');
+      const url =
+        env === 'development'
+          ? statusScholarshipDto.gatewayUrl + `/${Action.status}`
+          : statusScholarshipDto.context.bpp_id + `${Action.status}`;
+      const statusResponse = await this.axiosService.post(url, statusPayload);
+      console.log('statusResponse', statusResponse);
+      console.log('statusRequest=======', statusResponse);
+      return statusResponse;
+    } catch (error) {
+      console.log('error===============', error);
+      throw error?.response;
     }
   }
 }

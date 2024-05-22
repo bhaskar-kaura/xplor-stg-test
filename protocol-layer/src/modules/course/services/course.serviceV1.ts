@@ -9,8 +9,10 @@ import {
   OnConfirmCourseDto,
   OnInitCourseDto,
   OnSelectCourseDto,
+  OnStatusCourseDto,
   SearchCourseDto,
   SelectCourseDto,
+  StatusCourseDto,
 } from '../dto/request-course.dto';
 import validateJson from '../.../../../../utils/validator';
 import { AckNackResponse } from '../.../../../../utils/ack-nack';
@@ -29,6 +31,8 @@ import { onInitSchema } from '../schema/onInit.schema';
 import { initSchema } from '../schema/init.schema';
 import { confirmSchema } from '../schema/confirm.schema';
 import { onConfirmSchema } from '../schema/onConfirm.schema';
+import { statusSchema } from '../schema/status.schema';
+import { onStatusSchema } from '../schema/onStatus.schema';
 @Injectable()
 export class CourseService {
   constructor(
@@ -327,6 +331,84 @@ export class CourseService {
       const selectResponse = await this.axiosService.post(url, confirmPayload);
       console.log('confirmRequest=======', selectResponse);
       return selectResponse;
+    } catch (error) {
+      console.log('error===============', error);
+      throw error?.response;
+    }
+  }
+
+  async status(statusCourseDto: StatusCourseDto) {
+    try {
+      const isValid = validateJson(statusSchema, {
+        context: statusCourseDto.context,
+        message: statusCourseDto.message,
+      });
+      console.log('isValid', isValid);
+      if (isValid !== true) {
+        const message = new AckNackResponse(
+          'NACK',
+          'CONTEXT_ERROR',
+          '625519',
+          isValid as unknown as string,
+        );
+        throw new BadRequestException(message);
+      } else {
+        const message = new AckNackResponse('ACK');
+        console.log('statusCourseDto', statusCourseDto);
+        await this.sendStatusRequest(statusCourseDto);
+        return {
+          message,
+        };
+      }
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async onStatus(onStatusCourseDto: OnStatusCourseDto) {
+    try {
+      console.log('onStatusCourseDto', onStatusCourseDto);
+      const isValid = validateJson(onStatusSchema, {
+        context: onStatusCourseDto.context,
+        message: onStatusCourseDto.message,
+      });
+      console.log(isValid);
+      if (!isValid) {
+        const message = new AckNackResponse(
+          NACK,
+          CONTEXT_ERROR,
+          ERROR_CODE_CONTEXT,
+          isValid as unknown as string,
+        );
+        return message;
+      } else {
+        const message = new AckNackResponse(ACK);
+        const response = await this.axiosService.post(
+          this.configService.get('APP_SERVICE_URL') + `/${Action.on_status}`,
+          onStatusCourseDto,
+        );
+        return response;
+      }
+    } catch (error) {
+      throw error;
+    }
+  }
+  private async sendStatusRequest(statusCourseDto: StatusCourseDto) {
+    try {
+      const statusPayload = {
+        context: statusCourseDto.context,
+        message: statusCourseDto.message,
+      };
+
+      const env = this.configService.get('NODE_ENV');
+      const url =
+        env === 'development'
+          ? statusCourseDto.gatewayUrl + `/${Action.status}`
+          : statusCourseDto.context.bpp_id + `${Action.status}`;
+      const statusResponse = await this.axiosService.post(url, statusPayload);
+      console.log('statusResponse', statusResponse);
+      console.log('statusRequest=======', statusResponse);
+      return statusResponse;
     } catch (error) {
       console.log('error===============', error);
       throw error?.response;

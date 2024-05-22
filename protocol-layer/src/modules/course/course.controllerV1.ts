@@ -1,6 +1,16 @@
 import { Controller, Post, Body } from '@nestjs/common';
 import { CourseService } from './services/course.serviceV1';
-import { ConfirmCourseDto, InitCourseDto, OnConfirmCourseDto, OnInitCourseDto, OnSelectCourseDto, SearchCourseDto, SelectCourseDto } from './dto/request-course.dto';
+import {
+  ConfirmCourseDto,
+  InitCourseDto,
+  OnConfirmCourseDto,
+  OnInitCourseDto,
+  OnSelectCourseDto,
+  OnStatusCourseDto,
+  SearchCourseDto,
+  SelectCourseDto,
+  StatusCourseDto,
+} from './dto/request-course.dto';
 
 @Controller({ version: '1', path: 'course' })
 export class CourseController {
@@ -33,7 +43,6 @@ export class CourseController {
     return this.courseService.init(initCourseDto);
   }
 
-
   @Post('/on_init')
   onInit(@Body() onInitCourseDto: OnInitCourseDto) {
     console.log(onInitCourseDto);
@@ -49,5 +58,17 @@ export class CourseController {
   onConfirm(@Body() onConfirmCourseDto: OnConfirmCourseDto) {
     console.log('confirmCourseDto', JSON.stringify(onConfirmCourseDto));
     return this.courseService.onConfirm(onConfirmCourseDto);
+  }
+
+  @Post('/status')
+  status(@Body() statusCourseDto: StatusCourseDto) {
+    console.log('initCourseDto', JSON.stringify(statusCourseDto));
+    return this.courseService.status(statusCourseDto);
+  }
+
+  @Post('/on_status')
+  onStatus(@Body() onStatusCourseDto: OnStatusCourseDto) {
+    console.log(onStatusCourseDto);
+    return this.courseService.onStatus(onStatusCourseDto);
   }
 }

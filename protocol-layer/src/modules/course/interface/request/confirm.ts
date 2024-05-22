@@ -72,6 +72,13 @@ interface Fulfillment {
   };
 }
 
+interface StatusOrder {
+  provider: Provider;
+  items: Item[];
+  billing: Billing;
+  fulfillments: Fulfillment[];
+  payments: Payment[];
+}
 interface Order {
   provider: Provider;
   items: Item[];
@@ -84,6 +91,9 @@ export interface ICourseConfirmMessage {
   order: Order;
 }
 
+export interface ICourseStatusMessage {
+  order: StatusOrder;
+}
 export interface ICourseConfirmRequest {
   context: Context;
   message: ICourseConfirmMessage;

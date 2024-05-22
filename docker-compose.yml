@@ -34,7 +34,7 @@ services:
     container_name: xplor-protocol-stg-service
     build: ./protocol-layer
     # ports:
-      #  - 5005:5005
+    #    - 5005:5005
     restart: always
     networks:
       - xplor-network

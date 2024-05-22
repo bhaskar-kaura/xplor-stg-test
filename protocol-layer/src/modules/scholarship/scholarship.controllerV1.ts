@@ -1,10 +1,12 @@
 import { Controller, Post, Body } from '@nestjs/common';
 import { ScholarshipService } from './services/scholarship.serviceV1';
-import { SearchScholarshipDto } from './dto/search-scholarship.dto';
 import {
   InitScholarshipDto,
+  OnStatusScholarshipDto,
   SelectScholarshipDto,
+  StatusScholarshipDto,
 } from './dto/request-scholarship.dtp';
+import { SearchScholarshipDto } from './dto/search-scholarship.dto';
 
 @Controller({ version: '1', path: 'scholarship' })
 export class ScholarshipController {
@@ -40,5 +42,17 @@ export class ScholarshipController {
   onInit(@Body() onInitScholarshipDto: InitScholarshipDto) {
     console.log('on_initScholarship', JSON.stringify(onInitScholarshipDto));
     return this.scholarshipService.onInit(onInitScholarshipDto);
+  }
+
+  @Post('status')
+  status(@Body() statusScholarshipDto: StatusScholarshipDto) {
+    console.log('statusScholarshipDto', JSON.stringify(statusScholarshipDto));
+    return this.scholarshipService.status(statusScholarshipDto);
+  }
+
+  @Post('on_status')
+  onStatus(@Body() onStatusScholarshipDto: OnStatusScholarshipDto) {
+    console.log(onStatusScholarshipDto);
+    return this.scholarshipService.onStatus(onStatusScholarshipDto);
   }
 }

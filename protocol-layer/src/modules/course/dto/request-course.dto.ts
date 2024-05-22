@@ -4,7 +4,10 @@ import { ISelectContext } from '../../scholarship/interface/context';
 import { IOnSelectMessage } from '../../scholarship/interface/response/on-select';
 import { ICourseSelectMessage } from '../interface/request/select';
 import { ICourseInitMessage } from '../interface/request/init';
-import { ICourseConfirmMessage } from '../interface/request/confirm';
+import {
+  ICourseConfirmMessage,
+  ICourseStatusMessage,
+} from '../interface/request/confirm';
 
 // Define a Data Transfer Object (DTO) for search course payloads
 export class SearchCourseDto {
@@ -70,7 +73,7 @@ export class OnInitCourseDto {
 
   // The message property must not be empty
   @IsNotEmpty()
-  message: ICourseInitMessage;
+  message: any;
 
   // The gatewayUrl property is optional and must be a string if provided
   @IsOptional()
@@ -99,7 +102,28 @@ export class OnConfirmCourseDto {
   // The message property must not be empty
   @IsNotEmpty()
   message: any;
-
-
 }
 
+export class StatusCourseDto {
+  // The context property must not be empty
+  @IsNotEmpty()
+  context: ISelectContext;
+
+  // The message property must not be empty
+  @IsNotEmpty()
+  message: ICourseStatusMessage;
+
+  // The gatewayUrl property is optional and must be a string if provided
+  @IsOptional()
+  gatewayUrl: string;
+}
+
+export class OnStatusCourseDto {
+  // The context property must not be empty
+  @IsNotEmpty()
+  context: ISelectContext;
+
+  // The message property must not be empty
+  @IsNotEmpty()
+  message: any;
+}

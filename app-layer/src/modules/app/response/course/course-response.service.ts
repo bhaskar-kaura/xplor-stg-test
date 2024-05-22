@@ -121,4 +121,33 @@ export class CourseResponseService {
       return error?.message;
     }
   }
+
+  createStatusPayload(response: ICourseInitResponseMessage) {
+    try {
+      const order: ICourseInitResponseMessageOrder = {
+        platform_provider: {
+          id: response?.order?.platform_provider?.id,
+        },
+        items: response?.order?.items?.map((item) => {
+          return {
+            id: item?.id,
+          };
+        }),
+        fulfillment: {
+          id: response?.order?.fulfillment?.id,
+        },
+        quote: response?.order?.quote,
+        payments: response?.order?.payments,
+      };
+      const resp = {
+        message: {
+          order: order,
+        },
+      };
+      return resp;
+    } catch (error) {
+      console.log(error);
+      return error?.message;
+    }
+  }
 }

@@ -32,6 +32,8 @@ export class DumpService {
       context: {
         bap_id: OnestContextConstants.bap_id,
         bap_uri: OnestContextConstants.bap_uri + `/${domain}`,
+        bpp_id: 'infosys.springboard.io',
+        bpp_uri: 'https://infosys.springboard.io',
       },
     };
     return await this.dumpModel.findOne({
