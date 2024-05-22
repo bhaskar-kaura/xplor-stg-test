@@ -114,7 +114,6 @@ export const onInitSchema = {
                   'xinput',
                   'rateable',
                   'tags',
-                  'category_ids',
                 ],
               },
             },

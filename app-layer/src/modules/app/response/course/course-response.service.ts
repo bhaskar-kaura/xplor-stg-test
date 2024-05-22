@@ -3,9 +3,13 @@ import { Injectable } from '@nestjs/common';
 import { Catalog, MessageResponse, Provider } from './interface/on-search';
 import {
   ICourseSelectMessage,
-  ICourseSelectResponseMessage,
   ICourseSelectResponseMessageOrder,
 } from './interface/on-select';
+import {
+  ICourseInitResponseMessage,
+  ICourseInitResponseMessageOrder,
+  ICourseSelectResponseMessage,
+} from '../job/interface/on-select';
 
 /**
  * Service for handling job response operations.
@@ -78,6 +82,35 @@ export class CourseResponseService {
         quote: response?.order?.quote,
       };
       const resp: ICourseSelectMessage = {
+        message: {
+          order: order,
+        },
+      };
+      return resp;
+    } catch (error) {
+      console.log(error);
+      return error?.message;
+    }
+  }
+
+  createInitPayload(response: ICourseInitResponseMessage) {
+    try {
+      const order: ICourseInitResponseMessageOrder = {
+        platform_provider: {
+          id: response?.order?.platform_provider?.id,
+        },
+        items: response?.order?.items?.map((item) => {
+          return {
+            id: item?.id,
+          };
+        }),
+        fulfillment: {
+          id: response?.order?.fulfillment?.id,
+        },
+        quote: response?.order?.quote,
+        payments: response?.order?.payments,
+      };
+      const resp = {
         message: {
           order: order,
         },

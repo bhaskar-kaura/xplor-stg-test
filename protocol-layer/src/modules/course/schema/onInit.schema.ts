@@ -243,7 +243,6 @@ export const onInitSchema = {
                   'descriptor',
                   'creator',
                   'price',
-                  'category_ids',
                   'fulfillment_ids',
                   'rating',
                   'rateable',

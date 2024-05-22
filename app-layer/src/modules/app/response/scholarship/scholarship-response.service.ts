@@ -88,4 +88,33 @@ export class ScholarshipResponseService {
       return error?.message;
     }
   }
+
+  createInitPayload(response) {
+    try {
+      const order = {
+        platform_provider: {
+          id: response?.order?.platform_provider?.id,
+        },
+        items: response?.order?.items?.map((item) => {
+          return {
+            id: item?.id,
+          };
+        }),
+        fulfillment: {
+          id: response?.order?.fulfillment?.id,
+        },
+        quote: response?.order?.quote,
+        payments: response?.order?.payments,
+      };
+      const resp = {
+        message: {
+          order: order,
+        },
+      };
+      return resp;
+    } catch (error) {
+      console.log(error);
+      return error?.message;
+    }
+  }
 }

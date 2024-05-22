@@ -94,8 +94,44 @@ export interface ICourseSelectResponseMessageOrder {
   quote: QuoteBreakup;
 }
 
+export interface ICourseInitResponseMessageOrder {
+  platform_provider: ICoursePlatformProvider;
+  items: MessageOrderItem[];
+  fulfillment: ICourseFulfillment;
+  quote: ICourseQuote;
+  payments: [];
+}
+
+export interface ICourseQuote {
+  price: ICoursePrice;
+}
+
+export interface ICoursePrice {
+  currency: string;
+  value: string;
+}
+export interface ICourseFulfillment {
+  id: string;
+}
+
+export interface ICoursePlatformProvider {
+  id: string;
+}
+
+export interface ICoursePayments {
+  url: string;
+  status: string;
+  collected_by: string;
+  type: string;
+  price: ICoursePrice;
+}
+
 export interface ICourseSelectResponseMessage {
   order: ICourseSelectResponseMessageOrder;
+}
+
+export interface ICourseInitResponseMessage {
+  order: ICourseInitResponseMessageOrder;
 }
 
 export interface ICourseSelectMessage {
