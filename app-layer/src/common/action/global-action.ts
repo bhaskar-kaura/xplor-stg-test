@@ -23,6 +23,7 @@ import { ConfirmRequestDto } from 'src/modules/app/dto/confirm-request.dto';
 import { StatusRequestDto } from 'src/modules/app/dto/status-request.dto';
 import { CourseStatusService } from 'src/modules/app/request/course/services/statusv1.service';
 import { ScholarshipStatusService } from 'src/modules/app/request/scholarship/services/statusv1.service';
+import { ScholarshipConfirmService } from 'src/modules/app/request/scholarship/services/confirmV1.service';
 
 @Injectable()
 export class GlobalActionService {
@@ -33,6 +34,7 @@ export class GlobalActionService {
     private readonly courseInitService: CourseInitService,
     private readonly courseConfirmService: CourseConfirmService,
     private readonly courseStatusService: CourseStatusService,
+    private readonly scholarshipConfirmService: ScholarshipConfirmService,
     private readonly scholarshipInitService: ScholarshipInitService,
     private readonly scholarshipService: ScholarshipSearchService,
     private readonly scholarshipSelectService: ScholarshipSelectService,
@@ -231,10 +233,9 @@ export class GlobalActionService {
         case xplorDomain.scholarship:
           // Logic for SCHOLARSHIP_DOMAIN
           // Perform the search operation using the ScholarshipSearchService
-          // const searchResponseScholarship =
-          // await this.scholarshipInitService.sendInitPayload(request);
-          // Log the search response for the scholarship domain
-          // console.log(`Scholarship: ${searchResponseScholarship}`);
+          const searchResponseScholarship =
+            await this.scholarshipConfirmService.sendConfirmPayload(request);
+          console.log(`Scholarship: ${searchResponseScholarship}`);
           break;
         default:
           // Default case if the domain does not match any of the expected values

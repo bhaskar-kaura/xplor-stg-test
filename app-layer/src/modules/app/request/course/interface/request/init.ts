@@ -8,7 +8,6 @@ interface Descriptor {
   name: string;
 }
 
-
 /**
  * Interface for a list item, which includes a descriptor and a value.
  */
@@ -55,7 +54,7 @@ interface Customer {
  * Interface for a fulfillment, including an ID and a customer.
  */
 interface Fulfillment {
-  id?:string
+  id?: string;
   customer: Customer;
 }
 

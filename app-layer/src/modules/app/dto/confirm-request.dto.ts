@@ -2,9 +2,7 @@ import { Type } from 'class-transformer';
 import {
   ArrayNotEmpty,
   IsArray,
-  IsBoolean,
   IsNotEmpty,
-  IsNumber,
   IsObject,
   IsOptional,
   IsString,
@@ -33,13 +31,12 @@ export class ContextDto {
 }
 
 class Fulfillment {
-    @IsNotEmpty({ message: 'id is required' })
-    @IsString({ message: 'id must be a string' })
-    id: string;
+  @IsNotEmpty({ message: 'id is required' })
+  @IsString({ message: 'id must be a string' })
+  id: string;
 }
 
 export class FulfillmentsDto {
-
   @ArrayNotEmpty({ message: 'Fulfillments cannot be empty' })
   @ValidateNested({ each: true })
   @Type(() => Fulfillment)
@@ -51,11 +48,12 @@ class BillingDto {
   @IsString({ message: 'id must be a string' })
   id: string;
 }
+
 class OrderItem {
   @ValidateNested()
   @Type(() => BillingDto)
   billing: BillingDto;
-    
+
   @ValidateNested()
   @Type(() => FulfillmentsDto)
   fulfillments: FulfillmentsDto;
@@ -67,7 +65,6 @@ class OrderItem {
   @IsString()
   provider_id: string;
 
-    
   @IsArray()
   @ValidateNested({ each: true })
   @Type(() => PaymentStatusDto)
@@ -75,20 +72,34 @@ class OrderItem {
 }
 
 export class ParamsDto {
+  @IsOptional()
   @IsString()
-  amount: string;
+  amount?: string;
 
+  @IsOptional()
   @IsString()
-  currency: string;
+  currency?: string;
+
+  @IsOptional()
+  @IsString()
+  bank_code?: string;
+
+  @IsOptional()
+  @IsString()
+  bank_account_number?: string;
+
+  @IsOptional()
+  @IsString()
+  bank_account_name?: string;
 }
 class PaymentStatusDto {
-    @ValidateNested()
-    @Type(() => ParamsDto)
-    params: ParamsDto;
-  
-    @IsString()
-    status: string;
-  }
+  @ValidateNested()
+  @Type(() => ParamsDto)
+  params: ParamsDto;
+
+  @IsString()
+  status?: string;
+}
 
 // Alternatively, if you prefer a single DTO for the entire structure:
 export class PaymentDto {

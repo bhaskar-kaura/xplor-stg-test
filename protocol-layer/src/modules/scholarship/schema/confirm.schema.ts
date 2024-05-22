@@ -1,6 +1,7 @@
 import { contextSchema } from './context.schema';
 
 export const confirmSchema = {
+  $schema: 'http://json-schema.org/draft-07/schema#',
   type: 'object',
   properties: {
     context: contextSchema,
@@ -17,6 +18,7 @@ export const confirmSchema = {
                 properties: {
                   id: { type: 'string' },
                 },
+                required: ['id'],
               },
             },
             provider: {
@@ -24,6 +26,7 @@ export const confirmSchema = {
               properties: {
                 id: { type: 'string' },
               },
+              required: ['id'],
             },
             billing: {
               type: 'object',
@@ -38,6 +41,7 @@ export const confirmSchema = {
                         name: { type: 'string' },
                         code: { type: 'string' },
                       },
+                      required: ['name', 'code'],
                     },
                     contact: {
                       type: 'object',
@@ -45,12 +49,15 @@ export const confirmSchema = {
                         phone: { type: 'string' },
                         email: { type: 'string' },
                       },
+                      required: ['phone', 'email'],
                     },
                   },
+                  required: ['descriptor', 'contact'],
                 },
                 address: { type: 'string' },
                 phone: { type: 'string' },
               },
+              required: ['name', 'organization', 'address', 'phone'],
             },
             fulfillments: {
               type: 'array',
@@ -68,6 +75,7 @@ export const confirmSchema = {
                           age: { type: 'string' },
                           gender: { type: 'string' },
                         },
+                        required: ['name', 'age', 'gender'],
                       },
                       contact: {
                         type: 'object',
@@ -75,10 +83,13 @@ export const confirmSchema = {
                           phone: { type: 'string' },
                           email: { type: 'string' },
                         },
+                        required: ['phone', 'email'],
                       },
                     },
+                    required: ['id', 'person', 'contact'],
                   },
                 },
+                required: ['customer'],
               },
             },
             payment: {
@@ -93,11 +104,18 @@ export const confirmSchema = {
                       bank_account_number: { type: 'string' },
                       bank_account_name: { type: 'string' },
                     },
+                    required: [
+                      'bank_code',
+                      'bank_account_number',
+                      'bank_account_name',
+                    ],
                   },
                 },
+                required: ['params'],
               },
             },
           },
+          required: ['items', 'provider', 'billing', 'fulfillments', 'payment'],
         },
       },
       required: ['order'],

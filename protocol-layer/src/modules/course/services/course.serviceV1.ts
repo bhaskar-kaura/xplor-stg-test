@@ -227,11 +227,11 @@ export class CourseService {
         return message;
       } else {
         const message = new AckNackResponse(ACK);
-        const response = await this.axiosService.post(
+        await this.axiosService.post(
           this.configService.get('APP_SERVICE_URL') + `/${Action.on_init}`,
           onInitCourseDto,
         );
-        return response;
+        return message;
       }
     } catch (error) {
       throw error;
@@ -250,7 +250,7 @@ export class CourseService {
           ? initCourseDto.gatewayUrl + `/${Action.init}`
           : initPayload.context.bpp_id + `${Action.init}`;
       const initResponse = await this.axiosService.post(url, initPayload);
-      console.log('initResponse', initResponse);
+      console.log('initResponse', initResponse);;
       console.log('initRequest=======', initResponse);
       return initResponse;
     } catch (error) {

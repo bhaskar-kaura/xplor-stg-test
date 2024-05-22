@@ -8,6 +8,11 @@ import {
 } from './interface/on-select';
 import { ICourseInitMessage } from '../job/interface/on-init';
 import { ICourseStatusMessage } from '../job/interface/on-status';
+import {
+  IScholarshipConfirmResponse,
+  IScholarshipConfirmResponseMessage,
+  IScholarshipConfirmResponseMessageOrder,
+} from './interface/on-confirm';
 
 /**
  * Service for handling job response operations.
@@ -60,32 +65,88 @@ export class ScholarshipResponseService {
     }
   }
 
+  /**
+   * Constructs a payload for a select operation based on the provided response.
+   * This method is used to format the response received from the select operation
+   * into a specific payload structure expected by the system for further processing.
+   *
+   * @param response The response object from the select operation, containing details about the selected scholarships.
+   * @returns An object representing the formatted payload for the select operation.
+   */
   createSelectPayload(response: IScholarshipSelectResponseMessage) {
     try {
+      // Initialize the order object with necessary properties extracted from the response.
       const order: IScholarshipSelectResponseMessageOrder = {
         provider: {
-          id: response?.order?.provider?.id,
+          id: response?.order?.provider?.id, // Extracts the provider ID.
         },
-        items: response?.order?.items?.map((item) => {
-          return {
-            id: item?.id,
-          };
-        }),
-        fulfillments: response?.order?.fulfillments.map((fulfillment) => {
-          return {
-            id: fulfillment?.id,
-            agent: fulfillment?.agent,
-          };
-        }),
-        quote: response?.order?.quote,
+        items: response?.order?.items?.map((item) => ({
+          // Maps over items to extract IDs.
+          id: item?.id,
+        })),
+        fulfillments: response?.order?.fulfillments.map((fulfillment) => ({
+          // Maps over fulfillments to extract IDs and agents.
+          id: fulfillment?.id,
+          agent: fulfillment?.agent,
+        })),
+        quote: response?.order?.quote, // Directly assigns the quote object.
       };
+
+      // Constructs the response object with the formatted order.
       const resp: IScholarshipSelectMessage = {
         message: {
           order: order,
         },
       };
+
+      // Returns the constructed response object.
       return resp;
     } catch (error) {
+      // Logs the error and returns the error message if an exception occurs.
+      console.log(error);
+      return error?.message;
+    }
+  }
+
+  /**
+   * Constructs a payload for a confirm operation based on the provided response.
+   * This method is used to format the response received from the confirm operation
+   * into a specific payload structure expected by the system for further processing.
+   *
+   * @param response The response object from the confirm operation, containing detailed confirmation information.
+   * @returns An object representing the formatted payload for the confirm operation.
+   */
+  createConfirmPayload(response: IScholarshipConfirmResponseMessage) {
+    try {
+      // Initializes the order object with necessary properties extracted from the response.
+      const order: IScholarshipConfirmResponseMessageOrder = {
+        id: response?.order?.id, // Assigns the order ID directly.
+        provider: {
+          id: response?.order?.provider?.id, // Extracts the provider ID.
+        },
+        items: response?.order?.items?.map((item) => ({
+          // Maps over items to extract IDs.
+          id: item?.id,
+        })),
+        fulfillments: response?.order?.fulfillments, // Assumes fulfillments are already in the correct format.
+        quote: response?.order?.quote, // Directly assigns the quote object.
+        docs: response?.order?.docs, // Directly assigns the documents array.
+        payments: response?.order?.payments, // Directly assigns the payments array.
+        billing: response?.order?.billing, // Directly assigns the billing object.
+        cancellation_terms: response?.order?.cancellation_terms, // Directly assigns the cancellation terms array.
+      };
+
+      // Constructs the response object with the formatted order.
+      const resp: IScholarshipConfirmResponse = {
+        message: {
+          order: order,
+        },
+      };
+
+      // Returns the constructed response object.
+      return resp;
+    } catch (error) {
+      // Logs the error and returns the error message if an exception occurs.
       console.log(error);
       return error?.message;
     }

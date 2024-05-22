@@ -9,21 +9,6 @@ interface Descriptor {
 }
 
 /**
- * Interface for a skill, which includes a name.
- */
-interface Skill {
-  name: string;
-}
-
-/**
- * Interface for a language, which includes a code and a name.
- */
-interface Language {
-  code: string;
-  name: string;
-}
-
-/**
  * Interface for a list item, which includes a descriptor and a value.
  */
 interface ListItem {

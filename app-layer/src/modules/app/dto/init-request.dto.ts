@@ -1,5 +1,6 @@
 import { Type } from 'class-transformer';
 import {
+  ArrayNotEmpty,
   IsArray,
   IsNotEmpty,
   IsObject,
@@ -90,6 +91,13 @@ class FulfillmentDto {
   @ValidateNested()
   @Type(() => CustomerDto)
   customer: CustomerDto;
+}
+
+export class FulfillmentsDto {
+  @ArrayNotEmpty({ message: 'Fulfillments cannot be empty' })
+  @ValidateNested({ each: true })
+  @Type(() => FulfillmentDto)
+  fulfillment: FulfillmentDto[];
 }
 class OrderItem {
   @ValidateNested()

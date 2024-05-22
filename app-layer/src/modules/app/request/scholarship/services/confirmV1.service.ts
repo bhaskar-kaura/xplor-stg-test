@@ -12,6 +12,7 @@ import {
 } from 'src/common/constants/enums';
 import { DumpService } from 'src/modules/dump/service/dump.service';
 import { ConfirmRequestDto } from 'src/modules/app/dto/confirm-request.dto';
+import { IScholarshipConfirmMessage } from '../interface/request/confirm';
 
 @Injectable()
 export class ScholarshipConfirmService {
@@ -50,7 +51,7 @@ export class ScholarshipConfirmService {
           ? request.context.ttl
           : OnestContextConstants.ttl,
       };
-      const messagePayload = {
+      const messagePayload: IScholarshipConfirmMessage = {
         order: {
           provider: {
             id: selectRequestDetails?.message?.order?.provider_id

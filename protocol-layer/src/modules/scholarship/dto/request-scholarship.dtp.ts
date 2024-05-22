@@ -3,6 +3,7 @@ import { IScholarshipSelect } from '../interface/request/select';
 import { ISelectContext } from '../interface/context';
 import { IScholarshipInitMessage } from '../interface/request/init';
 import { ICourseStatusMessage } from 'src/modules/course/interface/request/confirm';
+import { IScholarshipConfirmMessage } from '../interface/request/confirm';
 
 export class SelectScholarshipDto {
   // The context property must not be empty
@@ -40,6 +41,30 @@ export class OnInitScholarshipDto {
   // The message property must not be empty
   @IsNotEmpty()
   message: IScholarshipInitMessage;
+}
+
+export class ConfirmScholarshipDto {
+  // The context property must not be empty
+  @IsNotEmpty()
+  context: ISelectContext;
+
+  // The message property must not be empty
+  @IsNotEmpty()
+  message: IScholarshipConfirmMessage;
+
+  // The gatewayUrl property is optional and must be a string if provided
+  @IsOptional()
+  gatewayUrl: string;
+}
+
+export class OnConfirmScholarshipDto {
+  // The context property must not be empty
+  @IsNotEmpty()
+  context: ISelectContext;
+
+  // The message property must not be empty
+  @IsNotEmpty()
+  message: any;
 }
 
 export class StatusScholarshipDto {
