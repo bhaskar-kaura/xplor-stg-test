@@ -101,6 +101,7 @@ class FulfillmentDto {
 class OrderItem {
   @ValidateNested()
   @Type(() => BillingDto)
+  @IsNotEmpty({ message: 'Billing is required' })
   billing: BillingDto;
 
   @IsArray()
@@ -113,6 +114,7 @@ class OrderItem {
 
   @ValidateNested()
   @Type(() => FulfillmentDto)
+  @IsNotEmpty({ message: 'Fulfillment is required' })
   fulfillment: FulfillmentDto;
 }
 
