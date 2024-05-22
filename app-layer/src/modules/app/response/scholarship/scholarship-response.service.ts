@@ -6,10 +6,8 @@ import {
   IScholarshipSelectResponseMessage,
   IScholarshipSelectResponseMessageOrder,
 } from './interface/on-select';
-import {
-  ICourseInitResponseMessage,
-  ICourseInitResponseMessageOrder,
-} from '../job/interface/on-select';
+import { ICourseInitMessage } from '../job/interface/on-init';
+import { ICourseStatusMessage } from '../job/interface/on-status';
 
 /**
  * Service for handling job response operations.
@@ -93,22 +91,11 @@ export class ScholarshipResponseService {
     }
   }
 
-  createInitPayload(response) {
+  createInitPayload(response: ICourseInitMessage) {
     try {
       const order = {
-        platform_provider: {
-          id: response?.order?.platform_provider?.id,
-        },
-        items: response?.order?.items?.map((item) => {
-          return {
-            id: item?.id,
-          };
-        }),
-        fulfillment: {
-          id: response?.order?.fulfillment?.id,
-        },
-        quote: response?.order?.quote,
-        payments: response?.order?.payments,
+        provider_id: response?.order?.provider?.id,
+        items: response?.order.items,
       };
       const resp = {
         message: {
@@ -122,22 +109,11 @@ export class ScholarshipResponseService {
     }
   }
 
-  createStatusPayload(response: ICourseInitResponseMessage) {
+  createStatusPayload(response: ICourseStatusMessage) {
     try {
-      const order: ICourseInitResponseMessageOrder = {
-        platform_provider: {
-          id: response?.order?.platform_provider?.id,
-        },
-        items: response?.order?.items?.map((item) => {
-          return {
-            id: item?.id,
-          };
-        }),
-        fulfillment: {
-          id: response?.order?.fulfillment?.id,
-        },
-        quote: response?.order?.quote,
-        payments: response?.order?.payments,
+      const order = {
+        id: response?.order?.id,
+        status: response?.order?.fulfillments[0]?.state.descriptor.code,
       };
       const resp = {
         message: {

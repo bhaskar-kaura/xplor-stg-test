@@ -5,11 +5,9 @@ import {
   ICourseSelectMessage,
   ICourseSelectResponseMessageOrder,
 } from './interface/on-select';
-import {
-  ICourseInitResponseMessage,
-  ICourseInitResponseMessageOrder,
-  ICourseSelectResponseMessage,
-} from '../job/interface/on-select';
+import { ICourseSelectResponseMessage } from '../job/interface/on-select';
+import { ICourseInitMessage } from '../job/interface/on-init';
+import { ICourseStatusMessage } from '../job/interface/on-status';
 
 /**
  * Service for handling job response operations.
@@ -93,11 +91,11 @@ export class CourseResponseService {
     }
   }
 
-  createInitPayload(response: ICourseInitResponseMessage) {
+  createInitPayload(response: ICourseInitMessage) {
     try {
-      const order: ICourseInitResponseMessageOrder = {
+      const order = {
         platform_provider: {
-          id: response?.order?.platform_provider?.id,
+          id: response?.order?.provider?.id,
         },
         items: response?.order?.items?.map((item) => {
           return {
@@ -105,7 +103,7 @@ export class CourseResponseService {
           };
         }),
         fulfillment: {
-          id: response?.order?.fulfillment?.id,
+          id: response?.order?.fulfillments[0]?.id,
         },
         quote: response?.order?.quote,
         payments: response?.order?.payments,
@@ -122,22 +120,11 @@ export class CourseResponseService {
     }
   }
 
-  createStatusPayload(response: ICourseInitResponseMessage) {
+  createStatusPayload(response: ICourseStatusMessage) {
     try {
-      const order: ICourseInitResponseMessageOrder = {
-        platform_provider: {
-          id: response?.order?.platform_provider?.id,
-        },
-        items: response?.order?.items?.map((item) => {
-          return {
-            id: item?.id,
-          };
-        }),
-        fulfillment: {
-          id: response?.order?.fulfillment?.id,
-        },
-        quote: response?.order?.quote,
-        payments: response?.order?.payments,
+      const order = {
+        id: response?.order?.id,
+        status: response?.order?.fulfillments[0]?.state.descriptor.code,
       };
       const resp = {
         message: {

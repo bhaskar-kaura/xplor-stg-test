@@ -130,10 +130,6 @@ export interface ICourseSelectResponseMessage {
   order: ICourseSelectResponseMessageOrder;
 }
 
-export interface ICourseInitResponseMessage {
-  order: ICourseInitResponseMessageOrder;
-}
-
 export interface ICourseSelectMessage {
   message: ICourseSelectResponseMessage;
 }
