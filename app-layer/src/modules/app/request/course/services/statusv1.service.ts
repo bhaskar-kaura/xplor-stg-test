@@ -29,7 +29,7 @@ export class CourseStatusService {
       const initRequestDetails = await this.dbService.findByActionTransactionId(
         request?.context?.transaction_id,
         request?.context?.domain,
-        'init',
+        'on_init',
       );
       if (!initRequestDetails) return null;
       const context = initRequestDetails?.context as unknown as SelectContext;

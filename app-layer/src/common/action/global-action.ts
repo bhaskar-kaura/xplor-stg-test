@@ -272,7 +272,7 @@ export class GlobalActionService {
           const searchResponseScholarship =
             await this.scholarshipStatusService.sendStatusPayload(request);
           // Log the search response for the scholarship domain
-          console.log(`scholarship-init: ${searchResponseScholarship}`);
+          console.log(`scholarship-status: ${searchResponseScholarship}`);
           break;
         default:
           // Default case if the domain does not match any of the expected values

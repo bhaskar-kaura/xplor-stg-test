@@ -333,7 +333,7 @@ export class AppService {
         transaction_id: response?.context?.transaction_id,
         domain: domain,
         message_id: response?.context?.message_id,
-        request_type: response?.context?.action,
+        request_type: Action.on_init,
         message: response?.message,
       };
 
@@ -473,7 +473,7 @@ export class AppService {
         transaction_id: response?.context?.transaction_id,
         domain: domain,
         message_id: response?.context?.message_id,
-        request_type: response?.context?.action,
+        request_type: Action.status,
         message: response?.message,
       };
 

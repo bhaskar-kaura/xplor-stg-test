@@ -28,7 +28,7 @@ export class ScholarshipInitService {
         await this.dbService.findByActionTransactionId(
           request?.context?.transaction_id,
           request?.context?.domain,
-          'select',
+          'on_select',
         );
 
       const onSearchResponseDetails = await this.dbService.findByProviderId(
