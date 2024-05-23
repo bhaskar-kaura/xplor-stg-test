@@ -479,7 +479,7 @@ export class AppService {
 
       await this.dumpService.create(createDumpDto);
       // Delegate the search operation to the sendSearch method
-      await this.sendInit(response);
+      await this.sendStatus(response);
     } catch (error) {
       // Log the error and throw a BadGatewayException with a formatted error response
       console.log(error?.response);
@@ -534,7 +534,7 @@ export class AppService {
       console.log('initPayload', JSON.stringify(payload));
 
       // Construct the URL for the search request
-      const url = this.configService.get('CORE_SERVICE_URL') + '/stg/on_init';
+      const url = this.configService.get('CORE_SERVICE_URL') + '/stg/on_status';
       // Send the search request and log the response
       const resp = await this.httpService.post(url, payload);
       console.log('resp', resp);
