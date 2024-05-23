@@ -33,6 +33,12 @@ import { confirmSchema } from '../schema/confirm.schema';
 import { onConfirmSchema } from '../schema/onConfirm.schema';
 import { statusSchema } from '../schema/status.schema';
 import { onStatusSchema } from '../schema/onStatus.schema';
+import {
+  courseConfirmResponse,
+  courseInitResponse,
+  courseSelectResponse,
+  courseStatusResponse,
+} from 'src/utils/mock-response';
 @Injectable()
 export class CourseService {
   constructor(
@@ -174,6 +180,10 @@ export class CourseService {
       console.log(url);
       const selectResponse = await this.axiosService.post(url, selectPayload);
       console.log('selectRequest=======', selectResponse);
+      await this.mockSelectResponse(
+        selectPayload.context.transaction_id,
+        selectPayload.context.bap_uri,
+      );
       return selectResponse;
     } catch (error) {
       console.log('error===============', error);
@@ -250,8 +260,12 @@ export class CourseService {
           ? initCourseDto.gatewayUrl + `/${Action.init}`
           : initPayload.context.bpp_id + `${Action.init}`;
       const initResponse = await this.axiosService.post(url, initPayload);
-      console.log('initResponse', initResponse);;
+      console.log('initResponse', initResponse);
       console.log('initRequest=======', initResponse);
+      await this.mockInitResponse(
+        initPayload.context.transaction_id,
+        initPayload.context.bap_uri,
+      );
       return initResponse;
     } catch (error) {
       console.log('error===============', error);
@@ -330,6 +344,10 @@ export class CourseService {
           : confirmPayload.context.bpp_id + `${Action.confirm}`;
       const selectResponse = await this.axiosService.post(url, confirmPayload);
       console.log('confirmRequest=======', selectResponse);
+      await this.mockConfirmResponse(
+        confirmPayload.context.transaction_id,
+        confirmPayload.context.bap_uri,
+      );
       return selectResponse;
     } catch (error) {
       console.log('error===============', error);
@@ -363,6 +381,42 @@ export class CourseService {
     } catch (error) {
       throw error;
     }
+  }
+
+  async mockInitResponse(transaction_id: string, baseUrl: string) {
+    const url = baseUrl + '/' + Action.on_init;
+    const mockRequest = await this.axiosService.post(
+      url,
+      courseInitResponse(transaction_id),
+    );
+    console.log('mockRequest', mockRequest);
+  }
+
+  async mockSelectResponse(transaction_id: string, baseUrl: string) {
+    const url = baseUrl + '/' + Action.on_select;
+    const mockRequest = await this.axiosService.post(
+      url,
+      courseSelectResponse(transaction_id),
+    );
+    console.log('mockRequest', mockRequest);
+  }
+
+  async mockConfirmResponse(transaction_id: string, baseUrl) {
+    const url = baseUrl + '/' + Action.on_confirm;
+    const mockRequest = await this.axiosService.post(
+      url,
+      courseConfirmResponse(transaction_id),
+    );
+    console.log('mockRequest', mockRequest);
+  }
+
+  async mockStatusResponse(transaction_id: string, baseUrl) {
+    const url = baseUrl + '/' + Action.on_status;
+    const mockRequest = await this.axiosService.post(
+      url,
+      courseStatusResponse(transaction_id),
+    );
+    console.log('mockRequest', mockRequest);
   }
 
   async onStatus(onStatusCourseDto: OnStatusCourseDto) {
@@ -408,6 +462,10 @@ export class CourseService {
       const statusResponse = await this.axiosService.post(url, statusPayload);
       console.log('statusResponse', statusResponse);
       console.log('statusRequest=======', statusResponse);
+      await this.mockStatusResponse(
+        statusPayload.context.transaction_id,
+        statusPayload.context.bap_uri,
+      );
       return statusResponse;
     } catch (error) {
       console.log('error===============', error);

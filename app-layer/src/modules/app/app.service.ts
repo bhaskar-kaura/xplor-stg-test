@@ -470,7 +470,7 @@ export class AppService {
       // Dump the response into database
       const createDumpDto: CreateDumpDto = {
         context: response?.context,
-        transaction_id: response?.context?.transaction_id,
+        transaction_id: response?.context?.transaction_id, 
         domain: domain,
         message_id: response?.context?.message_id,
         request_type: Action.status,
