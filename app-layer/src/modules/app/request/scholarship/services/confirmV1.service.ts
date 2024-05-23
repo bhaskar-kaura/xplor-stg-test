@@ -61,7 +61,7 @@ export class ScholarshipConfirmService {
           items: selectRequestDetails?.message?.order?.items_id[0]
             ? [
                 { id: selectRequestDetails?.message?.order?.items_id[0] },
-                ...selectRequestDetails?.message?.order?.itemsId
+                ...selectRequestDetails?.message?.order?.items_id
                   .slice(1)
                   .map((id) => ({ id })),
               ]

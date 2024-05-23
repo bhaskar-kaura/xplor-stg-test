@@ -25,10 +25,10 @@ export class CourseSelectService {
 
   async createPayload(request: SelectRequestDto) {
     try {
-      const itemsFromDb = await this.dbService.findItemByProviderId(
+      const itemsFromDb = await this.dbService.findItemByprovider_id(
         request?.context?.transaction_id,
-        request?.message?.order?.providerId,
-        request?.message?.order?.itemsId,
+        request?.message?.order?.provider_id,
+        request?.message?.order?.items_id,
         request?.context?.domain,
       );
       const context = itemsFromDb.context as unknown as SelectContext;
@@ -47,11 +47,11 @@ export class CourseSelectService {
       const messagePayload: IMessageSelect = {
         order: {
           provider: {
-            id: request.message.order.providerId,
+            id: request.message.order.provider_id,
           },
           items: [
-            { id: request.message.order.itemsId[0] },
-            ...request.message.order.itemsId.slice(1).map((id) => ({ id })),
+            { id: request.message.order.items_id[0] },
+            ...request.message.order.items_id.slice(1).map((id) => ({ id })),
           ],
         },
       };

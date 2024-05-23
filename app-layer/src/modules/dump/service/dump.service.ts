@@ -42,9 +42,9 @@ export class DumpService {
       request_type,
     });
   }
-  async findItemByProviderId(
+  async findItemByprovider_id(
     transaction_id: string,
-    providerId: string,
+    provider_id: string,
     id: string[],
     domain: string,
   ): Promise<Dump | null> {
@@ -54,7 +54,7 @@ export class DumpService {
         domain: domain,
         'message.catalog.providers': {
           $elemMatch: {
-            id: providerId,
+            id: provider_id,
             'items.id': { $in: id },
           },
         },
@@ -62,9 +62,9 @@ export class DumpService {
       .exec();
   }
 
-  async findByProviderId(
+  async findByprovider_id(
     transaction_id: string,
-    providerId: string,
+    provider_id: string,
     domain: string,
   ): Promise<Dump | any> {
     return {
@@ -79,16 +79,16 @@ export class DumpService {
         domain: domain,
         'message.catalog.providers': {
           $elemMatch: {
-            id: providerId,
+            id: provider_id,
           },
         },
       })
       .exec();
   }
 
-  async findItemByActionProviderId(
+  async findItemByActionprovider_id(
     transaction_id: string,
-    providerId: string,
+    provider_id: string,
     domain: string,
     action: string,
     id: string[],
@@ -100,7 +100,7 @@ export class DumpService {
         request_type: action,
         'message.catalog.providers': {
           $elemMatch: {
-            id: providerId,
+            id: provider_id,
             'items.id': { $in: id },
           },
         },

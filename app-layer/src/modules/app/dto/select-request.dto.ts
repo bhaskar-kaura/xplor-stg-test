@@ -4,15 +4,15 @@ import { Type } from 'class-transformer';
 class OrderItem {
   @IsArray()
   @IsString({ each: true })
-  itemsId: string[];
+  items_id: string[];
 
   @IsString()
-  providerId: string;
+  provider_id: string;
 
   @IsOptional()
   @IsArray()
   @IsString({ each: true })
-  fulfillmentId?: string[];
+  fulfillment_id?: string[];
 }
 
 class Message {
