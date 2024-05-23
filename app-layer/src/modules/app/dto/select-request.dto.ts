@@ -23,7 +23,7 @@ class Message {
 
 class Context {
   @IsString()
-  transactionId: string;
+  transaction_id: string;
 
   @IsString()
   domain: string;

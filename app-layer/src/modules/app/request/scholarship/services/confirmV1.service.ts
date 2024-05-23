@@ -25,7 +25,7 @@ export class ScholarshipConfirmService {
   async createPayload(request: ConfirmRequestDto) {
     try {
       const selectRequestDetails =
-        await this.dbService.findByActionTransactionId(
+        await this.dbService.findByActiontransaction_id(
           request?.context?.transaction_id,
           request?.context?.domain,
           'on_search',

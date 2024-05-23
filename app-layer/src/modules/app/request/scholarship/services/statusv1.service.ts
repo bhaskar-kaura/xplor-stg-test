@@ -24,7 +24,7 @@ export class ScholarshipStatusService {
 
   async createPayload(request: StatusRequestDto) {
     try {
-      const initRequestDetails = await this.dbService.findByActionTransactionId(
+      const initRequestDetails = await this.dbService.findByActiontransaction_id(
         request?.context?.transaction_id,
         request?.context?.domain,
         'on_init',
