@@ -24,6 +24,7 @@ export class ScholarshipInitService {
 
   async createPayload(request: InitRequestDto) {
     try {
+      console.log('request', JSON.stringify(request));
       const selectRequestDetails =
         await this.dbService.findByActiontransaction_id(
           request?.context?.transaction_id,
@@ -36,6 +37,7 @@ export class ScholarshipInitService {
         request?.message?.order?.provider_id,
         request?.context?.domain,
       );
+      console.log('selectRequestSetails', selectRequestDetails, onSearchResponseDetails)
       if (!selectRequestDetails || !onSearchResponseDetails) return null;
       const context = selectRequestDetails?.context as unknown as SelectContext;
       const contextPayload: SelectContext = {
@@ -63,17 +65,17 @@ export class ScholarshipInitService {
             {
               customer: {
                 person: {
-                  name: request.message.order.fulfillment.customer.person.name,
-                  age: request.message.order.fulfillment.customer.person.age,
+                  name: request.message.order.fulfillment[0].customer.person.name,
+                  age: request.message.order.fulfillment[0].customer.person.age,
                   gender:
-                    request.message.order.fulfillment.customer.person.gender,
+                    request.message.order.fulfillment[0].customer.person.gender,
                   tags: [],
                 },
                 contact: {
                   phone:
-                    request.message.order.fulfillment.customer.contact.phone,
+                    request.message.order.fulfillment[0].customer.contact.phone,
                   email:
-                    request.message.order.fulfillment.customer.contact.email,
+                    request.message.order.fulfillment[0].customer.contact.email,
                 },
               },
             },
@@ -85,6 +87,7 @@ export class ScholarshipInitService {
         context: contextPayload,
         message: messagePayload,
       };
+      console.log("ScholarshipPayload", payload);
       return {
         ...payload,
         gatewayUrl: Gateway.scholarship,

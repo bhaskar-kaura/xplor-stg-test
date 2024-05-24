@@ -44,6 +44,7 @@ export class ScholarshipConfirmService {
         bap_uri:
           this.configService.get('PROTOCOL_SERVICE_URL') +
           `/${xplorDomain.scholarship}`,
+        transaction_id: request.context.transaction_id,
         message_id: request.context.message_id,
         version: OnestContextConstants.version,
         timestamp: new Date().toISOString(),

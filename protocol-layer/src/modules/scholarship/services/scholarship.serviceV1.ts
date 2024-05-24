@@ -472,7 +472,6 @@ export class ScholarshipService {
       throw error?.response;
     }
   }
-
   async mockInitResponse(transaction_id: string, baseUrl: string) {
     const url = baseUrl + '/' + Action.on_init;
     const mockRequest = await this.axiosService.post(
