@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import { BadRequestException, Injectable } from '@nestjs/common';
 
 import { searchSchema } from '../schema/search.schema';
@@ -78,7 +79,8 @@ export class ScholarshipService {
       searchScholarshipDto.gatewayUrl + '/search',
       searchPayload,
     );
-    console.log(result, 'scholarshipGatewayResult');
+    console.log(searchPayload, JSON.stringify(searchPayload), 'searchPayload');
+    console.log(result?.message, 'scholarshipGatewayResult',searchScholarshipDto.gatewayUrl + '/search');
     return result;
   }
 
@@ -262,7 +264,7 @@ export class ScholarshipService {
       } else {
         const message = new AckNackResponse(ACK);
         await this.axiosService.post(
-          this.configService.get('APP_SERVICE_URL') + `/${Action.on_search}`,
+          this.configService.get('APP_SERVICE_URL') + `/${Action.on_select}`,
           searchScholarshipDto,
         );
         return message;
