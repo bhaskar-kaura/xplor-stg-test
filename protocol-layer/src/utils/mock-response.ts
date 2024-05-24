@@ -611,7 +611,7 @@ export function scholarshipInitResponse(transaction_id: string) {
               },
               form: {
                 mime_type: 'text/html',
-                url: 'https://6vs8xnx5i7.vidyasaarathi.co.in/loans-kyc/xinput/formid/a23f2fdfbbb8ac402bfd54f',
+                url: 'https://implementation-layer-dev.thewitslab.com/applicationForm',
                 resubmit: false,
                 auth: {
                   descriptor: {
@@ -1204,7 +1204,7 @@ export function courseInitResponse(transaction_id: string) {
               ],
               media: [
                 {
-                  url: 'https://infyspringboard.onwingspan.com/web/courses/infosysheadstart/everyday-conversational-english/preview/',
+                  url: 'https://implementation-layer-dev.thewitslab.com/applicationForm',
                 },
               ],
             },
