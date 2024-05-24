@@ -184,7 +184,7 @@ export class CourseService {
       const isNetworkMock = this.configService.get('IS_NETWORK_MOCK');
       console.log('IS_NETWORK_MOCK', isNetworkMock);
       if (isNetworkMock) {
-        await this.mockSelectResponse(
+        this.mockSelectResponse(
           selectPayload.context.transaction_id,
           selectPayload.context.bap_uri,
         );
@@ -270,7 +270,7 @@ export class CourseService {
       const isNetworkMock = this.configService.get('IS_NETWORK_MOCK');
       console.log('IS_NETWORK_MOCK', isNetworkMock);
       if (isNetworkMock) {
-        await this.mockInitResponse(
+        this.mockInitResponse(
           initPayload.context.transaction_id,
           initPayload.context.bap_uri,
         );
@@ -356,7 +356,7 @@ export class CourseService {
       const isNetworkMock = this.configService.get('IS_NETWORK_MOCK');
       console.log('IS_NETWORK_MOCK', isNetworkMock);
       if (isNetworkMock) {
-        await this.mockConfirmResponse(
+        this.mockConfirmResponse(
           confirmPayload.context.transaction_id,
           confirmPayload.context.bap_uri,
         );
@@ -478,7 +478,7 @@ export class CourseService {
       const isNetworkMock = this.configService.get('IS_NETWORK_MOCK');
       console.log('IS_NETWORK_MOCK', isNetworkMock);
       if (isNetworkMock) {
-        await this.mockStatusResponse(
+        this.mockStatusResponse(
           statusPayload.context.transaction_id,
           statusPayload.context.bap_uri,
         );
