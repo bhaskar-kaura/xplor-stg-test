@@ -31,7 +31,7 @@ export class CourseInitService {
           'on_select',
         );
 
-      const onSearchResponseDetails = await this.dbService.findByProviderId(
+      const onSearchResponseDetails = await this.dbService.findByprovider_id(
         request?.context?.transaction_id,
         request?.message?.order?.provider_id,
         request?.context?.domain,

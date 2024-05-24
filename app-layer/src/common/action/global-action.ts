@@ -81,7 +81,7 @@ export class GlobalActionService {
             // Perform the search operation using the CourseSearchService
             const searchResponseCourse =
               await this.courseSearchService.sendSearchPayload(
-                context,
+                contexts,
                 message,
               );
             // Log the search response for the course domain

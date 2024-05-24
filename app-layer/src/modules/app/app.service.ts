@@ -173,7 +173,7 @@ export class AppService {
 
   async select(selectRequest: SelectRequestDto) {
     try {
-      console.log(selectRequest, 'selectRequest');
+      console.log('selectRequest', selectRequest);
       await this.globalActionService.globalSelect(selectRequest);
       // Return a success response
       return getResponse(
