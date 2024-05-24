@@ -5,7 +5,7 @@
 export enum DomainsEnum {
   JOB_DOMAIN = 'onest:work-opportunities', // Domain for job-related services
   COURSE_DOMAIN = 'onest:learning-experiences', // Domain for course-related services
-  SCHOLARSHIP_DOMAIN = 'onest:financial-support', // Domain for scholarship-related services
+  SCHOLARSHIP_DOMAIN = 'onest:scholarships', // Domain for scholarship-related services
   RETAIL_DOMAIN = 'ONDC:RET10', // Domain for retail-related services
 }
 

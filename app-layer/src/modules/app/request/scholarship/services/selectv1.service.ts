@@ -43,6 +43,8 @@ export class ScholarshipSelectService {
           ...context,
           action: Action.select,
           domain: DomainsEnum.SCHOLARSHIP_DOMAIN,
+          bpp_uri:this.configService.get('PROTOCOL_SERVICE_URL') +
+          `/${xplorDomain.scholarship}`,
           message_id: request.context.messageId,
           version: OnestContextConstants.version,
           timestamp: new Date().toISOString(),
