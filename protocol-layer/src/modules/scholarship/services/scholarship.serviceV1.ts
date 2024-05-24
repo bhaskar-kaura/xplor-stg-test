@@ -48,6 +48,10 @@ export class ScholarshipService {
         JSON.stringify(searchScholarshipDto.message),
         'search_scholarship_dto',
       );
+      console.log(
+        JSON.stringify(searchScholarshipDto.message),
+        'search_scholarship_dto',
+      );
       const isValid = validateJson(searchSchema, {
         context: searchScholarshipDto.context,
         message: searchScholarshipDto.message,
@@ -81,6 +85,7 @@ export class ScholarshipService {
     );
     console.log(searchPayload, JSON.stringify(searchPayload), 'searchPayload');
     console.log(result?.message, 'scholarshipGatewayResult',searchScholarshipDto.gatewayUrl + '/search');
+    console.log(result, 'scholarshipGatewayResult');
     return result;
   }
 
