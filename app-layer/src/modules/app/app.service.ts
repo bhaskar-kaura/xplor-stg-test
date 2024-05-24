@@ -151,10 +151,15 @@ export class AppService {
       const payload = {
         context: response.context,
         data: {
-          job: job != null ? job : {},
-          course: course != null ? course : {},
-          scholarship: scholarship != null ? scholarship : {},
-          retail: retail != null ? retail : {},
+          job: job != null ? { context: response.context, ...job } : {},
+          course:
+            course != null ? { context: response.context, ...course } : {},
+          scholarship:
+            scholarship != null
+              ? { context: response.context, ...scholarship }
+              : {},
+          retail:
+            retail != null ? { context: response.context, ...retail } : {},
         },
       };
       // Construct the URL for the search request
@@ -233,7 +238,7 @@ export class AppService {
       let job: object, course: object, scholarship: object, retail: object;
       // Determine which type of payload to create based on the domain
 
-      console.log(response,"sendOnselect")
+      console.log(response, 'sendOnselect');
       switch (response.context.domain) {
         case DomainsEnum.JOB_DOMAIN:
           job = response.message
@@ -265,10 +270,15 @@ export class AppService {
       const payload = {
         context: response.context,
         data: {
-          job: job != null ? job : {},
-          course: course != null ? course : {},
-          scholarship: scholarship != null ? scholarship : {},
-          retail: retail != null ? retail : {},
+          job: job != null ? { context: response.context, ...job } : {},
+          course:
+            course != null ? { context: response.context, ...course } : {},
+          scholarship:
+            scholarship != null
+              ? { context: response.context, ...scholarship }
+              : {},
+          retail:
+            retail != null ? { context: response.context, ...retail } : {},
         },
       };
       console.log('selectPayload', JSON.stringify(payload));
@@ -386,10 +396,15 @@ export class AppService {
       const payload = {
         context: response.context,
         data: {
-          job: job != null ? job : {},
-          course: course != null ? course : {},
-          scholarship: scholarship != null ? scholarship : {},
-          retail: retail != null ? retail : {},
+          job: job != null ? { context: response.context, ...job } : {},
+          course:
+            course != null ? { context: response.context, ...course } : {},
+          scholarship:
+            scholarship != null
+              ? { context: response.context, ...scholarship }
+              : {},
+          retail:
+            retail != null ? { context: response.context, ...retail } : {},
         },
       };
       console.log('initPayload', JSON.stringify(payload));
@@ -529,10 +544,15 @@ export class AppService {
       const payload = {
         context: response.context,
         data: {
-          job: job != null ? job : {},
-          course: course != null ? course : {},
-          scholarship: scholarship != null ? scholarship : {},
-          retail: retail != null ? retail : {},
+          job: job != null ? { context: response.context, ...job } : {},
+          course:
+            course != null ? { context: response.context, ...course } : {},
+          scholarship:
+            scholarship != null
+              ? { context: response.context, ...scholarship }
+              : {},
+          retail:
+            retail != null ? { context: response.context, ...retail } : {},
         },
       };
       console.log('initPayload', JSON.stringify(payload));
@@ -622,10 +642,15 @@ export class AppService {
       const payload = {
         context: response.context,
         data: {
-          job: job != null ? job : {},
-          course: course != null ? course : {},
-          scholarship: scholarship != null ? scholarship : {},
-          retail: retail != null ? retail : {},
+          job: job != null ? { context: response.context, ...job } : {},
+          course:
+            course != null ? { context: response.context, ...course } : {},
+          scholarship:
+            scholarship != null
+              ? { context: response.context, ...scholarship }
+              : {},
+          retail:
+            retail != null ? { context: response.context, ...retail } : {},
         },
       };
       console.log('confirmPayload', JSON.stringify(payload));
