@@ -1,7 +1,7 @@
 export function scholarshipStatusResponse(transaction_id: string) {
   return {
     context: {
-      domain: 'onest:scholarships',
+      domain: 'onest:financial-support',
       location: {
         city: {
           name: 'Bangalore',
@@ -292,7 +292,7 @@ export function scholarshipStatusResponse(transaction_id: string) {
 export function scholarshipSelectResponse(transaction_id: string) {
   return {
     context: {
-      domain: 'onest:scholarships',
+      domain: 'onest:financial-support',
       location: {
         city: {
           name: 'Bangalore',
@@ -536,7 +536,7 @@ export function scholarshipSelectResponse(transaction_id: string) {
 export function scholarshipInitResponse(transaction_id: string) {
   return {
     context: {
-      domain: 'onest:scholarships',
+      domain: 'onest:financial-support',
       location: {
         city: {
           name: 'Bangalore',
@@ -836,7 +836,7 @@ export function scholarshipInitResponse(transaction_id: string) {
 export function scholarshipConfirmResponse(transaction_id: string) {
   return {
     context: {
-      domain: 'onest:scholarships',
+      domain: 'onest:financial-support',
       location: {
         city: {
           name: 'Bangalore',

@@ -32,7 +32,12 @@ import { confirmSchema } from '../schema/confirm.schema';
 import { onConfirmSchema } from '../schema/onConfirm.schema';
 import { onStatusSchema } from '../schema/onStatus.schema';
 import { statusSchema } from '../schema/status.schema';
-import { scholarshipConfirmResponse, scholarshipInitResponse, scholarshipSelectResponse, scholarshipStatusResponse } from 'src/utils/mock-response';
+import {
+  scholarshipConfirmResponse,
+  scholarshipInitResponse,
+  scholarshipSelectResponse,
+  scholarshipStatusResponse,
+} from 'src/utils/mock-response';
 
 @Injectable()
 export class ScholarshipService {
@@ -153,10 +158,14 @@ export class ScholarshipService {
           : selectPayload.context.bpp_uri + `${Action.select}`;
       const selectResponse = await this.axiosService.post(url, selectPayload);
       console.log('selectRequest=======', selectResponse);
-      await this.mockSelectResponse(
-        selectPayload.context.transaction_id,
-        selectPayload.context.bap_uri,
-      );
+      const isNetworkMock = this.configService.get('IS_NETWORK_MOCK');
+      console.log('IS_NETWORK_MOCK', isNetworkMock);
+      if (isNetworkMock) {
+        await this.mockSelectResponse(
+          selectPayload.context.transaction_id,
+          selectPayload.context.bap_uri,
+        );
+      }
       return selectResponse;
     } catch (error) {
       console.log('error===============', error);
@@ -234,10 +243,14 @@ export class ScholarshipService {
       console.log(url);
       const initResponse = await this.axiosService.post(url, initPayload);
       console.log('initRequest=======', initResponse);
-      await this.mockInitResponse(
-        initPayload.context.transaction_id,
-        initPayload.context.bap_uri,
-      );
+      const isNetworkMock = this.configService.get('IS_NETWORK_MOCK');
+      console.log('IS_NETWORK_MOCK', isNetworkMock);
+      if (isNetworkMock) {
+        await this.mockInitResponse(
+          initPayload.context.transaction_id,
+          initPayload.context.bap_uri,
+        );
+      }
       return initResponse;
     } catch (error) {
       console.log('error===============', error);
@@ -352,10 +365,14 @@ export class ScholarshipService {
           : confirmPayload.context.bpp_id + `${Action.confirm}`;
       const selectResponse = await this.axiosService.post(url, confirmPayload);
       console.log('confirmRequest=======', selectResponse);
-      await this.mockConfirmResponse(
-        confirmPayload.context.transaction_id,
-        confirmPayload.context.bap_uri,
-      );
+      const isNetworkMock = this.configService.get('IS_NETWORK_MOCK');
+      console.log('IS_NETWORK_MOCK', isNetworkMock);
+      if (isNetworkMock) {
+        await this.mockConfirmResponse(
+          confirmPayload.context.transaction_id,
+          confirmPayload.context.bap_uri,
+        );
+      }
       return selectResponse;
     } catch (error) {
       console.log('error===============', error);
@@ -434,10 +451,14 @@ export class ScholarshipService {
       const statusResponse = await this.axiosService.post(url, statusPayload);
       console.log('statusResponse', statusResponse);
       console.log('statusRequest=======', statusResponse);
-      await this.mockStatusResponse(
-        statusPayload.context.transaction_id,
-        statusPayload.context.bap_uri,
-      );
+      const isNetworkMock = this.configService.get('IS_NETWORK_MOCK');
+      console.log('IS_NETWORK_MOCK', isNetworkMock);
+      if (isNetworkMock) {
+        this.mockStatusResponse(
+          statusPayload.context.transaction_id,
+          statusPayload.context.bap_uri,
+        );
+      }
       return statusResponse;
     } catch (error) {
       console.log('error===============', error);

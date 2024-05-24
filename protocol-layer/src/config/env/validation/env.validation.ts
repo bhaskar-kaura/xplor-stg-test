@@ -15,4 +15,5 @@ export default () => ({
   ONDC_PRIVATE_KEY: Joi.string().required(),
   ONDC_SUBSCRIBER_ID: Joi.string().required(),
   ONDC_SUBSCRIBER_UNIQUE_KEY_ID: Joi.string().required(),
+  IS_NETWORK_MOCK: Joi.boolean().required().default(false),
 });
