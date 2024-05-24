@@ -29,7 +29,7 @@ class Context {
   domain: string;
 
   @IsString()
-  messageId: string;
+  message_id: string;
 
   @IsOptional()
   ttl: string;

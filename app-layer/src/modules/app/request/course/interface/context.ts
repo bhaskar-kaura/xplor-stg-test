@@ -27,7 +27,7 @@ export interface Context {
  *   bap_uri: 'http://example.com/bapUri',
  *   bpp_id: 'bppIdValue',
  *   transaction_id: 'transaction_idValue',
- *   message_id: 'messageIdValue',
+ *   message_id: 'message_idValue',
  *   timestamp: '2023-04-01T00:00:00Z',
  *   ttl: '3600'
  * };

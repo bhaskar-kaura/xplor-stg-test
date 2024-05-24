@@ -36,7 +36,7 @@ export class CourseSelectService {
         ...context,
         action: Action.select,
         domain: DomainsEnum.COURSE_DOMAIN,
-        message_id: request.context.messageId,
+        message_id: request.context.message_id,
         version: OnestContextConstants.version,
         timestamp: new Date().toISOString(),
         ttl: request.context.ttl
