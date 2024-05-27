@@ -7,7 +7,6 @@ Singular Transaction Gateway (STG) is a gateway service designed for implementin
 
 ## Table of Contents
 
-- [Working Demo](#working-demo)
 - [Pre-requisites](#pre-requisites)
 - [Installation](#installation)
 - [Running tests](#running-tests)
@@ -127,7 +126,7 @@ IS_NETWORK_MOCK=
 
 ## Deployment
 
-Deploying the Registry service can be achieved through:
+Deploying the STG service can be achieved through:
 
 - **Docker**: Create a Docker image and launch your service.
 - **Kubernetes**: Use Kubernetes for scalable container management.
