@@ -25,7 +25,7 @@ export class CourseConfirmService {
   async createPayload(request: ConfirmRequestDto) {
     try {
       const selectRequestDetails =
-        await this.dbService.findByActionTransactionId(
+        await this.dbService.findByActiontransaction_id(
           request?.context?.transaction_id,
           request?.context?.domain,
           'on_search',
@@ -60,7 +60,7 @@ export class CourseConfirmService {
           items: selectRequestDetails?.message?.order?.items_id[0]
             ? [
                 { id: selectRequestDetails?.message?.order?.items_id[0] },
-                ...selectRequestDetails?.message?.order?.itemsId
+                ...selectRequestDetails?.message?.order?.items_id
                   .slice(1)
                   .map((id) => ({ id })),
               ]

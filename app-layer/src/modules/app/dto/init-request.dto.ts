@@ -96,8 +96,8 @@ class FulfillmentDto {
 export class FulfillmentsDto {
   @ArrayNotEmpty({ message: 'Fulfillments cannot be empty' })
   @ValidateNested({ each: true })
-  @Type(() => FulfillmentDto)
-  fulfillment: FulfillmentDto[];
+  // @Type(() => FulfillmentDto)
+  fulfillment: any;
 }
 class OrderItem {
   @ValidateNested()

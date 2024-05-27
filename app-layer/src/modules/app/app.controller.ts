@@ -58,11 +58,12 @@ export class AppController {
 
   @Post('on_select')
   onSelect(@Body() selectResponse: OndcContext | OnestContext | any) {
-    console.log('select===========', selectResponse);
+    console.log('on_select===========', JSON.stringify(selectResponse));
     return this.appService.onSelect(selectResponse);
   }
   @Post('init')
   init(@Body() initRequest: InitRequestDto) {
+    console.log('initRequest===========', JSON.stringify(initRequest));
     return this.appService.init(initRequest);
   }
 

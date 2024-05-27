@@ -176,7 +176,7 @@ export const onInitSchema = {
               },
             },
           },
-          required: ['type', 'provider', 'items', 'fulfillments'],
+          required: ['provider', 'items', 'fulfillments'],
         },
       },
       required: ['order'],

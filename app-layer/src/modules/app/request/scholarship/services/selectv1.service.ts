@@ -28,10 +28,10 @@ export class ScholarshipSelectService {
 
   async createPayload(request: SelectRequestDto) {
     try {
-      const itemsFromDb = await this.dbService.findItemByProviderId(
-        request?.context?.transactionId,
-        request?.message?.order?.providerId,
-        request?.message?.order?.itemsId,
+      const itemsFromDb = await this.dbService.findItemByprovider_id(
+        request?.context?.transaction_id,
+        request?.message?.order?.provider_id,
+        request?.message?.order?.items_id,
         request?.context?.domain,
       );
       if (itemsFromDb === null) {
@@ -43,7 +43,9 @@ export class ScholarshipSelectService {
           ...context,
           action: Action.select,
           domain: DomainsEnum.SCHOLARSHIP_DOMAIN,
-          message_id: request.context.messageId,
+          bpp_uri:this.configService.get('PROTOCOL_SERVICE_URL') +
+          `/${xplorDomain.scholarship}`,
+          message_id: request.context.message_id,
           version: OnestContextConstants.version,
           timestamp: new Date().toISOString(),
           ttl: request.context.ttl
@@ -54,15 +56,15 @@ export class ScholarshipSelectService {
         const messagePayload: IMessageSelect = {
           order: {
             provider: {
-              id: request?.message?.order?.providerId,
+              id: request?.message?.order?.provider_id,
             },
             items: [
-              { id: request.message.order.itemsId[0] },
-              ...request.message.order.itemsId.slice(1).map((id) => ({ id })),
+              { id: request.message.order.items_id[0] },
+              ...request.message.order.items_id.slice(1).map((id) => ({ id })),
             ],
             fulfillments: [
-              { id: request.message.order.fulfillmentId[0] },
-              ...request.message.order.fulfillmentId
+              { id: request.message.order.fulfillment_id[0] },
+              ...request.message.order.fulfillment_id
                 .slice(1)
                 .map((id) => ({ id })),
             ],

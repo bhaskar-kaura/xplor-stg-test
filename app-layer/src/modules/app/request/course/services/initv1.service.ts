@@ -25,13 +25,13 @@ export class CourseInitService {
   async createPayload(request: InitRequestDto) {
     try {
       const selectRequestDetails =
-        await this.dbService.findByActionTransactionId(
+        await this.dbService.findByActiontransaction_id(
           request?.context?.transaction_id,
           request?.context?.domain,
           'on_select',
         );
 
-      const onSearchResponseDetails = await this.dbService.findByProviderId(
+      const onSearchResponseDetails = await this.dbService.findByprovider_id(
         request?.context?.transaction_id,
         request?.message?.order?.provider_id,
         request?.context?.domain,

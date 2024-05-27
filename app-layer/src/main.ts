@@ -18,7 +18,7 @@ async function bootstrap() {
 
   // Set a global prefix for all routes, excluding the root and health check routes
   // Set global prefix for all routes
-  app.setGlobalPrefix('app', { exclude: ['/', '/health'] });
+  app.setGlobalPrefix('app', { exclude: ['/', '/health', '/applicationForm'] });
 
   // Retrieve the ConfigService to access configuration values
   const configService = app.get(ConfigService);

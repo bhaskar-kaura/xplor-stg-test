@@ -22,25 +22,26 @@ services:
       - xplor-network
     environment:
       - GRAFANA_SERVICE_URL=${GRAFANA_SERVICE_URL}
-      - MONGODB_URL=${MONGODB_URL}  
+      - MONGODB_URL=${MONGODB_URL}
       - NODE_Env=${NODE_ENV}
       - APP_LAYER_PORT=${APP_LAYER_PORT}
       - PROTOCOL_DATABASE_URL=${PROTOCOL_DATABASE_URL}
       - PROTOCOL_SERVICE_URL=${PROTOCOL_SERVICE_URL}
       - APP_SERVICE_URL=${APP_SERVICE_URL}
       - CORE_SERVICE_URL=${CORE_SERVICE_URL}
+      - IS_NETWORK_MOCK=${IS_NETWORK_MOCK}
 
   protocol_service:
     container_name: xplor-protocol-stg-service
     build: ./protocol-layer
-    # ports:
-    #    - 5005:5005
+    ports:
+      - 5005:5005
     restart: always
     networks:
       - xplor-network
     environment:
       - GRAFANA_SERVICE_URL=${GRAFANA_SERVICE_URL}
-      - MONGODB_URL=${MONGODB_URL} 
+      - MONGODB_URL=${MONGODB_URL}
       - PROTOCOL_APP_PORT=${PROTOCOL_APP_PORT}
       - NODE_ENV=${NODE_ENV}
       - PROTOCOL_DATABASE_URL=${PROTOCOL_DATABASE_URL}
@@ -48,6 +49,7 @@ services:
       - ONDC_PRIVATE_KEY=${ONDC_PRIVATE_KEY}
       - ONDC_SUBSCRIBER_ID=${ONDC_SUBSCRIBER_ID}
       - ONDC_SUBSCRIBER_UNIQUE_KEY_ID=${ONDC_SUBSCRIBER_UNIQUE_KEY_ID}
+      - IS_NETWORK_MOCK=${IS_NETWORK_MOCK}
   xplor_stg_nginx:
     image: nginx:alpine
     container_name: xplor_stg_nginx

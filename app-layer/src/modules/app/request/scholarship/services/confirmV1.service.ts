@@ -25,7 +25,7 @@ export class ScholarshipConfirmService {
   async createPayload(request: ConfirmRequestDto) {
     try {
       const selectRequestDetails =
-        await this.dbService.findByActionTransactionId(
+        await this.dbService.findByActiontransaction_id(
           request?.context?.transaction_id,
           request?.context?.domain,
           'on_search',
@@ -44,6 +44,7 @@ export class ScholarshipConfirmService {
         bap_uri:
           this.configService.get('PROTOCOL_SERVICE_URL') +
           `/${xplorDomain.scholarship}`,
+        transaction_id: request.context.transaction_id,
         message_id: request.context.message_id,
         version: OnestContextConstants.version,
         timestamp: new Date().toISOString(),
@@ -61,7 +62,7 @@ export class ScholarshipConfirmService {
           items: selectRequestDetails?.message?.order?.items_id[0]
             ? [
                 { id: selectRequestDetails?.message?.order?.items_id[0] },
-                ...selectRequestDetails?.message?.order?.itemsId
+                ...selectRequestDetails?.message?.order?.items_id
                   .slice(1)
                   .map((id) => ({ id })),
               ]

@@ -151,10 +151,15 @@ export class AppService {
       const payload = {
         context: response.context,
         data: {
-          job: job != null ? job : {},
-          course: course != null ? course : {},
-          scholarship: scholarship != null ? scholarship : {},
-          retail: retail != null ? retail : {},
+          job: job != null ? { context: response.context, ...job } : {},
+          course:
+            course != null ? { context: response.context, ...course } : {},
+          scholarship:
+            scholarship != null
+              ? { context: response.context, ...scholarship }
+              : {},
+          retail:
+            retail != null ? { context: response.context, ...retail } : {},
         },
       };
       // Construct the URL for the search request
@@ -173,12 +178,12 @@ export class AppService {
 
   async select(selectRequest: SelectRequestDto) {
     try {
-      console.log(selectRequest, 'selectRequest');
+      console.log('selectRequest', selectRequest);
       await this.globalActionService.globalSelect(selectRequest);
       // Return a success response
       return getResponse(
         true,
-        coreResponseMessage.searchSuccessResponse,
+        coreResponseMessage.selectSuccessResponse,
         null,
         null,
       );
@@ -194,6 +199,7 @@ export class AppService {
   // Method to handle search requests and delegate to the sendSearch method
   async onSelect(response: any) {
     try {
+      console.log(JSON.stringify(response), 'onSelect');
       const domain =
         response?.context?.domain === DomainsEnum.COURSE_DOMAIN
           ? 'course'
@@ -212,6 +218,7 @@ export class AppService {
         request_type: Action.on_select,
         message: response?.message,
       };
+      console.log(createDumpDto, 'createDumpDto');
 
       await this.dumpService.create(createDumpDto);
       // Delegate the search operation to the sendSearch method
@@ -230,6 +237,8 @@ export class AppService {
       // Initialize variables for job, course, and scholarship payloads
       let job: object, course: object, scholarship: object, retail: object;
       // Determine which type of payload to create based on the domain
+
+      console.log(response, 'sendOnselect');
       switch (response.context.domain) {
         case DomainsEnum.JOB_DOMAIN:
           job = response.message
@@ -261,10 +270,15 @@ export class AppService {
       const payload = {
         context: response.context,
         data: {
-          job: job != null ? job : {},
-          course: course != null ? course : {},
-          scholarship: scholarship != null ? scholarship : {},
-          retail: retail != null ? retail : {},
+          job: job != null ? { context: response.context, ...job } : {},
+          course:
+            course != null ? { context: response.context, ...course } : {},
+          scholarship:
+            scholarship != null
+              ? { context: response.context, ...scholarship }
+              : {},
+          retail:
+            retail != null ? { context: response.context, ...retail } : {},
         },
       };
       console.log('selectPayload', JSON.stringify(payload));
@@ -273,7 +287,7 @@ export class AppService {
       const url = this.configService.get('CORE_SERVICE_URL') + '/stg/on_select';
       // Send the search request and log the response
       const resp = await this.httpService.post(url, payload);
-      console.log('resp', resp);
+      console.log('resp=== to core', JSON.stringify(resp));
     } catch (error) {
       // Log the error and throw a BadGatewayException with a formatted error response
       console.log(error);
@@ -382,10 +396,15 @@ export class AppService {
       const payload = {
         context: response.context,
         data: {
-          job: job != null ? job : {},
-          course: course != null ? course : {},
-          scholarship: scholarship != null ? scholarship : {},
-          retail: retail != null ? retail : {},
+          job: job != null ? { context: response.context, ...job } : {},
+          course:
+            course != null ? { context: response.context, ...course } : {},
+          scholarship:
+            scholarship != null
+              ? { context: response.context, ...scholarship }
+              : {},
+          retail:
+            retail != null ? { context: response.context, ...retail } : {},
         },
       };
       console.log('initPayload', JSON.stringify(payload));
@@ -479,7 +498,7 @@ export class AppService {
 
       await this.dumpService.create(createDumpDto);
       // Delegate the search operation to the sendSearch method
-      await this.sendInit(response);
+      await this.sendStatus(response);
     } catch (error) {
       // Log the error and throw a BadGatewayException with a formatted error response
       console.log(error?.response);
@@ -525,16 +544,21 @@ export class AppService {
       const payload = {
         context: response.context,
         data: {
-          job: job != null ? job : {},
-          course: course != null ? course : {},
-          scholarship: scholarship != null ? scholarship : {},
-          retail: retail != null ? retail : {},
+          job: job != null ? { context: response.context, ...job } : {},
+          course:
+            course != null ? { context: response.context, ...course } : {},
+          scholarship:
+            scholarship != null
+              ? { context: response.context, ...scholarship }
+              : {},
+          retail:
+            retail != null ? { context: response.context, ...retail } : {},
         },
       };
       console.log('initPayload', JSON.stringify(payload));
 
       // Construct the URL for the search request
-      const url = this.configService.get('CORE_SERVICE_URL') + '/stg/on_init';
+      const url = this.configService.get('CORE_SERVICE_URL') + '/stg/on_status';
       // Send the search request and log the response
       const resp = await this.httpService.post(url, payload);
       console.log('resp', resp);
@@ -618,10 +642,15 @@ export class AppService {
       const payload = {
         context: response.context,
         data: {
-          job: job != null ? job : {},
-          course: course != null ? course : {},
-          scholarship: scholarship != null ? scholarship : {},
-          retail: retail != null ? retail : {},
+          job: job != null ? { context: response.context, ...job } : {},
+          course:
+            course != null ? { context: response.context, ...course } : {},
+          scholarship:
+            scholarship != null
+              ? { context: response.context, ...scholarship }
+              : {},
+          retail:
+            retail != null ? { context: response.context, ...retail } : {},
         },
       };
       console.log('confirmPayload', JSON.stringify(payload));

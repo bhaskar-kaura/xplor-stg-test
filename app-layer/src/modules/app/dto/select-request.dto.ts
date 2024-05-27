@@ -4,15 +4,15 @@ import { Type } from 'class-transformer';
 class OrderItem {
   @IsArray()
   @IsString({ each: true })
-  itemsId: string[];
+  items_id: string[];
 
   @IsString()
-  providerId: string;
+  provider_id: string;
 
   @IsOptional()
   @IsArray()
   @IsString({ each: true })
-  fulfillmentId?: string[];
+  fulfillment_id?: string[];
 }
 
 class Message {
@@ -23,13 +23,13 @@ class Message {
 
 class Context {
   @IsString()
-  transactionId: string;
+  transaction_id: string;
 
   @IsString()
   domain: string;
 
   @IsString()
-  messageId: string;
+  message_id: string;
 
   @IsOptional()
   ttl: string;
