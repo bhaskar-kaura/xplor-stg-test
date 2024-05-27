@@ -1,19 +1,80 @@
-# Singular Transaction Gateway (STG)
-
+# Xplor - Singular Transaction Gateway (STG)
 Singular Transaction Gateway (STG) is a gateway service designed for implementing transactions across various networks. It operates through three layers, each serving distinct purposes in the transaction process:
 
 1. **Onboarding Layer**
 2. **App Layer**
 3. **Protocol Layer**
 
-## Onboarding Layer
+## Table of Contents
 
-The Onboarding Layer is responsible for the initial integration of participants from different networks, particularly those adhering to the BECKN protocol. This layer captures essential information such as `bap_id`, `bap_uri`, and the domain of the network the user previously participated in. Additionally, it collects further details required for onboarding users to our platform, Xplor. 
+- [Working Demo](#working-demo)
+- [Pre-requisites](#pre-requisites)
+- [Installation](#installation)
+- [Running tests](#running-tests)
+- [Working](#working-of-stg)
+- [Technologies](#technologies)
+- [Configurations](#configurations)
+- [Deployment](#deployment)
+- [Contributing](#contributing)
 
-**Explanation:**
-- The Onboarding Layer gathers necessary participant information, including identifiers and network domains.
-- It ensures compatibility with the BECKN protocol, facilitating seamless integration with various networks.
-- Further details collected during onboarding enable a smooth transition of users to the Xplor platform.
+
+## Pre-requisites
+Below is the list of services you need in order to run this service.
+- [Xplor Core Engine](https://github.com.com/xplor-core-engine) to communicate between Implementation and STG.
+- [Xplor Implementation Service](https://github.com/xplor-implementation) to communicate between front end and STG.
+
+## Installation
+
+### Clone or fork this Project
+
+```bash
+ git clone REPOSITORY_LINK
+```
+    
+### Setup Environment Variables(.env)
+You need to setup the values for the environment variables. Below is the list of required .env variables
+
+```bash
+MONGODB_URL=
+PROTOCOL_DATABASE_URL=
+MONGODB_URL=
+PROTOCOL_APP_PORT=
+APP_SERVICE_URL=
+ONDC_PRIVATE_KEY=
+ONDC_SUBSCRIBER_ID=xplor-core-nest-dev.thewitslab.com
+ONDC_SUBSCRIBER_UNIQUE_KEY_ID=
+APP_LAYER_PORT=
+APP_SERVICE_URL=
+PROTOCOL_SERVICE_URL=
+CORE_SERVICE_URL=
+NODE_Env=
+NODE_ENV=
+ONBOARDING_LAYER_PORT=
+GRAFANA_SERVICE_URL=
+IS_NETWORK_MOCK=
+```
+### Run service using Docker
+Make sure you've the latest version of the docker installed in-order to run the application. Run the service with the following command
+
+```bash
+ docker compose --build
+```
+
+    
+## Running Tests
+
+The service has test cases for each module's service functions which you will get triggered on pushing the code to remote. You can run the test with the following command as well:
+
+```bash
+  npm test
+```
+    
+## Working of STG
+Singular Transaction Gateway (STG) provides a robust framework for implementing transactions across various networks, ensuring seamless communication, validation, and integration. With clearly defined layers and functionalities, STG streamlines the process of onboarding participants, handling requests, and managing protocol interactions.
+
+![image](https://gitlab.thewitslab.com/wil-workspace/xplor/STG-nest-backend/uploads/408cf094d0d0f02488496b6f25f0982d/image.png)
+
+This diagram illustrates the flow of transactions through the three layers of the Singular Transaction Gateway, depicting their interactions and responsibilities.
 
 ## App Layer
 
@@ -40,14 +101,53 @@ The Protocol Layer establishes connections between the App Layer and different n
 - **Proxy Server:** NGINX
 - **Database:** MongoDB
 
-## Diagram
+## Configuration
 
-![image](/uploads/408cf094d0d0f02488496b6f25f0982d/image.png)
+System setup revolves around environment variables for ease of configuration. Key points include database settings, authentication parameters, and logging specifics. The `.env.example` file lists all necessary variables.
 
-This diagram illustrates the flow of transactions through the three layers of the Singular Transaction Gateway, depicting their interactions and responsibilities.
+```bash
+MONGODB_URL=
+PROTOCOL_DATABASE_URL=
+MONGODB_URL=
+PROTOCOL_APP_PORT=
+APP_SERVICE_URL=
+ONDC_PRIVATE_KEY=
+ONDC_SUBSCRIBER_ID=xplor-core-nest-dev.thewitslab.com
+ONDC_SUBSCRIBER_UNIQUE_KEY_ID=
+APP_LAYER_PORT=
+APP_SERVICE_URL=
+PROTOCOL_SERVICE_URL=
+CORE_SERVICE_URL=
+NODE_Env=
+NODE_ENV=
+ONBOARDING_LAYER_PORT=
+GRAFANA_SERVICE_URL=
+IS_NETWORK_MOCK=
+```
 
-## Conclusion
+## Deployment
 
-Singular Transaction Gateway (STG) provides a robust framework for implementing transactions across various networks, ensuring seamless communication, validation, and integration. With clearly defined layers and functionalities, STG streamlines the process of onboarding participants, handling requests, and managing protocol interactions.
+Deploying the Registry service can be achieved through:
 
+- **Docker**: Create a Docker image and launch your service.
+- **Kubernetes**: Use Kubernetes for scalable container management.
+- **CI/CD**: Automate deployment with CI/CD tools like Jenkins, GitLab CI, or GitHub Actions.
 
+## Contributing
+
+Contributions are welcomed! Please follow these steps to contribute:
+
+#### 1. Fork the project.
+#### 2. Create your feature branch (`git checkout -b feature/AmazingFeature`).
+#### 3. Commit your changes (`git commit -m 'Add some AmazingFeature'`).
+#### 4. Push to the branch (`git push origin feature/AmazingFeature`).
+#### 5. Open a pull request.
+
+## License
+
+Distributed under the MIT License. See [LICENSE.md](LICENSE.md) for more information.
+
+## Acknowledgments
+
+- Kudos to all contributors and the NestJS community.
+- Appreciation for anyone dedicating time to enhance open-source software.
