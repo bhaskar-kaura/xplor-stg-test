@@ -1,4 +1,4 @@
-import { contextSchema } from 'src/modules/scholarship/schema/context.schema';
+import { contextSchema } from '../../../scholarship/schema/context.schema';
 
 export const OnInitSchema = {
   $schema: 'http://json-schema.org/draft-07/schema#',
@@ -221,7 +221,7 @@ export const OnInitSchema = {
                         type: 'object',
                         properties: {
                           phone: { type: 'string' },
-                          email: { type: 'string', format: 'email' },
+                          email: { type: 'string' },
                         },
                         required: ['phone', 'email'],
                       },

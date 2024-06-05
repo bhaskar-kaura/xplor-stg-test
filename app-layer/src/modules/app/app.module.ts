@@ -12,6 +12,8 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { DumpModule } from '../dump/dump.module';
 import { ScholarshipResponseService } from './response/scholarship/scholarship-response.service';
 import { CourseResponseService } from './response/course/course-response.service';
+import { ScheduleModule } from '@nestjs/schedule';
+import { SchedulerService } from '../../services/cron/scheduler.service';
 
 /**
  * Module decorator for defining the module's metadata.
@@ -23,6 +25,7 @@ import { CourseResponseService } from './response/course/course-response.service
    * In this case, it imports the ConfigModule for global configuration access and the CommonModule for common functionalities.
    */
   imports: [
+    ScheduleModule.forRoot(),
     ConfigModule.forRoot({
       /**
        * Configures the ConfigModule to be globally accessible throughout the application.
@@ -58,6 +61,8 @@ import { CourseResponseService } from './response/course/course-response.service
     RetailResponseService,
     ScholarshipResponseService,
     CourseResponseService,
+    SchedulerService,
+    // KafkaService,
   ],
 })
 export class AppModule {}
