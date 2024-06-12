@@ -4,6 +4,7 @@ import { Dump, DumpDocument } from '../schema/dump.schema';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { OnestContextConstants } from '../../../common/constants/context.constant';
+import { SearchQueryDto } from '../../../modules/app/dto/search-query.dto';
 
 @Injectable()
 export class DumpService {
@@ -16,7 +17,18 @@ export class DumpService {
     return await this.dumpModel.find();
   }
 
-  async findBytransaction_id(
+  async findWithPagination(searchQueryDto: SearchQueryDto): Promise<Dump[]> {
+    return await this.dumpModel
+      .find()
+      .skip(Number(searchQueryDto.pageNumber))
+      .limit(Number(searchQueryDto.pageSize));
+  }
+
+  async findCount() {
+    return await this.dumpModel.countDocuments();
+  }
+
+  async findBytransaection_id(
     transaction_id: string,
     domain: string,
   ): Promise<Dump> {
@@ -43,56 +55,13 @@ export class DumpService {
     });
   }
   async findItemByprovider_id(
-    transaction_id: string,
     provider_id: string,
     id: string[],
     domain: string,
   ): Promise<Dump | any> {
-    return {
-      context: {
-        bap_id: OnestContextConstants.bap_id,
-        bap_uri: OnestContextConstants.bap_uri + `/${domain}`,
-        bpp_id: 'infosys.springboard.io',
-        bpp_uri: 'https://infosys.springboard.io',
-      },
-      fulfillments: [
-        {
-          id: '{{$randomUUID}}',
-          customer: {
-            person: {
-              name: 'Jane Doe',
-              age: '13',
-              gender: 'female',
-              tags: [
-                {
-                  descriptor: {
-                    code: 'professional-details',
-                    name: 'Professional Details',
-                  },
-                  list: [
-                    {
-                      descriptor: {
-                        code: 'profession',
-                        name: 'profession',
-                      },
-                      value: 'student',
-                    },
-                  ],
-                  display: true,
-                },
-              ],
-            },
-            contact: {
-              phone: '+91-9663088848',
-              email: 'jane.doe@example.com',
-            },
-          },
-        },
-      ],
-    };
+    console.log('provider_id', provider_id, id, domain);
     return await this.dumpModel
       .findOne({
-        transaction_id: transaction_id,
         domain: domain,
         'message.catalog.providers': {
           $elemMatch: {
