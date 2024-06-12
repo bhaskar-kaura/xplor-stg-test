@@ -1,4 +1,5 @@
 version: "3"
+
 services:
   onboarding_service:
     logging:
@@ -16,6 +17,7 @@ services:
       - GRAFANA_SERVICE_URL=${GRAFANA_SERVICE_URL}
       - MONGODB_URL=${MONGODB_URL}
       - ONBOARDING_LAYER_PORT=${ONBOARDING_LAYER_PORT}
+
   app_service:
     logging:
       driver: "file-log-driver"
@@ -64,13 +66,18 @@ services:
       - ONDC_SUBSCRIBER_ID=${ONDC_SUBSCRIBER_ID}
       - ONDC_SUBSCRIBER_UNIQUE_KEY_ID=${ONDC_SUBSCRIBER_UNIQUE_KEY_ID}
       - IS_NETWORK_MOCK=${IS_NETWORK_MOCK}
+      - BELEM_PRIVATE_KEY=${BELEM_PRIVATE_KEY}
+      - BELEM_PUBLIC_KEY=${BELEM_PUBLIC_KEY}
+      - BELEM_SUBSCRIBER_ID=${BELEM_SUBSCRIBER_ID}
+      - BELEM_UNIQUE_KEY=${BELEM_UNIQUE_KEY}
+
   xplor_stg_nginx:
     logging:
       driver: "file-log-driver"
       options:
         fpath: "/docker/xplor_stg_nginx.log"
     image: nginx:alpine
-    container_name: xplor_stg_nginx
+    container_name: xplor-stg-nginx
     restart: always
     ports:
       - "1105:8080"

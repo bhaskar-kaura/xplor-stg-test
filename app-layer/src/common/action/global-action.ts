@@ -24,6 +24,16 @@ import { ScholarshipInitService } from '../../modules/app/request/scholarship/se
 import { ScholarshipSearchService } from '../../modules/app/request/scholarship/services/searchv1.service';
 import { ScholarshipSelectService } from '../../modules/app/request/scholarship/services/selectv1.service';
 import { ScholarshipStatusService } from '../../modules/app/request/scholarship/services/statusv1.service';
+import { RatingRequestDto } from '../../modules/app/dto/rating-request.dto';
+import { TrackingRequestDto } from '../../modules/app/dto/tracking-request.dto';
+import { CourseRatingService } from '../../modules/app/request/course/services/rating.service';
+import { CourseTrackingService } from '../../modules/app/request/course/services/tracking.service';
+import { CancelRequestDto } from '../../modules/app/dto/cancel-request.dto';
+import { CourseCancelService } from '../../modules/app/request/course/services/cancel.service';
+import { UpdateRequestDto } from '../../modules/app/dto/update-request.dto';
+import { CourseUpdateService } from '../../modules/app/request/course/services/update.service';
+import { SupportRequestDto } from '../../modules/app/dto/support-request.dto';
+import { CourseSupportService } from '../../modules/app/request/course/services/supportV1.service';
 
 @Injectable()
 export class GlobalActionService {
@@ -35,6 +45,12 @@ export class GlobalActionService {
     private readonly courseInitService: CourseInitService,
     private readonly courseConfirmService: CourseConfirmService,
     private readonly courseStatusService: CourseStatusService,
+    private readonly courseTrackingService: CourseTrackingService,
+    private readonly courseRatingService: CourseRatingService,
+    private readonly courseCancelService: CourseCancelService,
+    private readonly courseUpdateService: CourseUpdateService,
+    private readonly courseSupportService: CourseSupportService,
+
     private readonly scholarshipConfirmService: ScholarshipConfirmService,
     private readonly scholarshipInitService: ScholarshipInitService,
     private readonly scholarshipService: ScholarshipSearchService,
@@ -69,11 +85,28 @@ export class GlobalActionService {
       domain.forEach(async (currentDomain) => {
         // Switch statement to handle different domains
         switch (currentDomain) {
+          case xplorDomain.BELEM:
+            // Logic for COURSE_DOMAIN
+
+            const selectResponseBELEMCourse =
+              await this.courseSearchService.sendSearchPayload(
+                { ...contexts, domain: currentDomain },
+                message,
+              );
+            // Log the search response for the course domain
+            this.logger.log(
+              `course-select: ${JSON.stringify(selectResponseBELEMCourse)}`,
+            );
+            break;
+
           case xplorDomain.JOB:
             // Logic for JOB_DOMAIN
             // Perform the search operation using the JobSearchService
             const searchResponse =
-              await this.jobSearchService.sendSearchPayload(contexts, message);
+              await this.jobSearchService.sendSearchPayload(
+                { ...contexts, domain: currentDomain },
+                message,
+              );
             // Log the search response for the job domain
             this.logger.log(`Job: ${searchResponse}`);
             break;
@@ -82,7 +115,7 @@ export class GlobalActionService {
             // Perform the search operation using the CourseSearchService
             const searchResponseCourse =
               await this.courseSearchService.sendSearchPayload(
-                contexts,
+                { ...contexts, domain: currentDomain },
                 message,
               );
             // Log the search response for the course domain
@@ -94,7 +127,7 @@ export class GlobalActionService {
 
             const searchResponseScholarship =
               await this.scholarshipService.sendSearchPayload(
-                contexts,
+                { ...contexts, domain: currentDomain },
                 message,
               );
             // Log the search response for the scholarship domain
@@ -142,6 +175,16 @@ export class GlobalActionService {
     try {
       // Switch statement to handle different domains
       switch (request?.context?.domain) {
+        case xplorDomain.BELEM:
+          // Logic for COURSE_DOMAIN
+
+          const selectResponseBELEMCourse =
+            await this.courseSelectService.sendSelectPayload(request);
+          // Log the search response for the course domain
+          this.logger.log(
+            `course-select: ${JSON.stringify(selectResponseBELEMCourse)}`,
+          );
+          break;
         case xplorDomain.JOB:
           // Logic for JOB_DOMAIN
           // Perform the search operation using the JobSearchService
@@ -168,6 +211,7 @@ export class GlobalActionService {
           // Log the search response for the scholarship domain
           this.logger.log(`Scholarship: ${searchResponseScholarship}`);
           break;
+
         default:
           // Default case if the domain does not match any of the expected values
           // No specific action is taken here, but you could add logic to handle unexpected domains
@@ -187,6 +231,16 @@ export class GlobalActionService {
     try {
       // Switch statement to handle different domains
       switch (request?.context?.domain) {
+        case xplorDomain.BELEM:
+          // Logic for COURSE_DOMAIN
+
+          const initResponseBELEMCourse =
+            await this.courseInitService.sendInitPayload(request);
+          // Log the search response for the course domain
+          this.logger.log(
+            `course-select: ${JSON.stringify(initResponseBELEMCourse)}`,
+          );
+          break;
         case xplorDomain.JOB:
           // Logic for JOB_DOMAIN
           break;
@@ -226,6 +280,16 @@ export class GlobalActionService {
     try {
       // Switch statement to handle different domains
       switch (request?.context?.domain) {
+        case xplorDomain.BELEM:
+          // Logic for COURSE_DOMAIN
+
+          const initResponseBELEMCourse =
+            await this.courseConfirmService.sendConfirmPayload(request);
+          // Log the search response for the course domain
+          this.logger.log(
+            `course-select: ${JSON.stringify(initResponseBELEMCourse)}`,
+          );
+          break;
         case xplorDomain.JOB:
           // Logic for JOB_DOMAIN
           break;
@@ -264,6 +328,16 @@ export class GlobalActionService {
     try {
       // Switch statement to handle different domains
       switch (request?.context?.domain) {
+        case xplorDomain.BELEM:
+          // Logic for COURSE_DOMAIN
+
+          const initResponseBELEMCourse =
+            await this.courseStatusService.sendStatusPayload(request);
+          // Log the search response for the course domain
+          this.logger.log(
+            `course-select: ${JSON.stringify(initResponseBELEMCourse)}`,
+          );
+          break;
         case xplorDomain.JOB:
           // Logic for JOB_DOMAIN
           break;
@@ -285,6 +359,205 @@ export class GlobalActionService {
           this.logger.log(`scholarship-status: ${searchResponseScholarship}`);
           break;
         default:
+          // Default case if the domain does not match any of the expected values
+          // No specific action is taken here, but you could add logic to handle unexpected domains
+
+          break;
+      }
+    } catch (error) {
+      // Catch any errors that occur during the search operations
+      // Log the error for debugging purposes
+      this.logger.error(error);
+      // Rethrow the error to be handled by the caller
+      throw error;
+    }
+  }
+
+  async globalTracking(request: TrackingRequestDto) {
+    try {
+      // Switch statement to handle different domains
+      switch (request?.context?.domain) {
+        case xplorDomain.BELEM:
+          // Logic for COURSE_DOMAIN
+
+          const initResponseBELEMCourse =
+            await this.courseTrackingService.sendTrackingPayload(request);
+          // Log the search response for the course domain
+          this.logger.log(
+            `course-select: ${JSON.stringify(initResponseBELEMCourse)}`,
+          );
+          break;
+
+        case xplorDomain.COURSE:
+          // Logic for COURSE_DOMAIN
+          const selectResponseCourse =
+            await this.courseTrackingService.sendTrackingPayload(request);
+          // Log the search response for the course domain
+          this.logger.log(
+            `course-status: ${JSON.stringify(selectResponseCourse)}`,
+          );
+          break;
+
+          // Default case if the domain does not match any of the expected values
+          // No specific action is taken here, but you could add logic to handle unexpected domains
+
+          break;
+      }
+    } catch (error) {
+      // Catch any errors that occur during the search operations
+      // Log the error for debugging purposes
+      this.logger.error(error);
+      // Rethrow the error to be handled by the caller
+      throw error;
+    }
+  }
+
+  async globalRating(request: RatingRequestDto) {
+    try {
+      // Switch statement to handle different domains
+      switch (request?.context?.domain) {
+        case xplorDomain.BELEM:
+          // Logic for COURSE_DOMAIN
+
+          const initResponseBELEMCourse =
+            await this.courseRatingService.sendRatingPayload(request);
+          // Log the search response for the course domain
+          this.logger.log(
+            `course-select: ${JSON.stringify(initResponseBELEMCourse)}`,
+          );
+          break;
+
+        case xplorDomain.COURSE:
+          // Logic for COURSE_DOMAIN
+          const selectResponseCourse =
+            await this.courseStatusService.sendStatusPayload(request);
+          // Log the search response for the course domain
+          this.logger.log(
+            `course-status: ${JSON.stringify(selectResponseCourse)}`,
+          );
+          break;
+
+          // Default case if the domain does not match any of the expected values
+          // No specific action is taken here, but you could add logic to handle unexpected domains
+
+          break;
+      }
+    } catch (error) {
+      // Catch any errors that occur during the search operations
+      // Log the error for debugging purposes
+      this.logger.error(error);
+      // Rethrow the error to be handled by the caller
+      throw error;
+    }
+  }
+
+  async globalCancel(request: CancelRequestDto) {
+    try {
+      // Switch statement to handle different domains
+      switch (request?.context?.domain) {
+        case xplorDomain.BELEM:
+          // Logic for COURSE_DOMAIN
+
+          const initResponseBELEMCourse =
+            await this.courseCancelService.sendCancelPayload(request);
+          // Log the search response for the course domain
+          this.logger.log(
+            `course-select: ${JSON.stringify(initResponseBELEMCourse)}`,
+          );
+          break;
+
+        case xplorDomain.COURSE:
+          // Logic for COURSE_DOMAIN
+          const selectResponseCourse =
+            await this.courseCancelService.sendCancelPayload(request);
+
+          // Log the search response for the course domain
+          this.logger.log(
+            `course-status: ${JSON.stringify(selectResponseCourse)}`,
+          );
+          break;
+
+          // Default case if the domain does not match any of the expected values
+          // No specific action is taken here, but you could add logic to handle unexpected domains
+
+          break;
+      }
+    } catch (error) {
+      // Catch any errors that occur during the search operations
+      // Log the error for debugging purposes
+      this.logger.error(error);
+      // Rethrow the error to be handled by the caller
+      throw error;
+    }
+  }
+
+  async globalUpdate(request: UpdateRequestDto) {
+    try {
+      // Switch statement to handle different domains
+      switch (request?.context?.domain) {
+        case xplorDomain.BELEM:
+          // Logic for COURSE_DOMAIN
+
+          const initResponseBELEMCourse =
+            await this.courseUpdateService.sendUpdatePayload(request);
+          // Log the search response for the course domain
+          this.logger.log(
+            `course-select: ${JSON.stringify(initResponseBELEMCourse)}`,
+          );
+          break;
+
+        case xplorDomain.COURSE:
+          // Logic for COURSE_DOMAIN
+          const selectResponseCourse =
+            await this.courseUpdateService.sendUpdatePayload(request);
+
+          // Log the search response for the course domain
+          this.logger.log(
+            `course-status: ${JSON.stringify(selectResponseCourse)}`,
+          );
+          break;
+
+          // Default case if the domain does not match any of the expected values
+          // No specific action is taken here, but you could add logic to handle unexpected domains
+
+          break;
+      }
+    } catch (error) {
+      // Catch any errors that occur during the search operations
+      // Log the error for debugging purposes
+      this.logger.error(error);
+      // Rethrow the error to be handled by the caller
+      throw error;
+    }
+  }
+
+  async globalSupport(request: SupportRequestDto) {
+    try {
+      // Switch statement to handle different domains
+      switch (request?.context?.domain) {
+        case xplorDomain.BELEM:
+          // Logic for COURSE_DOMAIN
+
+          const initResponseBELEMCourse =
+            await this.courseSupportService.sendSupportPayload(request);
+
+          // Log the search response for the course domain
+          this.logger.log(
+            `course-select: ${JSON.stringify(initResponseBELEMCourse)}`,
+          );
+          break;
+
+        case xplorDomain.COURSE:
+          // Logic for COURSE_DOMAIN
+          const selectResponseCourse =
+            await this.courseSupportService.sendSupportPayload(request);
+
+          // Log the search response for the course domain
+          this.logger.log(
+            `course-status: ${JSON.stringify(selectResponseCourse)}`,
+          );
+          break;
+
           // Default case if the domain does not match any of the expected values
           // No specific action is taken here, but you could add logic to handle unexpected domains
 
